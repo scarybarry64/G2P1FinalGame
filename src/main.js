@@ -28,7 +28,7 @@ let config = {
         }
     },
     //backgroundColor: "FFFFFF",
-    scene: [Title, Tutorial, Play, GameOver],
+    scene: [Title, Tutorial, Play, GameOver, Test],
 };
 
 // define game

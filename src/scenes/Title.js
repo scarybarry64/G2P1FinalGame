@@ -5,7 +5,7 @@ class Title extends Phaser.Scene {
 
     preload() {
         // load the necessary images and tile sprites
-        
+
         this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
         this.load.image('bounds', './assets/sprites/bounds.png'); //placeholder
         this.load.image('obstacle', './assets/sprites/obstacle.png'); //placeholder
@@ -21,16 +21,16 @@ class Title extends Phaser.Scene {
 
     create() {
         // spawn frozen player
-        this.player = this.physics.add.sprite(game.config.width/3, 520, 'Glitch', 'Glitch_Running_01');
+        this.player = this.physics.add.sprite(game.config.width / 3, 520, 'Glitch', 'Glitch_Running_01');
         this.player.setGravityY(0);
 
         // spawn the floor and set it immovable
-        let floor = this.physics.add.sprite(game.config.width/2, game.config.width/2 + 110, 'bounds_terminal').
+        let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal').
             setScale(4, 0.5);
         floor.setImmovable();
 
         // spawn the roof and set it immovable
-        let roof = this.physics.add.sprite(game.config.width/2, 40, 'bounds_terminal').
+        let roof = this.physics.add.sprite(game.config.width / 2, 40, 'bounds_terminal').
             setScale(4, 0.5);
         roof.setImmovable();
 
@@ -54,6 +54,11 @@ class Title extends Phaser.Scene {
                 fontFamily: 'Consolas', fontSize: '24px', color: primaryColor
             }).setOrigin(0.5);
         }
+
+        // TEST LEVEL PROMPT
+        this.add.text(centerX, 30, 'Right Arrow for TEST LEVEL', {
+            fontFamily: 'Consolas', fontSize: '24px', color: primaryColor
+        }).setOrigin(0.5);
 
         // set up cursor keys
         controls = this.input.keyboard.createCursorKeys();
@@ -89,6 +94,11 @@ class Title extends Phaser.Scene {
             initialTime = this.time.now;
             this.sound.play('sfx_select');
             this.scene.start('tutorialScene');
+        }
+        else if (Phaser.Input.Keyboard.JustDown(controls.right)) {
+            initialTime = this.time.now;
+            this.sound.play('sfx_select');
+            this.scene.start('testScene');
         }
     }
 }
