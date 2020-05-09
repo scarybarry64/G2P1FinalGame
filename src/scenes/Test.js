@@ -37,15 +37,15 @@ class Test extends Phaser.Scene {
     create() {
 
         // setup movement controls
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         // setup sight controls
-        keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
-        keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
-        keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+        this.keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+        this.keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
+        this.keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
 
         // create the obstacle particles
         this.particles = this.add.particles('obstacle_red');
@@ -96,17 +96,17 @@ class Test extends Phaser.Scene {
         roof.setImmovable();
 
         // spawn red floor obstacle
-        this.Obstacle1 = new Obstacle(this, game.config.width / 1.5, 542, 'obstacle_red', 'red').
+        this.Obstacle1 = new Obstacle(this, game.config.width / 1.5, 542, 'obstacle_red').
             setScale(1, 4).setOrigin(0.5, 1); //Origin currently set at base of sprite
         this.add.existing(this.Obstacle1); //add to display list
 
         // spawn green floor obstacle
-        this.Obstacle2 = new Obstacle(this, game.config.width / 4, 542, 'obstacle_green', 'green').
+        this.Obstacle2 = new Obstacle(this, game.config.width / 4, 542, 'obstacle_green').
             setScale(2, 2).setOrigin(0.5, 1); //Origin currently set at base of sprite
         this.add.existing(this.Obstacle2); //add to display list
 
         // spawn blue floor obstacle
-        this.Obstacle3 = new Obstacle(this, game.config.width / 2, 542, 'obstacle_blue', 'blue').
+        this.Obstacle3 = new Obstacle(this, game.config.width / 2, 542, 'obstacle_blue').
             setScale(Phaser.Math.Between(1.0, 3), Phaser.Math.Between(1.0, 6.5)).setOrigin(0.5, 1); //Origin currently set at base of sprite
         this.add.existing(this.Obstacle3); //add to display list
 
@@ -154,6 +154,9 @@ class Test extends Phaser.Scene {
         // Power variable and display bar
         this.power = maxPower;
         this.powerBar = this.add.rectangle(60, 35, 200, 20, 0x03C04A).setOrigin(0, 0);
+
+        // Camera follow player
+        this.cameras.main.startFollow(this.player, false, 0.05, 0.05, 1, 150);
 
 
     }
@@ -224,12 +227,6 @@ class Test extends Phaser.Scene {
     // ** UPDATE FUNCTION **
     update() {
 
-
-
-    
-
-
-
         // Play running animation for player sprite when running
         if (isRunning) {
             this.player.anims.play('running', true);
@@ -251,6 +248,11 @@ class Test extends Phaser.Scene {
             game.settings.scrollSpeed == 250;
         }
 
+        // Update floor obstacles
+        this.Obstacle1.update();
+        this.Obstacle2.update();
+        this.Obstacle3.update();
+
         // Keep the player from flying off the screen when coming
         // in contact with an obstacle while in the air
         if (this.player.body.velocity.x != 0) {
@@ -260,7 +262,7 @@ class Test extends Phaser.Scene {
         //JUMP ---
         if (!game.settings.isStuck) {
             // Jump functionality, single jump only
-            if (Phaser.Input.Keyboard.JustDown(controls.up) &&
+            if (Phaser.Input.Keyboard.JustDown(this.keyW) &&
                 this.player.body.touching.down) {
                 isRunning = false;
                 this.player.anims.play('jumping', true);
@@ -271,14 +273,14 @@ class Test extends Phaser.Scene {
             }
 
             // this causes the players jump to be longer if held down
-            if (this.keyUp.isDown && this.canHoldJump) {
+            if (this.keyW.isDown && this.canHoldJump) {
                 isRunning = false;
                 this.player.anims.play('jumping', true);
                 this.holdJump();
             }
 
             // Let go of jump key and gravity returns to normal
-            if (Phaser.Input.Keyboard.JustUp(controls.up)) {
+            if (Phaser.Input.Keyboard.JustUp(this.keyW)) {
                 this.canHoldJump = false;
                 this.currGravity = 1000;
                 this.player.setGravityY(1000);
@@ -286,8 +288,20 @@ class Test extends Phaser.Scene {
 
             //END JUMP ---
 
+            // MOVE RIGHT
+            if (this.keyD.isDown){
+                this.player.flipX = false;
+                this.player.x += 1;
+            }
+
+            // MOVE LEFT
+            if (this.keyA.isDown){
+                this.player.flipX = true;
+                this.player.x -= 1;
+            }
+
             // ground slam functionality
-            if (Phaser.Input.Keyboard.JustDown(controls.down) &&
+            if (Phaser.Input.Keyboard.JustDown(this.keyS) &&
                 !this.player.body.touching.down) {
                 this.isSlamming = true;
                 isRunning = false;
@@ -298,7 +312,11 @@ class Test extends Phaser.Scene {
 
             // Spin the player whilst in the air
             if (!this.player.body.touching.down && !this.isSlamming) {
-                this.player.angle += 40;
+                if(!this.player.flipX) {
+                    this.player.angle += 30;
+                } else {
+                    this.player.angle -= 30;
+                }
             }
 
             // reset the player sprite and angle when back on the ground
@@ -318,7 +336,7 @@ class Test extends Phaser.Scene {
 
         // Game ends if player is out of bounds or runs out of power
         if ((this.player.x < -10 && !this.isGameOver)) { //} || (this.power <= 0)) {
-            this.music.pause();
+            // this.music.pause();
             this.isGameOver = true;
             var locScore = JSON.parse(localStorage.getItem('highscore')); //parse the string
             if (timer > game.settings.highScore) {
@@ -348,7 +366,7 @@ class Test extends Phaser.Scene {
         }
 
         // VISION MECHANIC
-        if (this.keySpace.isDown && this.power > 0 && game.settings.regenDone) {
+        if ((this.keyJ.isDown || this.keyK.isDown || this.keyL.isDown) && this.power > 0 && game.settings.regenDone) {
 
             if (!game.settings.shownEye) {
                 this.sound.play('sfx_view');
