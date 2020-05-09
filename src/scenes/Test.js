@@ -36,6 +36,17 @@ class Test extends Phaser.Scene {
 
     create() {
 
+        // setup movement controls
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        // setup sight controls
+        keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+        keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
+        keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+
         // create the obstacle particles
         this.particles = this.add.particles('obstacle_red');
         this.particles = this.add.particles('obstacle_green');
@@ -122,14 +133,6 @@ class Test extends Phaser.Scene {
         // add the left arrow key sprite and set invisible
         this.blink_left = this.add.sprite(centerX - 50, 45, 'blink').setScale(2, 2);
         this.blink_left.alpha = 0;
-
-        // setup cursor keys / controls
-        controls = this.input.keyboard.createCursorKeys();
-        this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.keyDown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // BOOLEAN VARIABLES
         this.isSlamming = false; // keeps track of if player is ground slamming
@@ -220,6 +223,13 @@ class Test extends Phaser.Scene {
 
     // ** UPDATE FUNCTION **
     update() {
+
+
+
+    
+
+
+
         // Play running animation for player sprite when running
         if (isRunning) {
             this.player.anims.play('running', true);
