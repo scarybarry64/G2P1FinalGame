@@ -24,7 +24,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false,
+            debug: true,
         }
     },
     //backgroundColor: "FFFFFF",
@@ -35,7 +35,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 game.settings = {
-    scrollSpeed: -200, // negative number to look like scrolling left
+    scrollSpeed: 0, // negative number to look like scrolling left
     isStuck: false, // if the player is stuck to a roof obstacle or not
     collidedRoof: 0, // used to keep track of the roof obstacle the player is stuck to
     visionEnabled: 0, // if the vision mechanic is enabled
@@ -63,7 +63,7 @@ let timerFlag = false;
 const maxPower = 100;
 const drainRate = 10; // rate at which power drains per second
 const regenRate = 5; // rate at which power regens per second
-let isRunning = true; // for player sprite animation tracking
+let isRunning = false; // for player sprite animation tracking
 let tutorialDone = false; // tracks if tutorial was finished
 
 // reserver new controls
