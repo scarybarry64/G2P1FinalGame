@@ -30,7 +30,7 @@ class Obstacle extends Phaser.Physics.Arcade .Sprite {
     }
 
     update() {
-        this.setVelocityX(game.settings.scrollSpeed);
+        this.setVelocityX(0);
 
         // when obstacle exits left side of screen
         if (this.x <= 50 - this.width) {
