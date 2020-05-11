@@ -24,6 +24,7 @@ let game = new Phaser.Game(config);
 // define globals
 let centerX = game.config.width / 2;
 let centerY = game.config.height / 2;
+let isRunning = false;
 
 // settings
 game.settings = {
@@ -32,3 +33,5 @@ game.settings = {
 
 // reserve keyboard controls
 let keyW, keyA, keyS, keyD, keyJ, keyK, keyL;
+
+let player;
