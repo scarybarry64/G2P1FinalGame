@@ -152,6 +152,13 @@ class Test extends Phaser.Scene {
         }
     }
 
+    // reset gravity after jump
+    postJump() {
+        this.canHoldJump = false;
+        this.currGravity = 1000;
+        this.player.setGravityY(1000);
+    }
+
     // Ground slam function
     groundSlam() {
         this.isSlamming = true;
@@ -161,10 +168,34 @@ class Test extends Phaser.Scene {
         this.player.setVelocityY(850);
     }
 
+    // Spin player while in the air
+    spinPlayer() {
+        if(!this.player.flipX) {
+            this.player.angle += 30;
+        } else {
+            this.player.angle -= 30;
+        }
+    }
+
+    // Reset player upright when hitting the ground
+    resetPlayerAngle() {
+        this.player.anims.play('running', true);
+            isRunning = true;
+            this.player.angle = 0;
+            this.player.setVelocityX(0);
+            if (this.isSlamming) {
+                // shake the camera (duration, intensity)
+                this.cameras.main.shake(50, 0.005);
+                this.isSlamming = false;
+                this.sound.play('sfx_slam');
+            }
+    }
+
 
     
 
     update() {
+        console.log(game.settings.playerSpeed);
 
         //JUMP ---
         if (keyW.isDown) {
@@ -173,9 +204,7 @@ class Test extends Phaser.Scene {
 
         // Let go of jump key and gravity returns to normal
         if (Phaser.Input.Keyboard.JustUp(keyW)) {
-            this.canHoldJump = false;
-            this.currGravity = 1000;
-            this.player.setGravityY(1000);
+            this.postJump();
         }
         //END JUMP
 
@@ -199,26 +228,12 @@ class Test extends Phaser.Scene {
 
         // Spin the player whilst in the air
         if (!this.player.body.touching.down && !this.isSlamming) {
-            if(!this.player.flipX) {
-                this.player.angle += 30;
-            } else {
-                this.player.angle -= 30;
-            }
+            this.spinPlayer();
         }
 
         // reset the player sprite and angle when back on the ground
         if (this.player.body.touching.down) {
-            this.player.anims.play('running', true);
-            isRunning = true;
-            this.player.angle = 0;
-            this.player.setVelocityX(0);
-            if (this.isSlamming) {
-                // shake the camera (duration, intensity)
-                this.cameras.main.shake(50, 0.005);
-                this.isSlamming = false;
-                this.sound.play('sfx_slam');
-            }
+            this.resetPlayerAngle();
         }
-
     }
 }
