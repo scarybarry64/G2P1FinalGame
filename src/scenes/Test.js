@@ -18,6 +18,5 @@ class Test extends Phaser.Scene {
 
         // stuff
 
-        }
     }
 }
