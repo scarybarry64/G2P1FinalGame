@@ -195,7 +195,6 @@ class Test extends Phaser.Scene {
     
 
     update() {
-        console.log(game.settings.playerSpeed);
 
         //JUMP ---
         if (keyW.isDown) {
