@@ -20,8 +20,8 @@ class Test extends Phaser.Scene {
     // *** CREATE FUNCTIONS ***
 
     createPlayer() {
-        this.player = this.physics.add.sprite(game.config.width/3, 520, 'player', 'Glitch_Running_01');
-        this.player.setVelocityY(-500); // initial jump off title screen platform
+        this.player = this.physics.add.sprite(game.config.width / 3, 520, 'player', 'Glitch_Running_01');
+        // this.player.setVelocityY(-500); // initial jump off title screen platform
         this.player.setGravityY(1000); // default gravity
 
         

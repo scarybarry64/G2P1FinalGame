@@ -15,15 +15,56 @@ class Title extends Phaser.Scene {
 
     }
 
-    create() {
-        // spawn frozen player
-        this.player = this.physics.add.sprite(game.config.width / 3, 520, 'Glitch', 'Glitch_Running_01');
-        this.player.setGravityY(0);
+    createPlayer() {
+        this.player = this.physics.add.sprite(game.config.width/3, 520, 'player', 'Glitch_Running_01');
 
-        // spawn the floor and set it immovable
+        // player running animation config
+        let playerRunAnimConfig = {
+            key: 'running',
+            frames: this.anims.generateFrameNames('Glitch', {
+                prefix: 'Glitch_Running_',
+                start: 1,
+                end: 8,
+                suffix: '',
+                zeroPad: 2
+            }),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        // player jumping animation config
+        let playerJumpAnimConfig = {
+            key: 'jumping',
+            defaultTextureKey: 'Glitch',
+            frames: [
+                { frame: 'Glitch_Jumping' }
+            ],
+            repeat: -1
+        };
+
+        //ANIMATION 
+        this.anims.create(playerRunAnimConfig);
+        this.anims.create(playerJumpAnimConfig);
+    }
+
+    spawnFloor() {
         let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal').
             setScale(4, 0.5);
         floor.setImmovable();
+        
+        // this.floor = new Floor(this,game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal');
+
+        // set the collision property of player on objects
+        this.physics.add.collider(this.player, floor);
+
+    }
+
+    create() {
+        // spawn frozen player
+        this.createPlayer();
+
+        // spawn the floor and set it immovable
+        this.spawnFloor();
 
         // spawn the roof and set it immovable
         let roof = this.physics.add.sprite(game.config.width / 2, 40, 'bounds_terminal').
@@ -61,13 +102,7 @@ class Title extends Phaser.Scene {
     }
 
     update() {
-        /*
-        // check for UP input
-        if (Phaser.Input.Keyboard.JustDown(controls.up)) {
-            initialTime = this.time.now;
-            this.sound.play('sfx_select');
-            this.scene.start('playScene');
-        }
-        */
+        this.player.anims.play('running', true);
+
     }
 }
