@@ -28,7 +28,7 @@ let isRunning = false;
 
 // settings
 game.settings = {
-    playerSpeed: 100,
+    playerSpeed: 3,
 }
 
 // reserve keyboard controls

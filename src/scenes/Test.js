@@ -159,6 +159,19 @@ class Test extends Phaser.Scene {
             this.currGravity = 1000;
             this.player.setGravityY(1000);
         }
+        //END JUMP
+
+        // MOVE RIGHT
+        if (keyD.isDown){
+            this.player.flipX = false;
+            this.player.x += game.settings.playerSpeed;
+        }
+
+        // MOVE LEFT
+        if (keyA.isDown){
+            this.player.flipX = true;
+            this.player.x -= game.settings.playerSpeed;
+        }
 
     }
 }
