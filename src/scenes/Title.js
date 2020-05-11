@@ -52,11 +52,6 @@ class Title extends Phaser.Scene {
         levelsButton.setInteractive(); 
         levelsButton.on('pointerover', () => { console.log('pointerover_levels'); }); //on hover
         
-
-        // Message to start
-        this.add.text(centerX, game.config.height - 70, 'W to START', {
-            fontFamily: 'Consolas', fontSize: '24px'
-        }).setOrigin(0.5);
     }
 
     goToDefaultLevel() {

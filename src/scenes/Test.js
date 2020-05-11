@@ -14,6 +14,7 @@ class Test extends Phaser.Scene {
 
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
+        this.load.audio('sfx_slam', './assets/audio/Hit_Hurt39.wav');
     }
 
     // *** CREATE FUNCTIONS ***
@@ -112,6 +113,27 @@ class Test extends Phaser.Scene {
 
     // *** UPDATE FUNCTIONS ***
 
+    // pre jump
+    preJump() {
+        // Jump functionality, single jump only
+        if (Phaser.Input.Keyboard.JustDown(keyW) &&
+                this.player.body.touching.down) {
+            isRunning = false;
+            this.player.anims.play('jumping', true);
+            this.jumpStartHeight = this.player.y;
+            this.canHoldJump = true;
+            this.sound.play('sfx_jump');
+            this.startJump();
+        }
+
+        // this causes the players jump to be longer if held down
+        if (keyW.isDown && this.canHoldJump) {
+            isRunning = false;
+            this.player.anims.play('jumping', true);
+            this.holdJump();
+        }
+    }
+
     // Initial Jump made from object, -300 is the smallest possible jump height
     startJump() {
         this.player.setVelocityY(-300);
@@ -130,27 +152,23 @@ class Test extends Phaser.Scene {
         }
     }
 
+    // Ground slam function
+    groundSlam() {
+        this.isSlamming = true;
+        isRunning = false;
+        this.player.anims.play('jumping', true);
+        this.player.angle = 0;
+        this.player.setVelocityY(850);
+    }
+
+
     
 
     update() {
 
         //JUMP ---
-        // Jump functionality, single jump only
-        if (Phaser.Input.Keyboard.JustDown(keyW) &&
-                this.player.body.touching.down) {
-            isRunning = false;
-            this.player.anims.play('jumping', true);
-            this.jumpStartHeight = this.player.y;
-            this.canHoldJump = true;
-            this.sound.play('sfx_jump');
-            this.startJump();
-        }
-
-        // this causes the players jump to be longer if held down
-        if (keyW.isDown && this.canHoldJump) {
-            isRunning = false;
-            this.player.anims.play('jumping', true);
-            this.holdJump();
+        if (keyW.isDown) {
+            this.preJump();
         }
 
         // Let go of jump key and gravity returns to normal
@@ -171,6 +189,35 @@ class Test extends Phaser.Scene {
         if (keyA.isDown){
             this.player.flipX = true;
             this.player.x -= game.settings.playerSpeed;
+        }
+
+        // ground slam functionality
+        if (Phaser.Input.Keyboard.JustDown(keyS) &&
+                !this.player.body.touching.down) {
+            this.groundSlam();
+        }
+
+        // Spin the player whilst in the air
+        if (!this.player.body.touching.down && !this.isSlamming) {
+            if(!this.player.flipX) {
+                this.player.angle += 30;
+            } else {
+                this.player.angle -= 30;
+            }
+        }
+
+        // reset the player sprite and angle when back on the ground
+        if (this.player.body.touching.down) {
+            this.player.anims.play('running', true);
+            isRunning = true;
+            this.player.angle = 0;
+            this.player.setVelocityX(0);
+            if (this.isSlamming) {
+                // shake the camera (duration, intensity)
+                this.cameras.main.shake(50, 0.005);
+                this.isSlamming = false;
+                this.sound.play('sfx_slam');
+            }
         }
 
     }
