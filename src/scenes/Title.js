@@ -4,8 +4,15 @@ class Title extends Phaser.Scene {
     }
 
     preload() {
+        // preload images
         this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png'); //placeholder terminal
+        this.load.image('button_play', './assets/buttons/button_play.png');
+        this.load.image('button_levels', './assets/buttons/button_levels.png'); 
+
+        // preload sound effects
+        this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
+
     }
 
     create() {
@@ -31,18 +38,41 @@ class Title extends Phaser.Scene {
             fontFamily: 'Consolas', fontSize: '20px', align: 'center'
         }).setOrigin(0.5);
 
+        // Play Button
+        const playButton = this.add.image(centerX, centerY / 2 + 200, 'button_play').
+            setScale(0.75, 0.75).
+            on('pointerdown', () => this.goToDefaultLevel());
+        playButton.setInteractive(); 
+        playButton.on('pointerover', () => { console.log('pointerover'); }); //on hover
+
+        // Level Select Button
+        const levelsButton = this.add.image(centerX, centerY / 2 + 250, 'button_levels').
+            setScale(0.75, 0.75).
+            on('pointerdown', () => this.goToDefaultLevel());
+        levelsButton.setInteractive(); 
+        levelsButton.on('pointerover', () => { console.log('pointerover_levels'); }); //on hover
+        
+
         // Message to start
         this.add.text(centerX, game.config.height - 70, 'W to START', {
-            fontFamily: 'Consolas', fontSize: '24px', color: primaryColor
+            fontFamily: 'Consolas', fontSize: '24px'
         }).setOrigin(0.5);
     }
 
+    goToDefaultLevel() {
+        // initialTime = this.time.now;
+        this.sound.play('sfx_select');
+        this.scene.start('testScene'); //change to default scene, rn is test level
+    }
+
     update() {
+        /*
         // check for UP input
         if (Phaser.Input.Keyboard.JustDown(controls.up)) {
             initialTime = this.time.now;
             this.sound.play('sfx_select');
             this.scene.start('playScene');
         }
+        */
     }
 }
