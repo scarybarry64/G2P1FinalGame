@@ -7,6 +7,8 @@ class Title extends Phaser.Scene {
         // preload images
         this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png'); //placeholder terminal
+
+        // preload buttons
         this.load.image('button_play', './assets/buttons/button_play.png');
         this.load.image('button_levels', './assets/buttons/button_levels.png');
         this.load.image('button_back', './assets/buttons/button_back.png');
@@ -20,8 +22,6 @@ class Title extends Phaser.Scene {
         this.load.image('button_four_disabled', './assets/buttons/button_4_disabled.png');
         this.load.image('button_three_disabled', './assets/buttons/button_3_disabled.png');
         this.load.image('button_two_disabled', './assets/buttons/button_2_disabled.png');
-
-
 
 
         // preload sound effects
