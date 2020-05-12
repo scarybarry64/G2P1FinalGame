@@ -54,12 +54,19 @@ class Test extends Phaser.Scene {
         this.anims.create(playerJumpAnimConfig);
     }
 
+    spawnWalls() {
+        let wall = this.physics.add.sprite(500,  800, 'bounds_terminal').
+            setScale(0.5, 4);
+        wall.setImmovable();
+
+        // set the collision property of player on objects
+        this.physics.add.collider(this.player, wall);
+    }
+
     spawnFloor() {
         let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal').
             setScale(4, 0.5);
         floor.setImmovable();
-        
-        // this.floor = new Floor(this,game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal');
 
         // set the collision property of player on objects
         this.physics.add.collider(this.player, floor);
@@ -95,6 +102,9 @@ class Test extends Phaser.Scene {
         // CREATE THE PLAYER
         this.createPlayer();
 
+        // spawn the left wall
+        this.spawnWalls();
+
         // spawn the floor and set it immovable
         this.spawnFloor();
 
@@ -112,9 +122,8 @@ class Test extends Phaser.Scene {
     }
 
     // *** UPDATE FUNCTIONS ***
-
-    // pre jump
-    preJump() {
+        // pre jump
+        preJump() {
         // Jump functionality, single jump only
         if (Phaser.Input.Keyboard.JustDown(keyW) &&
                 this.player.body.touching.down) {
@@ -132,15 +141,15 @@ class Test extends Phaser.Scene {
             this.player.anims.play('jumping', true);
             this.holdJump();
         }
-    }
+        }
 
-    // Initial Jump made from object, -300 is the smallest possible jump height
-    startJump() {
+        // Initial Jump made from object, -300 is the smallest possible jump height
+        startJump() {
         this.player.setVelocityY(-300);
-    }
+        }
 
-    // This makes it possible to hold your jump to increase height
-    holdJump() {
+        // This makes it possible to hold your jump to increase height
+        holdJump() {
         // only allow the player to jump 100 units above the 
         // height at which the jump was made
         if (this.player.y > this.jumpStartHeight - 65) {
@@ -150,49 +159,49 @@ class Test extends Phaser.Scene {
             this.player.setGravityY(1000);
             this.canHoldJump = false; // disables double jump
         }
-    }
+        }
 
-    // reset gravity after jump
-    postJump() {
+        // reset gravity after jump
+        postJump() {
         this.canHoldJump = false;
         this.currGravity = 1000;
         this.player.setGravityY(1000);
-    }
+        }
 
-    // Ground slam function
-    groundSlam() {
+        // Ground slam function
+        groundSlam() {
         this.isSlamming = true;
         isRunning = false;
         this.player.anims.play('jumping', true);
         this.player.angle = 0;
         this.player.setVelocityY(850);
-    }
+        }
 
-    // Spin player while in the air
-    spinPlayer() {
+        // Spin player while in the air
+        spinPlayer() {
         if(!this.player.flipX) {
             this.player.angle += 30;
         } else {
             this.player.angle -= 30;
         }
-    }
+        }
 
-    // Reset player upright when hitting the ground
-    resetPlayerAngle() {
+        // Reset player upright when hitting the ground
+        resetPlayerAngle() {
         this.player.anims.play('running', true);
             isRunning = true;
             this.player.angle = 0;
-            this.player.setVelocityX(0);
             if (this.isSlamming) {
                 // shake the camera (duration, intensity)
                 this.cameras.main.shake(50, 0.005);
                 this.isSlamming = false;
                 this.sound.play('sfx_slam');
             }
-    }
+        }
 
 
-    
+
+    // *** MAIN UPDATE FUNCTION ***
 
     update() {
 
@@ -207,17 +216,17 @@ class Test extends Phaser.Scene {
         }
         //END JUMP
 
-        // MOVE RIGHT
-        if (keyD.isDown){
+        if(keyD.isDown) {
+            console.log("HEY");
+            this.player.setVelocityX(game.settings.playerSpeed);
             this.player.flipX = false;
-            this.player.x += game.settings.playerSpeed;
+        } else if (keyA.isDown) {
+            this.player.setVelocityX(-game.settings.playerSpeed);
+            this.player.flipX = true;
+        } else {
+            this.player.setVelocityX(0);
         }
 
-        // MOVE LEFT
-        if (keyA.isDown){
-            this.player.flipX = true;
-            this.player.x -= game.settings.playerSpeed;
-        }
 
         // ground slam functionality
         if (Phaser.Input.Keyboard.JustDown(keyS) &&
