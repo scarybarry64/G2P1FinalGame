@@ -55,12 +55,17 @@ class Test extends Phaser.Scene {
     }
 
     spawnWalls() {
-        let wall = this.physics.add.sprite(500,  800, 'bounds_terminal').
+        let wall1 = this.physics.add.sprite(-40, 175, 'bounds_terminal').
             setScale(0.5, 4);
-        wall.setImmovable();
+        wall1.setImmovable();
+
+        let wall2 = this.physics.add.sprite(game.config.width + 40, 175, 'bounds_terminal').
+            setScale(0.5, 4);
+        wall2.setImmovable();
 
         // set the collision property of player on objects
-        this.physics.add.collider(this.player, wall);
+        this.physics.add.collider(this.player, wall1);
+        this.physics.add.collider(this.player, wall2);
     }
 
     spawnFloor() {
@@ -122,6 +127,17 @@ class Test extends Phaser.Scene {
     }
 
     // *** UPDATE FUNCTIONS ***
+        //jump check
+        jumpCheck() {
+            if (keyW.isDown) {
+                this.preJump();
+            }
+    
+            // Let go of jump key and gravity returns to normal
+            if (Phaser.Input.Keyboard.JustUp(keyW)) {
+                this.postJump();
+            }
+        }
         // pre jump
         preJump() {
         // Jump functionality, single jump only
@@ -168,6 +184,14 @@ class Test extends Phaser.Scene {
         this.player.setGravityY(1000);
         }
 
+        // Ground slam check
+        checkGroundSlam() {
+            if (Phaser.Input.Keyboard.JustDown(keyS) &&
+                !this.player.body.touching.down) {
+            this.groundSlam();
+        }
+        }
+
         // Ground slam function
         groundSlam() {
         this.isSlamming = true;
@@ -199,6 +223,18 @@ class Test extends Phaser.Scene {
             }
         }
 
+        horizontalMovement() {
+            if(keyD.isDown) {
+                this.player.setVelocityX(game.settings.playerSpeed);
+                this.player.flipX = false;
+            } else if (keyA.isDown) {
+                this.player.setVelocityX(-game.settings.playerSpeed);
+                this.player.flipX = true;
+            } else {
+                this.player.setVelocityX(0);
+            }
+        }
+
 
 
     // *** MAIN UPDATE FUNCTION ***
@@ -206,33 +242,13 @@ class Test extends Phaser.Scene {
     update() {
 
         //JUMP ---
-        if (keyW.isDown) {
-            this.preJump();
-        }
+        this.jumpCheck();
 
-        // Let go of jump key and gravity returns to normal
-        if (Phaser.Input.Keyboard.JustUp(keyW)) {
-            this.postJump();
-        }
-        //END JUMP
-
-        if(keyD.isDown) {
-            console.log("HEY");
-            this.player.setVelocityX(game.settings.playerSpeed);
-            this.player.flipX = false;
-        } else if (keyA.isDown) {
-            this.player.setVelocityX(-game.settings.playerSpeed);
-            this.player.flipX = true;
-        } else {
-            this.player.setVelocityX(0);
-        }
-
+        // Horizontal movement
+        this.horizontalMovement();
 
         // ground slam functionality
-        if (Phaser.Input.Keyboard.JustDown(keyS) &&
-                !this.player.body.touching.down) {
-            this.groundSlam();
-        }
+        this.checkGroundSlam();
 
         // Spin the player whilst in the air
         if (!this.player.body.touching.down && !this.isSlamming) {

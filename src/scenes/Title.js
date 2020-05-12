@@ -32,19 +32,8 @@ class Title extends Phaser.Scene {
             repeat: -1
         };
 
-        // player jumping animation config
-        let playerJumpAnimConfig = {
-            key: 'jumping',
-            defaultTextureKey: 'Glitch',
-            frames: [
-                { frame: 'Glitch_Jumping' }
-            ],
-            repeat: -1
-        };
-
         //ANIMATION 
         this.anims.create(playerRunAnimConfig);
-        this.anims.create(playerJumpAnimConfig);
     }
 
     spawnFloor() {
