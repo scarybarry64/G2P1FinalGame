@@ -16,7 +16,7 @@ class Title extends Phaser.Scene {
     }
 
     createPlayer() {
-        this.player = this.physics.add.sprite(game.config.width/3, 520, 'player', 'Glitch_Running_01');
+        this.player = this.physics.add.sprite(game.config.width/3, 520, 'player');
 
         // player running animation config
         let playerRunAnimConfig = {
