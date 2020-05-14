@@ -26,6 +26,9 @@ let centerX = game.config.width / 2;
 let centerY = game.config.height / 2;
 let isRunning = false;
 let bestLevel = 'testScene';
+let jSight = true; // the first sight initially on
+let kSight = false;
+let lSight = false;
 
 // settings
 game.settings = {

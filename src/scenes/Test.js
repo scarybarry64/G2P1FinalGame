@@ -79,10 +79,16 @@ class Test extends Phaser.Scene {
     }
 
     createControls() {
+        // Movement controls
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        // Sight controls
+        keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+        keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
+        keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
     }
 
     createVariables() {
@@ -188,8 +194,8 @@ class Test extends Phaser.Scene {
         checkGroundSlam() {
             if (Phaser.Input.Keyboard.JustDown(keyS) &&
                 !this.player.body.touching.down) {
-            this.groundSlam();
-        }
+                this.groundSlam();
+            }
         }
 
         // Ground slam function
@@ -235,6 +241,36 @@ class Test extends Phaser.Scene {
             }
         }
 
+        handleSight() {
+            // J key sight
+            if (Phaser.Input.Keyboard.JustDown(keyJ) &&
+            !jSight) {
+                console.log("J SIGHT");
+                jSight = true;
+                kSight = false;
+                lSight = false;
+            }
+
+        // K key sight
+        if (Phaser.Input.Keyboard.JustDown(keyK) &&
+            !kSight) {
+                console.log("K SIGHT");
+                kSight = true;
+                jSight = false;
+                lSight = false;
+
+        }
+
+        // L key sight
+        if (Phaser.Input.Keyboard.JustDown(keyL) &&
+            !lSight) {
+                console.log("L SIGHT");
+                lSight = true;
+                jSight = false;
+                kSight = false;
+        }
+    }
+
 
 
     // *** MAIN UPDATE FUNCTION ***
@@ -259,5 +295,8 @@ class Test extends Phaser.Scene {
         if (this.player.body.touching.down) {
             this.resetPlayerAngle();
         }
+
+        this.handleSight();
+        
     }
 }
