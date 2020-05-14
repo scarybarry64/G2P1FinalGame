@@ -29,6 +29,8 @@ let bestLevel = 'testScene';
 let jSight = true; // the first sight initially on
 let kSight = false;
 let lSight = false;
+let isStuck = false;
+let canStick = true;
 
 // settings
 game.settings = {
