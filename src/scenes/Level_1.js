@@ -15,6 +15,9 @@ class Level_1 extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
         this.load.audio('sfx_slam', './assets/audio/Hit_Hurt39.wav');
+
+        // load various sprites
+        this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
     }
 
     // *** CREATE FUNCTIONS ***
@@ -91,22 +94,26 @@ class Level_1 extends Phaser.Scene {
     // *** UPDATE FUNCTIONS ***
     //jump check
     jumpCheck() {
-        if (keyW.isDown) {
-            this.preJump();
-        }
+        if(!isStuck){
+            if (keyW.isDown) {
+                this.preJump();
+            }
 
-        // Let go of jump key and gravity returns to normal
-        if (Phaser.Input.Keyboard.JustUp(keyW)) {
-            this.postJump();
+            // Let go of jump key and gravity returns to normal
+            if (Phaser.Input.Keyboard.JustUp(keyW)) {
+                this.postJump();
+            }
+        } else {
+            this.stuckJump();
         }
     }
     // pre jump
     preJump() {
         // Jump functionality, single jump only
         if (Phaser.Input.Keyboard.JustDown(keyW) &&
-            this.player.body.touching.down) {
+            this.player.body.blocked.down) {
             isRunning = false;
-            this.player.anims.play('jumping', true);
+            // this.player.anims.play('jumping', true);
             this.jumpStartHeight = this.player.y;
             this.canHoldJump = true;
             this.sound.play('sfx_jump');
@@ -116,7 +123,7 @@ class Level_1 extends Phaser.Scene {
         // this causes the players jump to be longer if held down
         if (keyW.isDown && this.canHoldJump) {
             isRunning = false;
-            this.player.anims.play('jumping', true);
+            // this.player.anims.play('jumping', true);
             this.holdJump();
         }
     }
@@ -146,10 +153,32 @@ class Level_1 extends Phaser.Scene {
         this.player.setGravityY(1000);
     }
 
+    // wall jump functionality
+    stuckJump() {
+        if(Phaser.Input.Keyboard.JustDown(keyW) && isStuck) {
+            console.log("STUCK JUMP");
+            isRunning = false;
+            // this.player.anims.play('jumping', true);
+            this.jumpStartHeight = this.player.y;
+            this.canHoldJump = true;
+            this.sound.play('sfx_jump');
+            this.startJump();
+            isStuck = false;
+
+        }
+
+        // this causes the players jump to be longer if held down
+        if (keyW.isDown && this.canHoldJump) {
+            isRunning = false;
+            // this.player.anims.play('jumping', true);
+            this.holdJump();
+        }
+    }
+
     // Ground slam check
     checkGroundSlam() {
         if (Phaser.Input.Keyboard.JustDown(keyS) &&
-            !this.player.body.touching.down) {
+            !this.player.body.blocked.down) {
             this.groundSlam();
         }
     }
@@ -158,7 +187,7 @@ class Level_1 extends Phaser.Scene {
     groundSlam() {
         this.isSlamming = true;
         isRunning = false;
-        this.player.anims.play('jumping', true);
+        // this.player.anims.play('jumping', true);
         this.player.angle = 0;
         this.player.setVelocityY(850);
     }
@@ -174,7 +203,7 @@ class Level_1 extends Phaser.Scene {
 
     // Reset player upright when hitting the ground
     resetPlayerAngle() {
-        this.player.anims.play('running', true);
+        // this.player.anims.play('running', true);
         isRunning = true;
         this.player.angle = 0;
         if (this.isSlamming) {
@@ -201,7 +230,6 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to red
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
-            console.log("J SIGHT");
             jSight = true;
             kSight = false;
             lSight = false;
@@ -218,7 +246,6 @@ class Level_1 extends Phaser.Scene {
         // K key sight, distorts platforms to blue
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
-            console.log("K SIGHT");
             kSight = true;
             jSight = false;
             lSight = false;
@@ -235,7 +262,6 @@ class Level_1 extends Phaser.Scene {
         // L key sight, distorts platforms to yellow
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
-            console.log("L SIGHT");
             lSight = true;
             jSight = false;
             kSight = false;
@@ -251,14 +277,68 @@ class Level_1 extends Phaser.Scene {
     }
 
 
-
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        console.log(isStuck);
 
+        // TESTING JUMP
+    
+        //JUMP ---
+        this.jumpCheck();
+
+        // Only do while player is not stuck to wall
+        if(!isStuck){
+            // Horizontal movement
+            this.horizontalMovement();
+
+            // ground slam functionality
+            this.checkGroundSlam();
+
+            // Spin the player whilst in the air
+            if (!this.player.body.blocked.down && !this.isSlamming) {
+                this.spinPlayer();
+            }
+        }
+
+        // TEST DONE
+        /*
         // Simple jumping for now
         if (this.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(keyW)) {
             this.player.body.setVelocityY(-650);
+        }
+        */
+
+        if(this.player.body.blocked.left){
+            if(canStick){
+                isStuck = true; //set the global var true
+                canStick = false; // make it so you can only stick to another wall after touching down
+                this.player.angle = 0; // set player sprite upright
+                this.player.setGravityY(0); // kill gravity
+                this.player.body.velocity.y = 0; // neutralize vertical movement
+                this.player.body.velocity.x = 0 // neutralize horizontal movement
+                this.player.flipX = false; // flip players horizontal orientation
+            }
+        }
+
+        if(this.player.body.blocked.right) {
+            console.log("RIGHT");
+            if(canStick){
+                isStuck = true; //set the global var true
+                canStick = false; // make it so you can only stick to another wall after touching down
+                this.player.angle = 0; // set player sprite upright
+                this.player.setGravityY(0); // kill gravity
+                this.player.body.velocity.y = 0; // neutralize vertical movement
+                this.player.body.velocity.x = 0 // neutralize horizontal movement
+                this.player.flipX = true; // flip players horizontal orientation
+            }
+        }
+
+        // reset the player sprite and angle when back on the ground
+        if (this.player.body.blocked.down) {
+            console.log("TOUCHING DOWN");
+            canStick = true;
+            this.resetPlayerAngle();
         }
 
         // Horizontal movement
