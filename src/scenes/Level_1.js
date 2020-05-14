@@ -39,6 +39,8 @@ class Level_1 extends Phaser.Scene {
         this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
         this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y, 'player');
         this.player.setGravityY(1000); // default gravity
+
+        this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
 
     // Setup camera to follow player and stop at world bounds
@@ -176,7 +178,6 @@ class Level_1 extends Phaser.Scene {
     // wall jump functionality
     stuckJump() {
         if(Phaser.Input.Keyboard.JustDown(keyW) && isStuck) {
-            console.log("STUCK JUMP");
             isRunning = false;
             // this.player.anims.play('jumping', true);
             this.jumpStartHeight = this.player.y;
@@ -198,7 +199,7 @@ class Level_1 extends Phaser.Scene {
     // Ground slam check
     checkGroundSlam() {
         if (Phaser.Input.Keyboard.JustDown(keyS) &&
-            !this.player.body.blocked.down) {
+            !this.player.body.blocked.down && !this.isSlamming) {
             this.groundSlam();
         }
     }
@@ -209,7 +210,7 @@ class Level_1 extends Phaser.Scene {
         isRunning = false;
         // this.player.anims.play('jumping', true);
         this.player.angle = 0;
-        this.player.setVelocityY(850);
+        this.player.setVelocityY(800);
     }
 
     // Spin player while in the air
@@ -250,6 +251,15 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to red
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
+            
+            if(this.player.x == 77 || this.player.x == 883){
+                // do not unstick
+            } else {
+                //console.log("UNSTICK");
+                this.isStuck = false;
+                this.player.setGravityY(1000); 
+            }
+            
             jSight = true;
             kSight = false;
             lSight = false;
@@ -266,6 +276,15 @@ class Level_1 extends Phaser.Scene {
         // K key sight, distorts platforms to blue
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
+
+            if(this.player.x == 77 || this.player.x == 883){
+                // do not unstick
+            } else {
+                //console.log("UNSTICK");
+                this.isStuck = false;
+                this.player.setGravityY(1000);
+            }
+
             kSight = true;
             jSight = false;
             lSight = false;
@@ -282,6 +301,15 @@ class Level_1 extends Phaser.Scene {
         // L key sight, distorts platforms to yellow
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
+
+            if(this.player.x == 77 || this.player.x == 883){
+                // do not unstick
+            } else {
+                //console.log("UNSTICK");
+                this.isStuck = false;
+                this.player.setGravityY(1000);
+            }
+
             lSight = true;
             jSight = false;
             kSight = false;
@@ -300,9 +328,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        console.log(isStuck);
-
-        // TESTING JUMP
+        // console.log(this.player.x);
     
         //JUMP ---
         this.jumpCheck();
@@ -321,14 +347,8 @@ class Level_1 extends Phaser.Scene {
             }
         }
 
-        // TEST DONE
-        /*
-        // Simple jumping for now
-        if (this.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(keyW)) {
-            this.player.body.setVelocityY(-650);
-        }
-        */
 
+        //Stick to things on the left
         if(this.player.body.blocked.left){
             if(canStick){
                 isStuck = true; //set the global var true
@@ -341,8 +361,8 @@ class Level_1 extends Phaser.Scene {
             }
         }
 
+        // Stick to things on the right
         if(this.player.body.blocked.right) {
-            console.log("RIGHT");
             if(canStick){
                 isStuck = true; //set the global var true
                 canStick = false; // make it so you can only stick to another wall after touching down
@@ -356,13 +376,9 @@ class Level_1 extends Phaser.Scene {
 
         // reset the player sprite and angle when back on the ground
         if (this.player.body.blocked.down) {
-            console.log("TOUCHING DOWN");
             canStick = true;
             this.resetPlayerAngle();
         }
-
-        // Horizontal movement
-        this.horizontalMovement();
 
         // Sight
         this.handleSight();
