@@ -252,6 +252,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
             
+            // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
             } else {
@@ -277,6 +278,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
+            // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
             } else {
@@ -302,6 +304,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
 
+            // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
             } else {
