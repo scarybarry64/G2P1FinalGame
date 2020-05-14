@@ -10,7 +10,7 @@ class Level_1 extends Phaser.Scene {
         this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/test_tilemap.json');
 
         // load player sprite
-        this.load.atlas('player', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
+        this.load.image('player', './assets/sprites/hooded_figure_2.png');
 
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
@@ -20,38 +20,9 @@ class Level_1 extends Phaser.Scene {
     // *** CREATE FUNCTIONS ***
 
     createPlayer() {
-        this.player = this.physics.add.sprite(game.config.width / 3, 520, 'player', 'Glitch_Running_01');
-        // this.player.setVelocityY(-500); // initial jump off title screen platform
+        this.player = this.physics.add.sprite(game.config.width / 3, 520, 'player');
         this.player.setGravityY(1000); // default gravity
         this.player.body.setCollideWorldBounds(true);
-
-        // player running animation config
-        let playerRunAnimConfig = {
-            key: 'running',
-            frames: this.anims.generateFrameNames('Glitch', {
-                prefix: 'Glitch_Running_',
-                start: 1,
-                end: 8,
-                suffix: '',
-                zeroPad: 2
-            }),
-            frameRate: 10,
-            repeat: -1
-        };
-
-        // player jumping animation config
-        let playerJumpAnimConfig = {
-            key: 'jumping',
-            defaultTextureKey: 'Glitch',
-            frames: [
-                { frame: 'Glitch_Jumping' }
-            ],
-            repeat: -1
-        };
-
-        //ANIMATION 
-        this.anims.create(playerRunAnimConfig);
-        this.anims.create(playerJumpAnimConfig);
     }
 
     createControls() {
@@ -217,10 +188,10 @@ class Level_1 extends Phaser.Scene {
     horizontalMovement() {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
-            this.player.flipX = false;
+            this.player.flipX = true;
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
-            this.player.flipX = true;
+            this.player.flipX = false;
         } else {
             this.player.setVelocityX(0);
         }
