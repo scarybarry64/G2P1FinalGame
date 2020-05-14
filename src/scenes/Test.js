@@ -70,7 +70,7 @@ class Test extends Phaser.Scene {
         // Left wall collision
         this.physics.add.collider(this.player, this.wall1, function(player, wall){
             if(canStick && !player.body.touching.down){
-                console.log("COLLIDE");
+                console.log("STUCK");
                 isStuck = true; //set the global var true
                 canStick = false; // make it so you can only stick to another wall after touching down
                 player.angle = 0; // set player sprite upright
@@ -84,7 +84,6 @@ class Test extends Phaser.Scene {
         // Right wall collision
         this.physics.add.collider(this.player, this.wall2, function(player, wall){
             if(canStick && !player.body.touching.down){
-                console.log("COLLIDE");
                 isStuck = true; //set the global var true
                 canStick = false; // make it so you can only stick to another wall after touching down
                 player.angle = 0; // set player sprite upright
@@ -202,15 +201,17 @@ class Test extends Phaser.Scene {
 
         // This makes it possible to hold your jump to increase height
         holdJump() {
-        // only allow the player to jump 100 units above the 
-        // height at which the jump was made
-        if (this.player.y > this.jumpStartHeight - 65) {
-            this.player.setGravityY(-1500); //negative gravity simulates extending a jump
-        } else {
-            // else reset the gravity to pull the player to the ground
-            this.player.setGravityY(1000);
-            this.canHoldJump = false; // disables double jump
-        }
+            if(!isStuck) { 
+                // only allow the player to jump 100 units above the 
+                // height at which the jump was made
+                if (this.player.y > this.jumpStartHeight - 65) {
+                    this.player.setGravityY(-1500); //negative gravity simulates extending a jump
+                } else {
+                    // else reset the gravity to pull the player to the ground
+                    this.player.setGravityY(1000);
+                    this.canHoldJump = false; // disables double jump
+                }
+            }
         }
 
         // reset gravity after jump
@@ -232,9 +233,7 @@ class Test extends Phaser.Scene {
                 this.canHoldJump = true;
                 this.sound.play('sfx_jump');
                 this.startJump();
-
                 isStuck = false;
-                console.log("WALL JUMP");
 
             }
 
@@ -332,6 +331,7 @@ class Test extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        console.log(isStuck);
 
         //JUMP ---
         this.jumpCheck();
