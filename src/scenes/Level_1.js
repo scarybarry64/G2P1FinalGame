@@ -19,10 +19,41 @@ class Level_1 extends Phaser.Scene {
 
     // *** CREATE FUNCTIONS ***
 
+    // Creates level using tilemap and layers, hide blue and yellow layers
+    createLevel() {
+        this.tilemap = this.add.tilemap('tilemap');
+        this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset');
+        this.baseLayer = this.tilemap.createStaticLayer('Base', this.tileset, 0, 0);
+        this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
+        this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
+        this.yellowLayer = this.tilemap.createStaticLayer('Yellow', this.tileset, 0, 0);
+        this.blueLayer.alpha = 0;
+        this.yellowLayer.alpha = 0;
+    }
+
+    // Creates player and spawns them into level
     createPlayer() {
-        this.player = this.physics.add.sprite(game.config.width / 3, 520, 'player');
+        this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y, 'player');
         this.player.setGravityY(1000); // default gravity
-        this.player.body.setCollideWorldBounds(true);
+    }
+
+    // Setup camera to follow player and stop at world bounds
+    createCamera() {
+        this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
+        this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+    }
+
+    // Set collision between player and layers, disable blue and yellow by default
+    createCollision() {
+        this.baseLayer.setCollisionByProperty({ collision: true });
+        this.redLayer.setCollisionByProperty({ collision: true });
+        this.blueLayer.setCollisionByProperty({ collision: true }, false);
+        this.yellowLayer.setCollisionByProperty({ collision: true }, false);
+        this.physics.add.collider(this.player, this.baseLayer);
+        this.physics.add.collider(this.player, this.redLayer);
+        this.physics.add.collider(this.player, this.blueLayer);
+        this.physics.add.collider(this.player, this.yellowLayer);
     }
 
     createControls() {
@@ -57,28 +88,17 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN CREATE FUNCTION ***
     create() {
 
-        // Create tile stuff and layers, hide blue and yellow by default
-        const tilemap = this.add.tilemap('tilemap');
-        const tileset = tilemap.addTilesetImage('test_tileset', 'tileset');
-        this.baseLayer = tilemap.createStaticLayer('Base', tileset, 0, 0);
-        this.redLayer = tilemap.createStaticLayer('Red', tileset, 0, 0);
-        this.blueLayer = tilemap.createStaticLayer('Blue', tileset, 0, 0);
-        this.yellowLayer = tilemap.createStaticLayer('Yellow', tileset, 0, 0);
-        this.blueLayer.alpha = 0;
-        this.yellowLayer.alpha = 0;
+        // Create level
+        this.createLevel();
 
         // Create player
         this.createPlayer();
 
-        // Set collision between player and layers, disable blue and yellow by default
-        this.baseLayer.setCollisionByProperty({ collision: true });
-        this.redLayer.setCollisionByProperty({ collision: true });
-        this.blueLayer.setCollisionByProperty({ collision: true }, false);
-        this.yellowLayer.setCollisionByProperty({ collision: true }, false);
-        this.physics.add.collider(this.player, this.baseLayer);
-        this.physics.add.collider(this.player, this.redLayer);
-        this.physics.add.collider(this.player, this.blueLayer);
-        this.physics.add.collider(this.player, this.yellowLayer);
+        // Create camera
+        this.createCamera();
+
+        // Create collision
+        this.createCollision();
 
         // create movement controls
         this.createControls();
