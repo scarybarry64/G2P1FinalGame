@@ -15,7 +15,7 @@ let config = {
         }
     },
 
-    scene: [Title, Test],
+    scene: [Title, Test, Level_1],
 };
 
 // define game

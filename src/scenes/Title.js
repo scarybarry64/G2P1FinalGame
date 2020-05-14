@@ -95,7 +95,7 @@ class Title extends Phaser.Scene {
         // Level 1 button
         this.oneLevelButton = this.add.image(centerX - 200, centerY / 2 + 200, 'button_one').
             setScale(0.75, 0.75).
-            on('pointerdown', () => this.goToTestLevel());
+            on('pointerdown', () => this.goToLevel1());
         this.oneLevelButton.setInteractive();
         this.oneLevelButton.visible = false;
 
@@ -158,6 +158,12 @@ class Title extends Phaser.Scene {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
         this.scene.start('testScene'); //change to default scene, rn is test level
+    }
+
+    goToLevel1() {
+        // initialTime = this.time.now;
+        this.sound.play('sfx_select');
+        this.scene.start('level1Scene'); //change to default scene, rn is test level
     }
 
     back() {
