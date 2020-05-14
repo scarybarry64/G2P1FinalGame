@@ -54,18 +54,45 @@ class Test extends Phaser.Scene {
         this.anims.create(playerJumpAnimConfig);
     }
 
+    // spawn the walls on the sides of the screen
     spawnWalls() {
-        let wall1 = this.physics.add.sprite(-40, 175, 'bounds_terminal').
+        this.wall1 = this.physics.add.sprite(-40, 175, 'bounds_terminal').
             setScale(0.5, 4);
-        wall1.setImmovable();
+        this.wall1.setImmovable();
 
-        let wall2 = this.physics.add.sprite(game.config.width + 40, 175, 'bounds_terminal').
+        this.wall2 = this.physics.add.sprite(game.config.width + 40, 175, 'bounds_terminal').
             setScale(0.5, 4);
-        wall2.setImmovable();
+        this.wall2.setImmovable();
+    }
 
-        // set the collision property of player on objects
-        this.physics.add.collider(this.player, wall1);
-        this.physics.add.collider(this.player, wall2);
+    // Handle wall jump and wall collision
+    wallCollision() {
+        // Left wall collision
+        this.physics.add.collider(this.player, this.wall1, function(player, wall){
+            if(canStick && !player.body.touching.down){
+                console.log("STUCK");
+                isStuck = true; //set the global var true
+                canStick = false; // make it so you can only stick to another wall after touching down
+                player.angle = 0; // set player sprite upright
+                player.setGravityY(0); // kill gravity
+                player.body.velocity.y = 0; // neutralize vertical movement
+                player.body.velocity.x = 0 // neutralize horizontal movement
+                player.flipX = false; // flip players horizontal orientation
+            }
+        });
+
+        // Right wall collision
+        this.physics.add.collider(this.player, this.wall2, function(player, wall){
+            if(canStick && !player.body.touching.down){
+                isStuck = true; //set the global var true
+                canStick = false; // make it so you can only stick to another wall after touching down
+                player.angle = 0; // set player sprite upright
+                player.setGravityY(0); // kill gravity
+                player.body.velocity.y = 0; // neutralize vertical movement
+                player.body.velocity.x = 0 // neutralize horizontal movement
+                player.flipX = true; // flip players horizontal orientation
+            }
+        });
     }
 
     spawnFloor() {
@@ -119,75 +146,103 @@ class Test extends Phaser.Scene {
         // spawn the floor and set it immovable
         this.spawnFloor();
 
-        // create obstacles
-        this.obstacle_01;
-        this.obstacle_02;
-        this.obstacle_03;
-
         // create movement controls
         this.createControls();
 
         // create and initialize variables
         this.createVariables();
+
+        // THIS HOLDS WALL JUMP FUNCTION
+        this.wallCollision();
         
     }
 
     // *** UPDATE FUNCTIONS ***
         //jump check
         jumpCheck() {
-            if (keyW.isDown) {
-                this.preJump();
-            }
+            if(!isStuck){
+                if (keyW.isDown) {
+                    this.preJump();
+                }
     
-            // Let go of jump key and gravity returns to normal
-            if (Phaser.Input.Keyboard.JustUp(keyW)) {
-                this.postJump();
+                // Let go of jump key and gravity returns to normal
+                if (Phaser.Input.Keyboard.JustUp(keyW)) {
+                    this.postJump();
+                }
+            } else {
+                this.stuckJump();
             }
         }
         // pre jump
         preJump() {
-        // Jump functionality, single jump only
-        if (Phaser.Input.Keyboard.JustDown(keyW) &&
-                this.player.body.touching.down) {
-            isRunning = false;
-            this.player.anims.play('jumping', true);
-            this.jumpStartHeight = this.player.y;
-            this.canHoldJump = true;
-            this.sound.play('sfx_jump');
-            this.startJump();
-        }
+            // Jump functionality, single jump only
+            if (Phaser.Input.Keyboard.JustDown(keyW) &&
+                    this.player.body.touching.down) {
+                isRunning = false;
+                this.player.anims.play('jumping', true);
+                this.jumpStartHeight = this.player.y;
+                this.canHoldJump = true;
+                this.sound.play('sfx_jump');
+                this.startJump();
+            }
 
-        // this causes the players jump to be longer if held down
-        if (keyW.isDown && this.canHoldJump) {
-            isRunning = false;
-            this.player.anims.play('jumping', true);
-            this.holdJump();
-        }
+            // this causes the players jump to be longer if held down
+            if (keyW.isDown && this.canHoldJump) {
+                isRunning = false;
+                this.player.anims.play('jumping', true);
+                this.holdJump();
+            }
         }
 
         // Initial Jump made from object, -300 is the smallest possible jump height
         startJump() {
-        this.player.setVelocityY(-300);
+            this.player.setVelocityY(-300);
         }
 
         // This makes it possible to hold your jump to increase height
         holdJump() {
-        // only allow the player to jump 100 units above the 
-        // height at which the jump was made
-        if (this.player.y > this.jumpStartHeight - 65) {
-            this.player.setGravityY(-1500); //negative gravity simulates extending a jump
-        } else {
-            // else reset the gravity to pull the player to the ground
-            this.player.setGravityY(1000);
-            this.canHoldJump = false; // disables double jump
-        }
+            if(!isStuck) { 
+                // only allow the player to jump 100 units above the 
+                // height at which the jump was made
+                if (this.player.y > this.jumpStartHeight - 65) {
+                    this.player.setGravityY(-1500); //negative gravity simulates extending a jump
+                } else {
+                    // else reset the gravity to pull the player to the ground
+                    this.player.setGravityY(1000);
+                    this.canHoldJump = false; // disables double jump
+                }
+            }
         }
 
         // reset gravity after jump
         postJump() {
-        this.canHoldJump = false;
-        this.currGravity = 1000;
-        this.player.setGravityY(1000);
+            // only reset if player is not stuck on wall
+            if(!isStuck){
+                this.canHoldJump = false;
+                this.currGravity = 1000;
+                this.player.setGravityY(1000);
+            }
+        }
+
+        // wall jump functionality
+        stuckJump() {
+            if(Phaser.Input.Keyboard.JustDown(keyW) && isStuck) {
+                isRunning = false;
+                this.player.anims.play('jumping', true);
+                this.jumpStartHeight = this.player.y;
+                this.canHoldJump = true;
+                this.sound.play('sfx_jump');
+                this.startJump();
+                isStuck = false;
+
+            }
+
+            // this causes the players jump to be longer if held down
+            if (keyW.isDown && this.canHoldJump) {
+                isRunning = false;
+                this.player.anims.play('jumping', true);
+                this.holdJump();
+            }
         }
 
         // Ground slam check
@@ -218,7 +273,7 @@ class Test extends Phaser.Scene {
 
         // Reset player upright when hitting the ground
         resetPlayerAngle() {
-        this.player.anims.play('running', true);
+            this.player.anims.play('running', true);
             isRunning = true;
             this.player.angle = 0;
             if (this.isSlamming) {
@@ -269,33 +324,39 @@ class Test extends Phaser.Scene {
                 jSight = false;
                 kSight = false;
         }
-    }
+        }
 
 
 
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        console.log(isStuck);
 
         //JUMP ---
         this.jumpCheck();
 
-        // Horizontal movement
-        this.horizontalMovement();
+        // Only do while player is not stuck to wall
+        if(!isStuck){
+            // Horizontal movement
+            this.horizontalMovement();
 
-        // ground slam functionality
-        this.checkGroundSlam();
+            // ground slam functionality
+            this.checkGroundSlam();
 
-        // Spin the player whilst in the air
-        if (!this.player.body.touching.down && !this.isSlamming) {
-            this.spinPlayer();
+            // Spin the player whilst in the air
+            if (!this.player.body.touching.down && !this.isSlamming) {
+                this.spinPlayer();
+            }
         }
 
         // reset the player sprite and angle when back on the ground
         if (this.player.body.touching.down) {
+            canStick = true;
             this.resetPlayerAngle();
         }
 
+        // Input to change sight mode
         this.handleSight();
         
     }
