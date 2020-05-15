@@ -327,6 +327,34 @@ class Level_1 extends Phaser.Scene {
         }
     }
 
+    // check for wall jump on left
+    wallJumpLeft() {
+        //Stick to things on the left
+        if(this.player.body.blocked.left && canStick){
+            isStuck = true; //set the global var true
+            canStick = false; // make it so you can only stick to another wall after touching down
+            this.player.angle = 0; // set player sprite upright
+            this.player.setGravityY(0); // kill gravity
+            this.player.body.velocity.y = 0; // neutralize vertical movement
+            this.player.body.velocity.x = 0 // neutralize horizontal movement
+            this.player.flipX = false; // flip players horizontal orientation
+        }
+    }
+
+    // check for wall jump on right
+    wallJumpRight() {
+        // Stick to things on the right
+        if(this.player.body.blocked.right && canStick) {
+            isStuck = true; //set the global var true
+            canStick = false; // make it so you can only stick to another wall after touching down
+            this.player.angle = 0; // set player sprite upright
+            this.player.setGravityY(0); // kill gravity
+            this.player.body.velocity.y = 0; // neutralize vertical movement
+            this.player.body.velocity.x = 0 // neutralize horizontal movement
+            this.player.flipX = true; // flip players horizontal orientation
+        }
+    }
+
 
     // *** MAIN UPDATE FUNCTION ***
 
@@ -350,32 +378,9 @@ class Level_1 extends Phaser.Scene {
             }
         }
 
+        this.wallJumpLeft();
 
-        //Stick to things on the left
-        if(this.player.body.blocked.left){
-            if(canStick){
-                isStuck = true; //set the global var true
-                canStick = false; // make it so you can only stick to another wall after touching down
-                this.player.angle = 0; // set player sprite upright
-                this.player.setGravityY(0); // kill gravity
-                this.player.body.velocity.y = 0; // neutralize vertical movement
-                this.player.body.velocity.x = 0 // neutralize horizontal movement
-                this.player.flipX = false; // flip players horizontal orientation
-            }
-        }
-
-        // Stick to things on the right
-        if(this.player.body.blocked.right) {
-            if(canStick){
-                isStuck = true; //set the global var true
-                canStick = false; // make it so you can only stick to another wall after touching down
-                this.player.angle = 0; // set player sprite upright
-                this.player.setGravityY(0); // kill gravity
-                this.player.body.velocity.y = 0; // neutralize vertical movement
-                this.player.body.velocity.x = 0 // neutralize horizontal movement
-                this.player.flipX = true; // flip players horizontal orientation
-            }
-        }
+        this.wallJumpRight();
 
         // reset the player sprite and angle when back on the ground
         if (this.player.body.blocked.down) {
