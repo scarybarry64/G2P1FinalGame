@@ -11,6 +11,7 @@ class Test extends Phaser.Scene {
         this.load.image('obstacle_green', './assets/sprites/obstacle_green.png');
         this.load.image('obstacle_blue', './assets/sprites/obstacle_blue.png');
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
+        this.load.image('killzone', './assets/sprites/obstacle.png');
 
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
@@ -134,6 +135,11 @@ class Test extends Phaser.Scene {
        this.rights = 0; 
     }
 
+    spawnKillzone(){
+        this.killzone = this.physics.add.sprite(0,0,'killzone').setScale(1);
+        this.killzone.body.onOverlap = true;
+    }
+
     // *** MAIN CREATE FUNCTION ***
     create() {
 
@@ -154,6 +160,15 @@ class Test extends Phaser.Scene {
 
         // THIS HOLDS WALL JUMP FUNCTION
         this.wallCollision();
+
+        this.spawnKillzone();
+        this.physics.world.on('overlap', ()=>{
+            console.log("player hit in test");
+        });
+        
+        this.cameras.main.setBounds(0,0, game.config.width, game.config.height);
+        this.cameras.main.setZoom(1.5);
+        this.cameras.main.startFollow(this.player, true);
         
     }
 
@@ -358,6 +373,10 @@ class Test extends Phaser.Scene {
 
         // Input to change sight mode
         this.handleSight();
+
+        //this.killzone.setScale(this.killzone.height + 1, this.killzone.width);
+        console.log(this.killzone.height);
+        this.physics.overlap(this.player, this.killzone);
         
     }
 }
