@@ -174,7 +174,7 @@ class Test extends Phaser.Scene {
         });
 
         // centers camera and follows player
-        this.configureCamera();
+        // this.configureCamera();
         
     }
 

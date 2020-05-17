@@ -118,7 +118,7 @@ class Level_1 extends Phaser.Scene {
         this.createVariables();
 
         // centers camera and follows player
-        this.configureCamera();
+        // this.configureCamera();
 
     }
 
@@ -370,7 +370,6 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        console.log(isJumping);
     
         //JUMP ---
         this.jumpCheck();
