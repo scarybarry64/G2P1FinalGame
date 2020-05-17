@@ -25,12 +25,13 @@ let game = new Phaser.Game(config);
 let centerX = game.config.width / 2;
 let centerY = game.config.height / 2;
 let isRunning = false;
-let bestLevel = 'testScene';
+let bestLevel = 'level1Scene';
 let jSight = true; // the first sight initially on
 let kSight = false;
 let lSight = false;
 let isStuck = false;
 let canStick = true;
+let isJumping = false;
 
 // settings
 game.settings = {

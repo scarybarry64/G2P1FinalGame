@@ -346,7 +346,6 @@ class Test extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        console.log(isStuck);
 
         //JUMP ---
         this.jumpCheck();
