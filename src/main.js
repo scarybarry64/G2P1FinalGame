@@ -14,6 +14,7 @@ let config = {
             debug: true,
         }
     },
+    pixelArt: true,
 
     scene: [Title, Test, Level_1],
 };

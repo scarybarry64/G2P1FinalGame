@@ -47,6 +47,7 @@ class Level_1 extends Phaser.Scene {
     createCamera() {
         this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+        this.cameras.roundPixels = true;
     }
 
     // Set collision between player and layers, disable blue and yellow by default
