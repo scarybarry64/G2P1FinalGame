@@ -90,6 +90,12 @@ class Level_1 extends Phaser.Scene {
         this.rights = 0;
     }
 
+    configureCamera(){
+        this.cameras.main.setBounds(0,0, game.config.width, game.config.height);
+        this.cameras.main.setZoom(1.5);
+        this.cameras.main.startFollow(this.player, true);
+    }
+
     // *** MAIN CREATE FUNCTION ***
     create() {
 
@@ -110,6 +116,9 @@ class Level_1 extends Phaser.Scene {
 
         // create and initialize variables
         this.createVariables();
+
+        // centers camera and follows player
+        this.configureCamera();
 
     }
 

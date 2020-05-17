@@ -11,7 +11,7 @@ class Test extends Phaser.Scene {
         this.load.image('obstacle_green', './assets/sprites/obstacle_green.png');
         this.load.image('obstacle_blue', './assets/sprites/obstacle_blue.png');
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
-        this.load.image('killzone', './assets/sprites/obstacle.png');
+        this.load.image('killzone', './assets/sprites/green_rectangle.png');
 
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
@@ -136,8 +136,15 @@ class Test extends Phaser.Scene {
     }
 
     spawnKillzone(){
-        this.killzone = this.physics.add.sprite(0,0,'killzone').setScale(1);
+        this.killzone = this.physics.add.sprite(0, game.config.height, 'killzone').setScale(1);
         this.killzone.body.onOverlap = true;
+        this.killzone.body.setVelocityY(-10);
+    }
+
+    configureCamera(){
+        this.cameras.main.setBounds(0,0, game.config.width, game.config.height);
+        this.cameras.main.setZoom(1.5);
+        this.cameras.main.startFollow(this.player, true);
     }
 
     // *** MAIN CREATE FUNCTION ***
@@ -165,10 +172,9 @@ class Test extends Phaser.Scene {
         this.physics.world.on('overlap', ()=>{
             console.log("player hit in test");
         });
-        
-        this.cameras.main.setBounds(0,0, game.config.width, game.config.height);
-        this.cameras.main.setZoom(1.5);
-        this.cameras.main.startFollow(this.player, true);
+
+        // centers camera and follows player
+        this.configureCamera();
         
     }
 
