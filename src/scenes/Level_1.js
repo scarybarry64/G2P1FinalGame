@@ -347,7 +347,7 @@ class Level_1 extends Phaser.Scene {
             this.player.angle = 0; // set player sprite upright
             this.player.body.velocity.y = 0; // neutralize vertical movement
             this.player.body.velocity.x = 0 // neutralize horizontal movement
-            this.player.setGravityY(); // kill gravity
+            this.player.setGravityY(0); // kill gravity
             this.player.flipX = false; // flip players horizontal orientation
         }
     }
