@@ -153,10 +153,12 @@ class Level_1 extends Phaser.Scene {
     // Initial Jump made from object, -300 is the smallest possible jump height
     startJump() {
         this.player.setVelocityY(-300);
+        isJumping = true;
     }
 
     // This makes it possible to hold your jump to increase height
     holdJump() {
+        isJumping = true;
         // only allow the player to jump 100 units above the 
         // height at which the jump was made
         if (this.player.y > this.jumpStartHeight - 65) {
@@ -330,13 +332,13 @@ class Level_1 extends Phaser.Scene {
     // check for wall jump on left
     wallJumpLeft() {
         //Stick to things on the left
-        if(this.player.body.blocked.left && canStick){
+        if(this.player.body.blocked.left && canStick && isJumping){
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.angle = 0; // set player sprite upright
-            this.player.setGravityY(0); // kill gravity
             this.player.body.velocity.y = 0; // neutralize vertical movement
             this.player.body.velocity.x = 0 // neutralize horizontal movement
+            this.player.setGravityY(); // kill gravity
             this.player.flipX = false; // flip players horizontal orientation
         }
     }
@@ -344,7 +346,7 @@ class Level_1 extends Phaser.Scene {
     // check for wall jump on right
     wallJumpRight() {
         // Stick to things on the right
-        if(this.player.body.blocked.right && canStick) {
+        if(this.player.body.blocked.right && canStick && isJumping) {
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.angle = 0; // set player sprite upright
@@ -359,7 +361,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        // console.log(this.player.x);
+        console.log(isJumping);
     
         //JUMP ---
         this.jumpCheck();
@@ -384,6 +386,7 @@ class Level_1 extends Phaser.Scene {
 
         // reset the player sprite and angle when back on the ground
         if (this.player.body.blocked.down) {
+            isJumping = false;
             canStick = true;
             this.resetPlayerAngle();
         }

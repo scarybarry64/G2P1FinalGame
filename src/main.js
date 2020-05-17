@@ -31,6 +31,7 @@ let kSight = false;
 let lSight = false;
 let isStuck = false;
 let canStick = true;
+let isJumping = false;
 
 // settings
 game.settings = {
