@@ -18,6 +18,7 @@ class Level_1 extends Phaser.Scene {
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
+
     }
 
     // *** CREATE FUNCTIONS ***
@@ -112,6 +113,12 @@ class Level_1 extends Phaser.Scene {
 
         // Create and initialize variables
         this.createVariables();
+
+        this.visionHud = this.add.text(14, 0, 'J',
+            { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+
+        this.visionHud2 = this.add.text(910, 0, 'J',
+            { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
     }
 
@@ -256,6 +263,9 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
             
+            this.visionHud.text = 'J'; // set vision hud to current key press
+            this.visionHud2.text = 'J'; // set vision hud to current key press
+
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
@@ -282,6 +292,9 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
+            this.visionHud.text = 'K'; // set vision hud to current key press
+            this.visionHud2.text = 'K'; // set vision hud to current key press
+
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
@@ -307,6 +320,9 @@ class Level_1 extends Phaser.Scene {
         // L key sight, distorts platforms to yellow
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
+
+            this.visionHud.text = 'L'; // set vision hud to current key press
+            this.visionHud2.text = 'L'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
@@ -363,6 +379,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        console.log(this.player.x);
     
         //JUMP ---
         this.jumpCheck();
