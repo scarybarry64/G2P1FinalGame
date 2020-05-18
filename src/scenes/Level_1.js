@@ -107,10 +107,10 @@ class Level_1 extends Phaser.Scene {
         // Create collision
         this.createCollision();
 
-        // create movement controls
+        // Create movement controls
         this.createControls();
 
-        // create and initialize variables
+        // Create and initialize variables
         this.createVariables();
 
     }
