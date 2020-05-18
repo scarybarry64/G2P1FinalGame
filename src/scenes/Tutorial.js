@@ -15,7 +15,8 @@ class Tutorial extends Phaser.Scene {
 
         // Create first tutorial message
         this.message = this.add.text(centerX, centerY,
-            'Use the WASD buttons for movement controls (W jumps).\nJump next to a wall/platform to wall-jump.\n\n\n\n\n' +
+            'Use the WASD buttons to move in 4 directions (W jumps).\nJump next to a wall/platform to wall-jump.\n' +
+            'Press S while jumping to ground slam.\n\n\n\n\n' +
             '(Press C to continue or S to skip the tutorial . . .)',
             { fontFamily: 'Consolas', fontSize: '20px', align: 'center' }).setOrigin(0.5);
 
