@@ -16,11 +16,7 @@ let config = {
     },
     pixelArt: true,
 
-<<<<<<< HEAD
-    scene: [Title, Test, Level_1, GameOver],
-=======
     scene: [Title, Test, Tutorial, Level_1],
->>>>>>> 0212af56ff1469d7b6c2b3ac54db08c7f74e65ef
 };
 
 // define game

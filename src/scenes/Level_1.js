@@ -18,11 +18,7 @@ class Level_1 extends Phaser.Scene {
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
-<<<<<<< HEAD
         this.load.image('killzone', './assets/sprites/green_rectangle.png');
-=======
-
->>>>>>> 0212af56ff1469d7b6c2b3ac54db08c7f74e65ef
     }
 
     // *** CREATE FUNCTIONS ***
