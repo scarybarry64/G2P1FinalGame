@@ -138,7 +138,11 @@ class Test extends Phaser.Scene {
     spawnKillzone(){
         this.killzone = this.physics.add.sprite(0, game.config.height, 'killzone').setScale(1);
         this.killzone.body.onOverlap = true;
-        this.killzone.body.setVelocityY(-10);
+        this.killzone.body.setVelocityY(-20);
+
+        this.physics.world.on('overlap', ()=>{
+            console.log("player hit in test");
+        });
     }
 
     configureCamera(){
@@ -169,9 +173,7 @@ class Test extends Phaser.Scene {
         this.wallCollision();
 
         this.spawnKillzone();
-        this.physics.world.on('overlap', ()=>{
-            console.log("player hit in test");
-        });
+        
 
         // centers camera and follows player
         this.configureCamera();
@@ -379,8 +381,7 @@ class Test extends Phaser.Scene {
         // Input to change sight mode
         this.handleSight();
 
-        //this.killzone.setScale(this.killzone.height + 1, this.killzone.width);
-        console.log(this.killzone.height);
+        
         this.physics.overlap(this.player, this.killzone);
         
     }

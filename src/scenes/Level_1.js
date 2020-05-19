@@ -18,6 +18,7 @@ class Level_1 extends Phaser.Scene {
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
+        this.load.image('killzone', './assets/sprites/green_rectangle.png');
     }
 
     // *** CREATE FUNCTIONS ***
@@ -90,10 +91,15 @@ class Level_1 extends Phaser.Scene {
         this.rights = 0;
     }
 
-    configureCamera(){
-        this.cameras.main.setBounds(0,0, game.config.width, game.config.height);
-        this.cameras.main.setZoom(1.5);
-        this.cameras.main.startFollow(this.player, true);
+    spawnKillzone(){
+        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels, 'killzone').setScale(1);
+        this.killzone.body.onOverlap = true;
+        this.killzone.body.setVelocityY(-20);
+
+        this.physics.world.on('overlap', ()=>{
+           //this.scene.start('Gameover');
+           console.log("player hit");
+        });
     }
 
     // *** MAIN CREATE FUNCTION ***
@@ -117,9 +123,7 @@ class Level_1 extends Phaser.Scene {
         // create and initialize variables
         this.createVariables();
 
-        // centers camera and follows player
-        this.configureCamera();
-
+        this.spawnKillzone();
     }
 
     // *** UPDATE FUNCTIONS ***
@@ -402,6 +406,9 @@ class Level_1 extends Phaser.Scene {
 
         // Sight
         this.handleSight();
+
+        //Check if player and killzone overlap
+        this.physics.overlap(this.player, this.killzone)
 
     }
 }
