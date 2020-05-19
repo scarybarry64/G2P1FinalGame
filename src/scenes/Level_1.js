@@ -18,7 +18,11 @@ class Level_1 extends Phaser.Scene {
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
+<<<<<<< HEAD
         this.load.image('killzone', './assets/sprites/green_rectangle.png');
+=======
+
+>>>>>>> 0212af56ff1469d7b6c2b3ac54db08c7f74e65ef
     }
 
     // *** CREATE FUNCTIONS ***
@@ -48,6 +52,7 @@ class Level_1 extends Phaser.Scene {
     createCamera() {
         this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+        this.cameras.roundPixels = true;
     }
 
     // Set collision between player and layers, disable blue and yellow by default
@@ -117,13 +122,19 @@ class Level_1 extends Phaser.Scene {
         // Create collision
         this.createCollision();
 
-        // create movement controls
+        // Create movement controls
         this.createControls();
 
-        // create and initialize variables
+        // Create and initialize variables
         this.createVariables();
 
         this.spawnKillzone();
+        this.visionHud = this.add.text(14, 0, 'J',
+            { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+
+        this.visionHud2 = this.add.text(910, 0, 'J',
+            { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+
     }
 
     // *** UPDATE FUNCTIONS ***
@@ -267,6 +278,9 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
             
+            this.visionHud.text = 'J'; // set vision hud to current key press
+            this.visionHud2.text = 'J'; // set vision hud to current key press
+
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
@@ -293,6 +307,9 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
+            this.visionHud.text = 'K'; // set vision hud to current key press
+            this.visionHud2.text = 'K'; // set vision hud to current key press
+
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
                 // do not unstick
@@ -318,6 +335,9 @@ class Level_1 extends Phaser.Scene {
         // L key sight, distorts platforms to yellow
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
+
+            this.visionHud.text = 'L'; // set vision hud to current key press
+            this.visionHud2.text = 'L'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
@@ -351,7 +371,7 @@ class Level_1 extends Phaser.Scene {
             this.player.angle = 0; // set player sprite upright
             this.player.body.velocity.y = 0; // neutralize vertical movement
             this.player.body.velocity.x = 0 // neutralize horizontal movement
-            this.player.setGravityY(); // kill gravity
+            this.player.setGravityY(0); // kill gravity
             this.player.flipX = false; // flip players horizontal orientation
         }
     }
@@ -374,7 +394,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        console.log(isJumping);
+        console.log(this.player.x);
     
         //JUMP ---
         this.jumpCheck();

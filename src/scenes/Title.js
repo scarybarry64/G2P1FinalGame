@@ -64,7 +64,7 @@ class Title extends Phaser.Scene {
 
     // add all visible and invisible buttons
     addButtons() {
-        // Play Button
+        // Play Button (goes to tutorial first)
         this.playButton = this.add.image(centerX, centerY / 2 + 200, 'button_play').
             setScale(0.75, 0.75).
             on('pointerdown', () => this.goToDefaultLevel());
@@ -92,7 +92,7 @@ class Title extends Phaser.Scene {
         this.testLevelButton.setInteractive();
         this.testLevelButton.visible = false;
         
-        // Level 1 button
+        // Level 1 button (goes to tutorial first)
         this.oneLevelButton = this.add.image(centerX - 200, centerY / 2 + 200, 'button_one').
             setScale(0.75, 0.75).
             on('pointerdown', () => this.goToLevel1());
@@ -138,7 +138,7 @@ class Title extends Phaser.Scene {
         roof.setImmovable();
 
         // title stuff
-        this.add.text(centerX, centerY / 1.5 - 10, 'CyberSplice', {
+        this.add.text(centerX, centerY / 1.5 - 10, 'Final Game', {
             fontFamily: 'Consolas', fontSize: '60px'
         }).setOrigin(0.5);
         this.add.text(centerX, centerY - 40, 'A Matrix-esque Puzzle Platformer\nby Barry Day, Trevor Moropoulos, and Lucio Espinoza', {
@@ -151,7 +151,7 @@ class Title extends Phaser.Scene {
     goToDefaultLevel() {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
-        this.scene.start(bestLevel); //change to default scene, rn is test level
+        this.scene.start('tutorialScene'); //change to default scene, rn is tutorial level
     }
 
     goToTestLevel() {
@@ -163,7 +163,7 @@ class Title extends Phaser.Scene {
     goToLevel1() {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
-        this.scene.start('level1Scene'); //change to default scene, rn is test level
+        this.scene.start('tutorialScene'); // goes to tutorial first
     }
 
     back() {
