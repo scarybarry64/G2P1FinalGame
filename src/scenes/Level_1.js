@@ -178,15 +178,19 @@ class Level_1 extends Phaser.Scene {
 
     // This makes it possible to hold your jump to increase height
     holdJump() {
-        isJumping = true;
-        // only allow the player to jump 100 units above the 
-        // height at which the jump was made
-        if (this.player.y > this.jumpStartHeight - 65) {
-            this.player.setGravityY(-1500); //negative gravity simulates extending a jump
-        } else {
-            // else reset the gravity to pull the player to the ground
-            this.player.setGravityY(1000);
-            this.canHoldJump = false; // disables double jump
+        if(!isStuck) {
+            // only allow the player to jump 100 units above the 
+            // height at which the jump was made
+            if ((this.player.y > this.jumpStartHeight - 65) &&
+                    !this.player.body.blocked.right) {
+                isJumping = true;
+                this.player.setGravityY(-1500); //negative gravity simulates extending a jump
+            } else {
+                // else reset the gravity to pull the player to the ground
+                isJumping = true;
+                this.player.setGravityY(1000);
+                this.canHoldJump = false; // disables double jump
+            }
         }
     }
 
@@ -364,9 +368,9 @@ class Level_1 extends Phaser.Scene {
         if(this.player.body.blocked.left && canStick && isJumping){
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
-            this.player.angle = 0; // set player sprite upright
             this.player.body.velocity.y = 0; // neutralize vertical movement
             this.player.body.velocity.x = 0 // neutralize horizontal movement
+            this.player.angle = 0; // set player sprite upright
             this.player.setGravityY(0); // kill gravity
             this.player.flipX = false; // flip players horizontal orientation
         }
@@ -378,10 +382,10 @@ class Level_1 extends Phaser.Scene {
         if(this.player.body.blocked.right && canStick && isJumping) {
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
-            this.player.angle = 0; // set player sprite upright
-            this.player.setGravityY(0); // kill gravity
             this.player.body.velocity.y = 0; // neutralize vertical movement
             this.player.body.velocity.x = 0 // neutralize horizontal movement
+            this.player.angle = 0; // set player sprite upright
+            this.player.setGravityY(0); // kill gravity
             this.player.flipX = true; // flip players horizontal orientation
         }
     }
@@ -390,7 +394,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        console.log(this.player.x);
+        console.log();
     
         //JUMP ---
         this.jumpCheck();
