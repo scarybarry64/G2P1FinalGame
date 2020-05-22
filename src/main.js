@@ -16,7 +16,7 @@ let config = {
     },
     pixelArt: true,
 
-    scene: [Title, Test, Tutorial, Level_1],
+    scene: [Title, Test, Tutorial, Level_1, Pause],
 };
 
 // define game
@@ -27,6 +27,7 @@ let centerX = game.config.width / 2;
 let centerY = game.config.height / 2;
 let isRunning = false;
 let bestLevel = 'level1Scene';
+let currLevel = 'level1Scene';
 let jSight = true; // the first sight initially on
 let kSight = false;
 let lSight = false;

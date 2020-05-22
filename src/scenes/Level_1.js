@@ -397,12 +397,8 @@ class Level_1 extends Phaser.Scene {
                 !isPaused) {
             console.log("PAUSE");
             isPaused = true;
+            this.scene.launch('pauseScene');
             this.scene.pause();
-        } else if(Phaser.Input.Keyboard.JustDown(keyESC) && 
-                isPaused) {
-            isPaused = false;
-            console.log("Unpause");
-            this.scene.resume('level1Scene');
         }
     }
 

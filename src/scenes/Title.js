@@ -231,7 +231,7 @@ class Title extends Phaser.Scene {
     }
 
     update() {
-        this.player.anims.play('running', true);
+        // this.player.anims.play('running', true);
 
     }
 }
