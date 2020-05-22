@@ -42,9 +42,5 @@ game.settings = {
 }
 
 // reserve keyboard controls
-<<<<<<< HEAD
-let keyW, keyA, keyS, keyD, keyJ, keyK, keyL, keyR;
-=======
-let keyW, keyA, keyS, keyD, keyJ, keyK, keyL, keyESC;
->>>>>>> 0c0e664292c84f0519b50f37aeda564f992405bb
+let keyW, keyA, keyS, keyD, keyJ, keyK, keyL, keyESC, keyR;
 
