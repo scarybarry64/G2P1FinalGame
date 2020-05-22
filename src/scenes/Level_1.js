@@ -41,8 +41,9 @@ class Level_1 extends Phaser.Scene {
     // Creates player and spawns them into level
     createPlayer() {
         this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
+        this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
 
-        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y, 'Glitch', 'Glitch_Running_01');
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch', 'Glitch_Running_01');
         this.player.setGravityY(1000); // default gravity
 
         
@@ -469,6 +470,15 @@ class Level_1 extends Phaser.Scene {
         }
     }
 
+    // check if player is within checkpoint area
+    checkpointCheck() {
+        if(this.player.x < this.checkpoint1.x + 55 && this.player.x > this.checkpoint1.x - 55) {
+            if(this.player.y < this.checkpoint1.y + 25 && this.player.y > this.checkpoint1.y - 25) {
+                console.log("HERE");
+            }
+        }
+    }
+
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
@@ -510,5 +520,7 @@ class Level_1 extends Phaser.Scene {
 
         //Check if player and killzone overlap
         this.physics.overlap(this.player, this.killzone)
+
+        this.checkpointCheck();
     }
 }
