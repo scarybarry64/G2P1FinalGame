@@ -10,6 +10,7 @@ class Title extends Phaser.Scene {
 
         // preload buttons
         this.load.image('button_play', './assets/buttons/button_play.png');
+        this.load.image('button_tutorial', './assets/buttons/button_tutorial.png');
         this.load.image('button_levels', './assets/buttons/button_levels.png');
         this.load.image('button_back', './assets/buttons/button_back.png');
         this.load.image('button_test', './assets/buttons/button_test.png');
@@ -30,7 +31,7 @@ class Title extends Phaser.Scene {
     }
 
     createPlayer() {
-        this.player = this.physics.add.sprite(game.config.width/3, 520, 'player');
+        this.player = this.physics.add.sprite(game.config.width / 2, 365, 'Glitch');
 
         // player running animation config
         let playerRunAnimConfig = {
@@ -51,7 +52,7 @@ class Title extends Phaser.Scene {
     }
 
     spawnFloor() {
-        let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal').
+        let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 112, 'bounds_terminal').
             setScale(4, 0.5);
         floor.setImmovable();
         
@@ -65,12 +66,18 @@ class Title extends Phaser.Scene {
     // add all visible and invisible buttons
     addButtons() {
         // Play Button (goes to tutorial first)
-        this.playButton = this.add.image(centerX, centerY / 2 + 200, 'button_play').
+        this.playButton = this.add.image(centerX, centerY / 2 + 250, 'button_play').
             setScale(0.75, 0.75).
-            on('pointerdown', () => this.goToDefaultLevel());
+            on('pointerdown', () => this.goToLevel1());
         this.playButton.setInteractive(); 
         this.playButton.on('pointerover', () => { console.log('pointerover'); }); //on hover
 
+        this.levelsButton = this.add.image(centerX, centerY / 2 + 300, 'button_tutorial').
+            setScale(0.75, 0.75).
+            on('pointerdown', () => this.goToTutorial());
+        this.levelsButton.setInteractive(); 
+
+        /*
         // Level Select Button
         this.levelsButton = this.add.image(centerX, centerY / 2 + 250, 'button_levels').
             setScale(0.75, 0.75).
@@ -122,6 +129,7 @@ class Title extends Phaser.Scene {
             setScale(0.75, 0.75);
         this.fiveLevelButton.setInteractive();
         this.fiveLevelButton.visible = false;
+        */
         
     }
 
@@ -148,7 +156,7 @@ class Title extends Phaser.Scene {
         this.addButtons();
     }
 
-    goToDefaultLevel() {
+    goToTutorial() {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
         this.scene.start('tutorialScene'); //change to default scene, rn is tutorial level
@@ -163,7 +171,7 @@ class Title extends Phaser.Scene {
     goToLevel1() {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
-        this.scene.start('tutorialScene'); // goes to tutorial first
+        this.scene.start('level1Scene'); // goes to tutorial first
     }
 
     back() {
