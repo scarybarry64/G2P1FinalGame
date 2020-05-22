@@ -16,7 +16,7 @@ let config = {
     },
     pixelArt: true,
 
-    scene: [Title, Test, Tutorial, Level_1],
+    scene: [Title, Test, Tutorial, Level_1, GameOver],
 };
 
 // define game
@@ -40,5 +40,5 @@ game.settings = {
 }
 
 // reserve keyboard controls
-let keyW, keyA, keyS, keyD, keyJ, keyK, keyL;
+let keyW, keyA, keyS, keyD, keyJ, keyK, keyL, keyR;
 
