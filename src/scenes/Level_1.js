@@ -158,13 +158,12 @@ class Level_1 extends Phaser.Scene {
     }
 
     spawnKillzone(){
-        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels, 'killzone').setScale(1);
+        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels + 100, 'killzone').setScale(1);
         this.killzone.body.onOverlap = true;
         this.killzone.body.setVelocityY(-20);
 
         this.physics.world.on('overlap', ()=>{
-           //this.scene.start('Gameover');
-           console.log("player hit");
+           this.scene.start('GameOver');
         });
     }
 
@@ -511,6 +510,5 @@ class Level_1 extends Phaser.Scene {
 
         //Check if player and killzone overlap
         this.physics.overlap(this.player, this.killzone)
-
     }
 }
