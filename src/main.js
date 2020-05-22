@@ -33,6 +33,7 @@ let lSight = false;
 let isStuck = false;
 let canStick = true;
 let isJumping = false;
+let isPaused = false;
 
 // settings
 game.settings = {
@@ -40,5 +41,5 @@ game.settings = {
 }
 
 // reserve keyboard controls
-let keyW, keyA, keyS, keyD, keyJ, keyK, keyL;
+let keyW, keyA, keyS, keyD, keyJ, keyK, keyL, keyESC;
 

@@ -74,6 +74,8 @@ class Level_1 extends Phaser.Scene {
         keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
     }
 
     createVariables() {
@@ -390,11 +392,26 @@ class Level_1 extends Phaser.Scene {
         }
     }
 
+    checkPause() {
+        if(Phaser.Input.Keyboard.JustDown(keyESC) && 
+                !isPaused) {
+            console.log("PAUSE");
+            isPaused = true;
+            this.scene.pause();
+        } else if(Phaser.Input.Keyboard.JustDown(keyESC) && 
+                isPaused) {
+            isPaused = false;
+            console.log("Unpause");
+            this.scene.resume('level1Scene');
+        }
+    }
 
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
         console.log();
+
+        this.checkPause(); // check if should pause game
     
         //JUMP ---
         this.jumpCheck();
