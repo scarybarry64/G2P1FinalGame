@@ -10,16 +10,34 @@ class Level_1 extends Phaser.Scene {
         this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/test_tilemap.json');
 
+        /*
         // load player sprite
         this.load.image('player', './assets/sprites/hooded_figure_2.png');
 
         // load player sprite
         this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
+        
 
         // load player color sprites
         this.load.atlas('Glitch_Blue', './assets/sprites/Player/Blue/Glitch_Blue_IdleRunning.png', './assets/sprites/Player/Blue/Glitch_Blue_IdleRunning.json');
         this.load.atlas('Glitch_Red', './assets/sprites/Player/Red/Glitch_Red_IdleRunning.png', './assets/sprites/Player/Red/Glitch_Red_IdleRunning.json');
         this.load.atlas('Glitch_Yellow', './assets/sprites/Player/Yellow/Glitch_Yellow_IdleRunning.png', './assets/sprites/Player/Yellow/Glitch_Yellow_IdleRunning.json');
+        */
+
+        // Glitch blue anims
+        this.load.atlas('Glitch_Blue_Idle', './assets/sprites/Player/Blue/Glitch_Blue_Idle.png', './assets/sprites/Player/Blue/Glitch_Blue_Idle.json');
+        this.load.atlas('Glitch_Blue_Run', './assets/sprites/Player/Blue/Glitch_Blue_Running.png', './assets/sprites/Player/Blue/Glitch_Blue_Running.json');
+        this.load.atlas('Glitch_Blue_Wall', './assets/sprites/Player/Blue/Glitch_Blue_Wall.png', './assets/sprites/Player/Blue/Glitch_Blue_Wall.json');
+
+        // Glitch red anims
+        this.load.atlas('Glitch_Red_Idle', './assets/sprites/Player/Red/Glitch_Red_Idle.png', './assets/sprites/Player/Red/Glitch_Red_Idle.json');
+        this.load.atlas('Glitch_Red_Run', './assets/sprites/Player/Red/Glitch_Red_Running.png', './assets/sprites/Player/Red/Glitch_Red_Running.json');
+        this.load.atlas('Glitch_Red_Wall', './assets/sprites/Player/Red/Glitch_Red_Wall.png', './assets/sprites/Player/Red/Glitch_Red_Wall.json');
+
+        // Glitch yellow anims
+        this.load.atlas('Glitch_Yellow_Idle', './assets/sprites/Player/Yellow/Glitch_Yellow_Idle.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Idle.json');
+        this.load.atlas('Glitch_Yellow_Run', './assets/sprites/Player/Yellow/Glitch_Yellow_Running.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Running.json');
+        this.load.atlas('Glitch_Yellow_Wall', './assets/sprites/Player/Yellow/Glitch_Yellow_Wall.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Wall.json');
 
 
         // load audio
@@ -49,52 +67,73 @@ class Level_1 extends Phaser.Scene {
         // Blue Run Anim
         this.anims.create({ 
             key: 'Blue_Run', 
-            frames: this.anims.generateFrameNames('Glitch_Blue'), 
+            frames: this.anims.generateFrameNames('Glitch_Blue_Run'), 
             frameRate: 10,
             repeat: -1 });
 
         // Red Run Anim
         this.anims.create({ 
             key: 'Red_Run', 
-            frames: this.anims.generateFrameNames('Glitch_Red'), 
+            frames: this.anims.generateFrameNames('Glitch_Red_Run'), 
             frameRate: 10,
             repeat: -1 });
 
         // Yellow Run Anim
         this.anims.create({ 
             key: 'Yellow_Run', 
-            frames: this.anims.generateFrameNames('Glitch_Yellow'), 
+            frames: this.anims.generateFrameNames('Glitch_Yellow_Run'), 
             frameRate: 10,
             repeat: -1 });
 
         // Blue Idle Anim
         this.anims.create({ 
             key: 'Blue_Idle', 
-            frames: this.anims.generateFrameNames('Glitch_Blue',  {
+            frames: this.anims.generateFrameNames('Glitch_Blue_Idle',  {
                 start: 0,
-                end: 0,
+                end: 1,
             }),
-            frameRate: 10,
+            frameRate: 1,
             repeat: -1 });
 
         // Red Idle Anim
         this.anims.create({ 
             key: 'Red_Idle', 
-            frames: this.anims.generateFrameNames('Glitch_Red',  {
+            frames: this.anims.generateFrameNames('Glitch_Red_Idle',  {
                 start: 0,
-                end: 0,
+                end: 1,
             }),
-            frameRate: 10,
+            frameRate: 1,
             repeat: -1 });
 
         // Yellow Idle Anim
         this.anims.create({ 
             key: 'Yellow_Idle', 
-            frames: this.anims.generateFrameNames('Glitch_Yellow',  {
+            frames: this.anims.generateFrameNames('Glitch_Yellow_Idle',  {
                 start: 0,
-                end: 0,
+                end: 1,
             }),
-            frameRate: 10,
+            frameRate: 1,
+            repeat: -1 });
+
+        // Blue Wall Anim
+        this.anims.create({ 
+            key: 'Blue_Wall', 
+            frames: this.anims.generateFrameNames('Glitch_Blue_Wall'), 
+            frameRate: 1,
+            repeat: -1 });
+
+        // Red Wall Anim
+        this.anims.create({ 
+            key: 'Red_Wall', 
+            frames: this.anims.generateFrameNames('Glitch_Red_Wall'), 
+            frameRate: 1,
+            repeat: -1 });
+
+        // Yellow Wall Anim
+        this.anims.create({ 
+            key: 'Yellow_Wall', 
+            frames: this.anims.generateFrameNames('Glitch_Yellow_Wall'), 
+            frameRate: 1,
             repeat: -1 });
     }
 
@@ -104,12 +143,14 @@ class Level_1 extends Phaser.Scene {
         this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
         this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
 
-        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, charColor, "1");
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Blue_Idle', '0');
         this.player.setScale(2);
         this.player.setGravityY(1000); // default gravity
 
         // create the anims necessary for the player
         this.createPlayerAnims();
+        
+        this.player.anims.play('Blue_Idle', true);
        
         this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
@@ -124,8 +165,8 @@ class Level_1 extends Phaser.Scene {
     // Set collision between player and layers, disable blue and yellow by default
     createCollision() {
         this.baseLayer.setCollisionByProperty({ collision: true });
-        this.redLayer.setCollisionByProperty({ collision: true });
-        this.blueLayer.setCollisionByProperty({ collision: true }, false);
+        this.blueLayer.setCollisionByProperty({ collision: true });
+        this.redLayer.setCollisionByProperty({ collision: true }, false);
         this.yellowLayer.setCollisionByProperty({ collision: true }, false);
         this.physics.add.collider(this.player, this.baseLayer);
         this.physics.add.collider(this.player, this.redLayer);
@@ -162,6 +203,10 @@ class Level_1 extends Phaser.Scene {
         game.settings.scrollSpeed = -200; // global game scroll speed, this is how we imitate time dilation
         this.lefts = 0;
         this.rights = 0;
+
+        jSight = true;
+        kSight = false;
+        lSight = false;
     }
 
     spawnKillzone(){
@@ -375,7 +420,8 @@ class Level_1 extends Phaser.Scene {
             this.visionHud2.text = 'J'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
-            if(this.player.x == 77 || this.player.x == 883){
+            if(this.player.x == 81 || this.player.x == 879){
+                this.player.anims.play('Blue_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
@@ -403,11 +449,9 @@ class Level_1 extends Phaser.Scene {
             this.visionHud.text = 'K'; // set vision hud to current key press
             this.visionHud2.text = 'K'; // set vision hud to current key press
 
-            charColor = 'Glitch_Red';
-            this.player.setTexture('Glitch_Red');
-
             // unstick to wall if on an obstacle
-            if(this.player.x == 77 || this.player.x == 883){
+            if(this.player.x == 81 || this.player.x == 879){
+                this.player.anims.play('Red_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
@@ -436,7 +480,8 @@ class Level_1 extends Phaser.Scene {
             this.visionHud2.text = 'L'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
-            if(this.player.x == 77 || this.player.x == 883){
+            if(this.player.x == 81 || this.player.x == 879){
+                this.player.anims.play('Yellow_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
@@ -462,22 +507,13 @@ class Level_1 extends Phaser.Scene {
     wallJumpLeft() {
         //Stick to things on the left
         if(this.player.body.blocked.left && canStick && isJumping){
-            // this.player.anims.play('stuck', true);
-            isStuck = true; //set the global var true
-            canStick = false; // make it so you can only stick to another wall after touching down
-            this.player.body.velocity.y = 0; // neutralize vertical movement
-            this.player.body.velocity.x = 0 // neutralize horizontal movement
-            this.player.angle = 0; // set player sprite upright
-            this.player.setGravityY(0); // kill gravity
-            this.player.flipX = false; // flip players horizontal orientation
-        }
-    }
-
-    // check for wall jump on right
-    wallJumpRight() {
-        // Stick to things on the right
-        if(this.player.body.blocked.right && canStick && isJumping) {
-            // this.player.anims.play('stuck', true);
+            if(kSight){
+                this.player.anims.play('Red_Wall', true);
+            } else if(lSight) {
+                this.player.anims.play('Yellow_Wall', true);
+            } else {
+                this.player.anims.play('Blue_Wall', true);
+            }
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.body.velocity.y = 0; // neutralize vertical movement
@@ -485,6 +521,27 @@ class Level_1 extends Phaser.Scene {
             this.player.angle = 0; // set player sprite upright
             this.player.setGravityY(0); // kill gravity
             this.player.flipX = true; // flip players horizontal orientation
+        }
+    }
+
+    // check for wall jump on right
+    wallJumpRight() {
+        // Stick to things on the right
+        if(this.player.body.blocked.right && canStick && isJumping) {
+            if(kSight){
+                this.player.anims.play('Red_Wall', true);
+            } else if(lSight) {
+                this.player.anims.play('Yellow_Wall', true);
+            } else {
+                this.player.anims.play('Blue_Wall', true);
+            }
+            isStuck = true; //set the global var true
+            canStick = false; // make it so you can only stick to another wall after touching down
+            this.player.body.velocity.y = 0; // neutralize vertical movement
+            this.player.body.velocity.x = 0 // neutralize horizontal movement
+            this.player.angle = 0; // set player sprite upright
+            this.player.setGravityY(0); // kill gravity
+            this.player.flipX = false; // flip players horizontal orientation
         }
     }
 
@@ -511,7 +568,7 @@ class Level_1 extends Phaser.Scene {
 
     update() {
         
-        console.log();
+        // console.log(this.player.x);
 
         this.checkPause(); // check if should pause game
     
