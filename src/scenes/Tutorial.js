@@ -45,7 +45,7 @@ class Tutorial extends Phaser.Scene {
                 console.log(this.progress);
             }
             else if (this.progress == 2) {
-                this.scene.start('level1Scene');
+                this.scene.start('titleScene');
             }
         }
 

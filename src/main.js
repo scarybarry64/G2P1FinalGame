@@ -11,12 +11,12 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
         }
     },
     pixelArt: true,
 
-    scene: [Title, Test, Tutorial, Level_1],
+    scene: [Title, Test, Tutorial, Level_1, Pause, GameOver],
 };
 
 // define game
@@ -27,12 +27,14 @@ let centerX = game.config.width / 2;
 let centerY = game.config.height / 2;
 let isRunning = false;
 let bestLevel = 'level1Scene';
+let currLevel = 'level1Scene';
 let jSight = true; // the first sight initially on
 let kSight = false;
 let lSight = false;
 let isStuck = false;
 let canStick = true;
 let isJumping = false;
+let isPaused = false;
 
 // settings
 game.settings = {
@@ -40,5 +42,5 @@ game.settings = {
 }
 
 // reserve keyboard controls
-let keyW, keyA, keyS, keyD, keyJ, keyK, keyL;
+let keyW, keyA, keyS, keyD, keyJ, keyK, keyL, keyESC, keyR;
 

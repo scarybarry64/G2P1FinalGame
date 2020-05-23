@@ -12,6 +12,9 @@ class Level_1 extends Phaser.Scene {
         // load player sprite
         this.load.image('player', './assets/sprites/hooded_figure_2.png');
 
+        // load player sprite
+        this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');;
+
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
         this.load.audio('sfx_slam', './assets/audio/Hit_Hurt39.wav');
@@ -38,8 +41,69 @@ class Level_1 extends Phaser.Scene {
     // Creates player and spawns them into level
     createPlayer() {
         this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
-        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y, 'player');
+        this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
+
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch', 'Glitch_Running_01');
         this.player.setGravityY(1000); // default gravity
+
+        
+        // player running animation config
+        let playerRunAnimConfig = {
+            key: 'running',
+            frames: this.anims.generateFrameNames('Glitch', {
+                prefix: 'Glitch_Running_',
+                start: 1,
+                end: 8,
+                suffix: '',
+                zeroPad: 2
+            }),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        // Placeholder player idle animation config
+        let playerIdleAnimConfig = {
+            key: 'idle',
+            frames: this.anims.generateFrameNames('Glitch', {
+                prefix: 'Glitch_Running_',
+                start: 3,
+                end: 3,
+                suffix: '',
+                zeroPad: 2
+            }),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        // Placeholder player idle animation config
+        let playerStuckAnimConfig = {
+            key: 'stuck',
+            frames: this.anims.generateFrameNames('Glitch', {
+                prefix: 'Glitch_Running_',
+                start: 1,
+                end: 1,
+                suffix: '',
+                zeroPad: 2
+            }),
+            frameRate: 10,
+            repeat: -1
+        };
+
+        // player jumping animation config
+        let playerJumpAnimConfig = {
+            key: 'jumping',
+            defaultTextureKey: 'Glitch',
+            frames: [
+                { frame: 'Glitch_Jumping' }
+            ],
+            repeat: -1
+        };
+
+        //ANIMATION 
+        this.anims.create(playerRunAnimConfig);
+        this.anims.create(playerJumpAnimConfig);
+        this.anims.create(playerIdleAnimConfig);
+        this.anims.create(playerStuckAnimConfig);
 
         this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
@@ -74,6 +138,8 @@ class Level_1 extends Phaser.Scene {
         keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
         keyK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
         keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
     }
 
     createVariables() {
@@ -93,13 +159,12 @@ class Level_1 extends Phaser.Scene {
     }
 
     spawnKillzone(){
-        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels, 'killzone').setScale(1);
+        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels + 100, 'killzone').setScale(1);
         this.killzone.body.onOverlap = true;
         this.killzone.body.setVelocityY(-20);
 
         this.physics.world.on('overlap', ()=>{
-           //this.scene.start('Gameover');
-           console.log("player hit");
+           this.scene.start('GameOver');
         });
     }
 
@@ -264,11 +329,14 @@ class Level_1 extends Phaser.Scene {
     horizontalMovement() {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
-            this.player.flipX = true;
+            this.player.flipX = false;
+            this.player.anims.play('running', true);
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
-            this.player.flipX = false;
+            this.player.flipX = true;
+            this.player.anims.play('running', true);
         } else {
+            this.player.anims.play('idle', true);
             this.player.setVelocityX(0);
         }
     }
@@ -366,6 +434,7 @@ class Level_1 extends Phaser.Scene {
     wallJumpLeft() {
         //Stick to things on the left
         if(this.player.body.blocked.left && canStick && isJumping){
+            this.player.anims.play('stuck', true);
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.body.velocity.y = 0; // neutralize vertical movement
@@ -380,6 +449,7 @@ class Level_1 extends Phaser.Scene {
     wallJumpRight() {
         // Stick to things on the right
         if(this.player.body.blocked.right && canStick && isJumping) {
+            this.player.anims.play('stuck', true);
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.body.velocity.y = 0; // neutralize vertical movement
@@ -390,11 +460,31 @@ class Level_1 extends Phaser.Scene {
         }
     }
 
+    checkPause() {
+        if(Phaser.Input.Keyboard.JustDown(keyESC) && 
+                !isPaused) {
+            console.log("PAUSE");
+            isPaused = true;
+            this.scene.launch('pauseScene');
+            this.scene.pause();
+        }
+    }
+
+    // check if player is within checkpoint area
+    checkpointCheck() {
+        if(this.player.x < this.checkpoint1.x + 55 && this.player.x > this.checkpoint1.x - 55) {
+            if(this.player.y < this.checkpoint1.y + 25 && this.player.y > this.checkpoint1.y - 25) {
+                console.log("HERE");
+            }
+        }
+    }
 
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
         console.log();
+
+        this.checkPause(); // check if should pause game
     
         //JUMP ---
         this.jumpCheck();
@@ -409,6 +499,7 @@ class Level_1 extends Phaser.Scene {
 
             // Spin the player whilst in the air
             if (!this.player.body.blocked.down && !this.isSlamming) {
+                this.player.anims.play('jumping', true);
                 this.spinPlayer();
             }
         }
@@ -430,5 +521,6 @@ class Level_1 extends Phaser.Scene {
         //Check if player and killzone overlap
         this.physics.overlap(this.player, this.killzone)
 
+        this.checkpointCheck();
     }
 }
