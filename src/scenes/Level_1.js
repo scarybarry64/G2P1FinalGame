@@ -7,13 +7,20 @@ class Level_1 extends Phaser.Scene {
 
         // load tilemap
         this.load.image('tileset', './assets/tilemaps/test_tilemap.png');
+        this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/test_tilemap.json');
 
         // load player sprite
         this.load.image('player', './assets/sprites/hooded_figure_2.png');
 
         // load player sprite
-        this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');;
+        this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
+
+        // load player color sprites
+        this.load.atlas('Glitch_Blue', './assets/sprites/Player/Blue/Glitch_Blue_IdleRunning.png', './assets/sprites/Player/Blue/Glitch_Blue_IdleRunning.json');
+        this.load.atlas('Glitch_Red', './assets/sprites/Player/Red/Glitch_Red_IdleRunning.png', './assets/sprites/Player/Red/Glitch_Red_IdleRunning.json');
+        this.load.atlas('Glitch_Yellow', './assets/sprites/Player/Yellow/Glitch_Yellow_IdleRunning.png', './assets/sprites/Player/Yellow/Glitch_Yellow_IdleRunning.json');
+
 
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
@@ -29,7 +36,7 @@ class Level_1 extends Phaser.Scene {
     // Creates level using tilemap and layers, hide blue and yellow layers
     createLevel() {
         this.tilemap = this.add.tilemap('tilemap');
-        this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset');
+        this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset2');
         this.baseLayer = this.tilemap.createStaticLayer('Base', this.tileset, 0, 0);
         this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
         this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
@@ -38,22 +45,23 @@ class Level_1 extends Phaser.Scene {
         this.yellowLayer.alpha = 0;
     }
 
+
     // Creates player and spawns them into level
     createPlayer() {
         this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
         this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
 
-        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch', 'Glitch_Running_01');
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Blue', "1");
+        this.player.setScale(2);
         this.player.setGravityY(1000); // default gravity
 
-        
         // player running animation config
-        let playerRunAnimConfig = {
-            key: 'running',
-            frames: this.anims.generateFrameNames('Glitch', {
-                prefix: 'Glitch_Running_',
+        let bluePlayerRunAnimConfig = {
+            key: 'blue_running',
+            frames: this.anims.generateFrameNames('Glitch_Blue_IdleRunning', {
+                prefix: '',
                 start: 1,
-                end: 8,
+                end: 7,
                 suffix: '',
                 zeroPad: 2
             }),
@@ -61,49 +69,41 @@ class Level_1 extends Phaser.Scene {
             repeat: -1
         };
 
-        // Placeholder player idle animation config
-        let playerIdleAnimConfig = {
-            key: 'idle',
-            frames: this.anims.generateFrameNames('Glitch', {
-                prefix: 'Glitch_Running_',
-                start: 3,
-                end: 3,
-                suffix: '',
-                zeroPad: 2
-            }),
-            frameRate: 10,
-            repeat: -1
-        };
-
-        // Placeholder player idle animation config
-        let playerStuckAnimConfig = {
-            key: 'stuck',
-            frames: this.anims.generateFrameNames('Glitch', {
-                prefix: 'Glitch_Running_',
-                start: 1,
-                end: 1,
-                suffix: '',
-                zeroPad: 2
-            }),
-            frameRate: 10,
-            repeat: -1
-        };
-
+        /*
         // player jumping animation config
-        let playerJumpAnimConfig = {
-            key: 'jumping',
-            defaultTextureKey: 'Glitch',
+        let bluePlayerJumpAnimConfig = {
+            key: 'blue_jumping',
+            defaultTextureKey: 'Glitch_Blue',
             frames: [
                 { frame: 'Glitch_Jumping' }
             ],
             repeat: -1
         };
+        */
 
         //ANIMATION 
-        this.anims.create(playerRunAnimConfig);
-        this.anims.create(playerJumpAnimConfig);
-        this.anims.create(playerIdleAnimConfig);
-        this.anims.create(playerStuckAnimConfig);
+        // this.anims.create(bluePlayerRunAnimConfig);
+        // this.anims.create(bluePlayerJumpAnimConfig);
+        // this.anims.create(bluePlayerIdleAnimConfig);
+        // this.anims.create(bluePlayerStuckAnimConfig);
+
+        // Run Anim
+        this.anims.create({ 
+            key: 'Blue_Run', 
+            frames: this.anims.generateFrameNames('Glitch_Blue'), 
+            frameRate: 10,
+            repeat: -1 });
+
+        // Idle Anim
+        this.anims.create({ 
+            key: 'Blue_Idle', 
+            frames: this.anims.generateFrameNames('Glitch_Blue',  {
+                start: 0,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1 });
+       
 
         this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
@@ -330,13 +330,13 @@ class Level_1 extends Phaser.Scene {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
             this.player.flipX = false;
-            this.player.anims.play('running', true);
+            this.player.anims.play('Blue_Run', true);
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
             this.player.flipX = true;
-            this.player.anims.play('running', true);
+            this.player.anims.play('Blue_Run', true);
         } else {
-            this.player.anims.play('idle', true);
+            this.player.anims.play('Blue_Idle', true);
             this.player.setVelocityX(0);
         }
     }
@@ -434,7 +434,7 @@ class Level_1 extends Phaser.Scene {
     wallJumpLeft() {
         //Stick to things on the left
         if(this.player.body.blocked.left && canStick && isJumping){
-            this.player.anims.play('stuck', true);
+            // this.player.anims.play('stuck', true);
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.body.velocity.y = 0; // neutralize vertical movement
@@ -449,7 +449,7 @@ class Level_1 extends Phaser.Scene {
     wallJumpRight() {
         // Stick to things on the right
         if(this.player.body.blocked.right && canStick && isJumping) {
-            this.player.anims.play('stuck', true);
+            // this.player.anims.play('stuck', true);
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
             this.player.body.velocity.y = 0; // neutralize vertical movement
@@ -482,6 +482,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        
         console.log();
 
         this.checkPause(); // check if should pause game
@@ -499,7 +500,7 @@ class Level_1 extends Phaser.Scene {
 
             // Spin the player whilst in the air
             if (!this.player.body.blocked.down && !this.isSlamming) {
-                this.player.anims.play('jumping', true);
+                //this.player.anims.play('jumping', true);
                 this.spinPlayer();
             }
         }
