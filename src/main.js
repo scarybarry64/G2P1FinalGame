@@ -28,6 +28,7 @@ let centerY = game.config.height / 2;
 let isRunning = false;
 let bestLevel = 'level1Scene';
 let currLevel = 'level1Scene';
+let charColor = 'Glitch_Blue';
 let jSight = true; // the first sight initially on
 let kSight = false;
 let lSight = false;

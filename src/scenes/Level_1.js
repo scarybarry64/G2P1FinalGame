@@ -41,60 +41,33 @@ class Level_1 extends Phaser.Scene {
         this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
         this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
         this.yellowLayer = this.tilemap.createStaticLayer('Yellow', this.tileset, 0, 0);
-        this.blueLayer.alpha = 0;
+        this.redLayer.alpha = 0;
         this.yellowLayer.alpha = 0;
     }
 
-
-    // Creates player and spawns them into level
-    createPlayer() {
-        this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
-        this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
-
-        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Blue', "1");
-        this.player.setScale(2);
-        this.player.setGravityY(1000); // default gravity
-
-        // player running animation config
-        let bluePlayerRunAnimConfig = {
-            key: 'blue_running',
-            frames: this.anims.generateFrameNames('Glitch_Blue_IdleRunning', {
-                prefix: '',
-                start: 1,
-                end: 7,
-                suffix: '',
-                zeroPad: 2
-            }),
-            frameRate: 10,
-            repeat: -1
-        };
-
-        /*
-        // player jumping animation config
-        let bluePlayerJumpAnimConfig = {
-            key: 'blue_jumping',
-            defaultTextureKey: 'Glitch_Blue',
-            frames: [
-                { frame: 'Glitch_Jumping' }
-            ],
-            repeat: -1
-        };
-        */
-
-        //ANIMATION 
-        // this.anims.create(bluePlayerRunAnimConfig);
-        // this.anims.create(bluePlayerJumpAnimConfig);
-        // this.anims.create(bluePlayerIdleAnimConfig);
-        // this.anims.create(bluePlayerStuckAnimConfig);
-
-        // Run Anim
+    createPlayerAnims() {
+        // Blue Run Anim
         this.anims.create({ 
             key: 'Blue_Run', 
             frames: this.anims.generateFrameNames('Glitch_Blue'), 
             frameRate: 10,
             repeat: -1 });
 
-        // Idle Anim
+        // Red Run Anim
+        this.anims.create({ 
+            key: 'Red_Run', 
+            frames: this.anims.generateFrameNames('Glitch_Red'), 
+            frameRate: 10,
+            repeat: -1 });
+
+        // Yellow Run Anim
+        this.anims.create({ 
+            key: 'Yellow_Run', 
+            frames: this.anims.generateFrameNames('Glitch_Yellow'), 
+            frameRate: 10,
+            repeat: -1 });
+
+        // Blue Idle Anim
         this.anims.create({ 
             key: 'Blue_Idle', 
             frames: this.anims.generateFrameNames('Glitch_Blue',  {
@@ -103,8 +76,41 @@ class Level_1 extends Phaser.Scene {
             }),
             frameRate: 10,
             repeat: -1 });
-       
 
+        // Red Idle Anim
+        this.anims.create({ 
+            key: 'Red_Idle', 
+            frames: this.anims.generateFrameNames('Glitch_Red',  {
+                start: 0,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1 });
+
+        // Yellow Idle Anim
+        this.anims.create({ 
+            key: 'Yellow_Idle', 
+            frames: this.anims.generateFrameNames('Glitch_Yellow',  {
+                start: 0,
+                end: 0,
+            }),
+            frameRate: 10,
+            repeat: -1 });
+    }
+
+
+    // Creates player and spawns them into level
+    createPlayer() {
+        this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
+        this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
+
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, charColor, "1");
+        this.player.setScale(2);
+        this.player.setGravityY(1000); // default gravity
+
+        // create the anims necessary for the player
+        this.createPlayerAnims();
+       
         this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
 
@@ -330,13 +336,32 @@ class Level_1 extends Phaser.Scene {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
             this.player.flipX = false;
-            this.player.anims.play('Blue_Run', true);
+            if(kSight){
+                this.player.anims.play('Red_Run', true);
+            } else if(lSight) {
+                this.player.anims.play('Yellow_Run', true);
+            } else {
+                this.player.anims.play('Blue_Run', true);
+            }
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
             this.player.flipX = true;
-            this.player.anims.play('Blue_Run', true);
+            if(kSight){
+                this.player.anims.play('Red_Run', true);
+            } else if(lSight) {
+                this.player.anims.play('Yellow_Run', true);
+            } else {
+                this.player.anims.play('Blue_Run', true);
+            }
         } else {
-            this.player.anims.play('Blue_Idle', true);
+            if(kSight){
+                this.player.anims.play('Red_Idle', true);
+            } else if(lSight) {
+                this.player.anims.play('Yellow_Idle', true);
+            } else {
+                this.player.anims.play('Blue_Idle', true);
+            }
+            
             this.player.setVelocityX(0);
         }
     }
@@ -363,11 +388,11 @@ class Level_1 extends Phaser.Scene {
             lSight = false;
 
             // Enable red layer, disable blue and yellow layers
-            this.redLayer.alpha = 1;
-            this.blueLayer.alpha = 0;
+            this.redLayer.alpha = 0;
+            this.blueLayer.alpha = 1;
             this.yellowLayer.alpha = 0;
-            this.redLayer.setCollisionByProperty({ collision: true });
-            this.blueLayer.setCollisionByProperty({ collision: true }, false);
+            this.blueLayer.setCollisionByProperty({ collision: true });
+            this.redLayer.setCollisionByProperty({ collision: true }, false);
             this.yellowLayer.setCollisionByProperty({ collision: true }, false);
         }
 
@@ -377,6 +402,9 @@ class Level_1 extends Phaser.Scene {
 
             this.visionHud.text = 'K'; // set vision hud to current key press
             this.visionHud2.text = 'K'; // set vision hud to current key press
+
+            charColor = 'Glitch_Red';
+            this.player.setTexture('Glitch_Red');
 
             // unstick to wall if on an obstacle
             if(this.player.x == 77 || this.player.x == 883){
@@ -392,11 +420,11 @@ class Level_1 extends Phaser.Scene {
             lSight = false;
 
             // Enable blue layer, disable red and yellow layers
-            this.redLayer.alpha = 0;
-            this.blueLayer.alpha = 1;
+            this.redLayer.alpha = 1;
+            this.blueLayer.alpha = 0;
             this.yellowLayer.alpha = 0;
-            this.redLayer.setCollisionByProperty({ collision: true }, false);
-            this.blueLayer.setCollisionByProperty({ collision: true });
+            this.blueLayer.setCollisionByProperty({ collision: true }, false);
+            this.redLayer.setCollisionByProperty({ collision: true });
             this.yellowLayer.setCollisionByProperty({ collision: true }, false);
         }
 
