@@ -172,6 +172,7 @@ class Title extends Phaser.Scene {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
         this.scene.start('level1Scene'); // goes to tutorial first
+        localStorage.clear();
     }
 
     back() {
