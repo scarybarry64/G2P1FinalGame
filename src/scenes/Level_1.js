@@ -234,13 +234,14 @@ class Level_1 extends Phaser.Scene {
         });
     }
 
-    findCheckpointpos(){
+    createCheckpoint(){
+        //Find locations flagged for checkpoints
         this.checkpointPos = this.tilemap.filterObjects('Objects', obj => obj.name === 'Checkpoint');
-        console.log("checkpointPos size = " + this.checkpointPos.length);
-        console.log(typeof this.checkpointPos);
+        
 
         this.checkpoints = [];
 
+        //Create checkpoint objects at every flagged location
         for(const checkpoint of this.checkpointPos){
             this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, this.player));
         }
@@ -276,7 +277,7 @@ class Level_1 extends Phaser.Scene {
             { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
         
-        this.findCheckpointpos();
+        this.createCheckpoint();
 
         
     }
@@ -641,6 +642,7 @@ class Level_1 extends Phaser.Scene {
 
         this.checkpointCheck();
 
+        //Check if the player has made contact with any checkpoint objects
         for(const checkpoint of this.checkpoints){
             checkpoint.update();
         }
