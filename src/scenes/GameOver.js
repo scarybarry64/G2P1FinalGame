@@ -83,6 +83,7 @@ class GameOver extends Phaser.Scene {
         this.scene.stop('level1Scene');
         this.scene.start('titleScene');
         this.scene.setVisible(0);
+        localStorage.clear();
     }
 
     restartLevel() {
@@ -90,10 +91,14 @@ class GameOver extends Phaser.Scene {
         isPaused = false;
         this.scene.launch('level1Scene');
         this.scene.setVisible(0);
+        localStorage.clear();
     }
 
     restartFromLastCheckpoint() {
         this.sound.play('sfx_select');
+        isPaused = false;
+        this.scene.launch('level1Scene');
+        this.scene.setVisible(0);
         // no functionality currently
     }
 

@@ -143,7 +143,15 @@ class Level_1 extends Phaser.Scene {
         this.spawn = this.tilemap.findObject('Objects', obj => obj.name === 'Spawn');
         this.checkpoint1 = this.tilemap.findObject('Objects', obj => obj.name === 'Goal');
 
+        let tempy = localStorage.getItem("checkpointy");
+        let tempx = localStorage.getItem("checkpointx");
+
         this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Blue_Idle', '0');
+
+        if(tempy != null && tempx != null){
+            this.player.y = Number(tempy);
+            this.player.x = Number(tempx);
+        }
         this.player.setScale(2);
         this.player.setGravityY(1000); // default gravity
 
@@ -209,14 +217,34 @@ class Level_1 extends Phaser.Scene {
         lSight = false;
     }
 
-    spawnKillzone(){
+    createKillzone(){
+        let tempy = localStorage.getItem("checkpointy");
+        
         this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels + 100, 'killzone').setScale(1);
+        
         this.killzone.body.onOverlap = true;
         this.killzone.body.setVelocityY(-20);
+        if(tempy != null){
+            this.killzone.y = Number(tempy) + 100;
+        }
 
+        //Overlap check, runs GameOver scene if player overlaps with killzone
         this.physics.world.on('overlap', ()=>{
            this.scene.start('GameOver');
         });
+    }
+
+    createCheckpoint(){
+        //Find locations flagged for checkpoints
+        this.checkpointPos = this.tilemap.filterObjects('Objects', obj => obj.name === 'Checkpoint');
+        
+
+        this.checkpoints = [];
+
+        //Create checkpoint objects at every flagged location
+        for(const checkpoint of this.checkpointPos){
+            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, this.player));
+        }
     }
 
     // *** MAIN CREATE FUNCTION ***
@@ -240,13 +268,18 @@ class Level_1 extends Phaser.Scene {
         // Create and initialize variables
         this.createVariables();
 
-        this.spawnKillzone();
+        this.createKillzone();
+
         this.visionHud = this.add.text(14, 0, 'J',
             { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
         this.visionHud2 = this.add.text(910, 0, 'J',
             { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
+        
+        this.createCheckpoint();
+
+        
     }
 
     // *** UPDATE FUNCTIONS ***
@@ -608,5 +641,10 @@ class Level_1 extends Phaser.Scene {
         this.physics.overlap(this.player, this.killzone)
 
         this.checkpointCheck();
+
+        //Check if the player has made contact with any checkpoint objects
+        for(const checkpoint of this.checkpoints){
+            checkpoint.update();
+        }
     }
 }
