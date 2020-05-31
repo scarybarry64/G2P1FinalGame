@@ -6,9 +6,12 @@ class Level_1 extends Phaser.Scene {
     preload() {
 
         // load tilemap
-        this.load.image('tileset', './assets/tilemaps/test_tilemap.png');
-        this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
-        this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/test_tilemap.json');
+        // this.load.image('tileset', './assets/tilemaps/test_tilemap.png');
+        // this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
+        // NEW CODE:
+        this.load.image('tileset', './assets/tilemaps/tileset_v2.png');
+        this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/tilemap_v2.json');
+
 
         /*
         // load player sprite
@@ -53,13 +56,21 @@ class Level_1 extends Phaser.Scene {
 
     // Creates level using tilemap and layers, hide blue and yellow layers
     createLevel() {
+        // this.tilemap = this.add.tilemap('tilemap');
+        // this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset2');
+        // NEW CODE:
         this.tilemap = this.add.tilemap('tilemap');
-        this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset2');
-        this.baseLayer = this.tilemap.createStaticLayer('Base', this.tileset, 0, 0);
-        this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
-        this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
-        this.yellowLayer = this.tilemap.createStaticLayer('Yellow', this.tileset, 0, 0);
-        this.redLayer.alpha = 0;
+        this.tileset = this.tilemap.addTilesetImage('tileset_v2', 'tileset');
+
+
+
+        this.redLayer = this.tilemap.createStaticLayer('Collision/Red', this.tileset, 0, 0);
+        this.blueLayer = this.tilemap.createStaticLayer('Collision/Blue', this.tileset, 0, 0);
+        this.yellowLayer = this.tilemap.createStaticLayer('Collision/Yellow', this.tileset, 0, 0);
+        this.buildingLayer = this.tilemap.createStaticLayer('Collision/Buildings', this.tileset, 0, 0);
+        this.backgroundLayer = this.tilemap.createStaticLayer('No Collision/Background', this.tileset, 0, 0);
+
+        this.blueLayer.alpha = 0;
         this.yellowLayer.alpha = 0;
     }
 
@@ -172,14 +183,21 @@ class Level_1 extends Phaser.Scene {
 
     // Set collision between player and layers, disable blue and yellow by default
     createCollision() {
-        this.baseLayer.setCollisionByProperty({ collision: true });
-        this.blueLayer.setCollisionByProperty({ collision: true });
-        this.redLayer.setCollisionByProperty({ collision: true }, false);
-        this.yellowLayer.setCollisionByProperty({ collision: true }, false);
-        this.physics.add.collider(this.player, this.baseLayer);
+        this.redLayer.setCollisionByProperty({ Collision: true });
+        this.blueLayer.setCollisionByProperty({ Collision: true }, false);
+        this.yellowLayer.setCollisionByProperty({ Collision: true }, false);
+
+        // this.baseLayer.setCollisionByProperty({ Collision: true });
+        // NEW CODE:
+        this.buildingLayer.setCollisionByProperty({ Collision: true });
+
         this.physics.add.collider(this.player, this.redLayer);
         this.physics.add.collider(this.player, this.blueLayer);
         this.physics.add.collider(this.player, this.yellowLayer);
+
+        // this.physics.add.collider(this.player, this.baseLayer);
+        // NEW CODE:
+        this.physics.add.collider(this.player, this.buildingLayer);
     }
 
     createControls() {
