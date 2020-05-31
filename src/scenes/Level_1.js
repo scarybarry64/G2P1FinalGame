@@ -9,7 +9,7 @@ class Level_1 extends Phaser.Scene {
         // this.load.image('tileset', './assets/tilemaps/test_tilemap.png');
         // this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
         // NEW CODE:
-        this.load.image('tileset', './assets/tilemaps/tilemap_v2.png');
+        this.load.image('tileset', './assets/tilemaps/tileset_v2.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/tilemap_v2.json');
 
 
