@@ -10,7 +10,7 @@ class Level_1 extends Phaser.Scene {
         // this.load.image('tileset', './assets/tilemaps/test_tilemap.png');
         // this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
         // this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/test_tilemap.json');
-        
+
         // NEW CODE
         this.load.image('tileset', './assets/tiles_NEW/tileset.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tiles_NEW/tilemap.json');
@@ -44,6 +44,8 @@ class Level_1 extends Phaser.Scene {
         this.load.atlas('Glitch_Yellow_Run', './assets/sprites/Player/Yellow/Glitch_Yellow_Running.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Running.json');
         this.load.atlas('Glitch_Yellow_Wall', './assets/sprites/Player/Yellow/Glitch_Yellow_Wall.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Wall.json');
 
+        // Deadzone anims
+        this.load.atlas('Deadzone_Particles', './assets/sprites/deadzone.png', './assets/sprites/deadzone.json');
 
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
@@ -51,14 +53,14 @@ class Level_1 extends Phaser.Scene {
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
-        this.load.image('killzone', './assets/sprites/green_rectangle.png');
+        this.load.image('deadzone', './assets/sprites/deadzone.png');
     }
 
     // *** CREATE FUNCTIONS ***
 
     // Creates level using tilemap and layers, hide blue and yellow layers
     createLevel() {
-        
+
         // // OLD CODE
         // this.tilemap = this.add.tilemap('tilemap');
         // this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset2');
@@ -79,83 +81,92 @@ class Level_1 extends Phaser.Scene {
         this.yellowLayer = this.tilemap.createStaticLayer('Yellow', this.tileset, 0, 0);
         this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
         this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
-        
+
         this.redLayer.alpha = 0;
         this.yellowLayer.alpha = 0;
     }
 
     createPlayerAnims() {
         // Blue Run Anim
-        this.anims.create({ 
-            key: 'Blue_Run', 
-            frames: this.anims.generateFrameNames('Glitch_Blue_Run'), 
+        this.anims.create({
+            key: 'Blue_Run',
+            frames: this.anims.generateFrameNames('Glitch_Blue_Run'),
             frameRate: 10,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Red Run Anim
-        this.anims.create({ 
-            key: 'Red_Run', 
-            frames: this.anims.generateFrameNames('Glitch_Red_Run'), 
+        this.anims.create({
+            key: 'Red_Run',
+            frames: this.anims.generateFrameNames('Glitch_Red_Run'),
             frameRate: 10,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Yellow Run Anim
-        this.anims.create({ 
-            key: 'Yellow_Run', 
-            frames: this.anims.generateFrameNames('Glitch_Yellow_Run'), 
+        this.anims.create({
+            key: 'Yellow_Run',
+            frames: this.anims.generateFrameNames('Glitch_Yellow_Run'),
             frameRate: 10,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Blue Idle Anim
-        this.anims.create({ 
-            key: 'Blue_Idle', 
-            frames: this.anims.generateFrameNames('Glitch_Blue_Idle',  {
+        this.anims.create({
+            key: 'Blue_Idle',
+            frames: this.anims.generateFrameNames('Glitch_Blue_Idle', {
                 start: 0,
                 end: 1,
             }),
             frameRate: 1,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Red Idle Anim
-        this.anims.create({ 
-            key: 'Red_Idle', 
-            frames: this.anims.generateFrameNames('Glitch_Red_Idle',  {
+        this.anims.create({
+            key: 'Red_Idle',
+            frames: this.anims.generateFrameNames('Glitch_Red_Idle', {
                 start: 0,
                 end: 1,
             }),
             frameRate: 1,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Yellow Idle Anim
-        this.anims.create({ 
-            key: 'Yellow_Idle', 
-            frames: this.anims.generateFrameNames('Glitch_Yellow_Idle',  {
+        this.anims.create({
+            key: 'Yellow_Idle',
+            frames: this.anims.generateFrameNames('Glitch_Yellow_Idle', {
                 start: 0,
                 end: 1,
             }),
             frameRate: 1,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Blue Wall Anim
-        this.anims.create({ 
-            key: 'Blue_Wall', 
-            frames: this.anims.generateFrameNames('Glitch_Blue_Wall'), 
+        this.anims.create({
+            key: 'Blue_Wall',
+            frames: this.anims.generateFrameNames('Glitch_Blue_Wall'),
             frameRate: 1,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Red Wall Anim
-        this.anims.create({ 
-            key: 'Red_Wall', 
-            frames: this.anims.generateFrameNames('Glitch_Red_Wall'), 
+        this.anims.create({
+            key: 'Red_Wall',
+            frames: this.anims.generateFrameNames('Glitch_Red_Wall'),
             frameRate: 1,
-            repeat: -1 });
+            repeat: -1
+        });
 
         // Yellow Wall Anim
-        this.anims.create({ 
-            key: 'Yellow_Wall', 
-            frames: this.anims.generateFrameNames('Glitch_Yellow_Wall'), 
+        this.anims.create({
+            key: 'Yellow_Wall',
+            frames: this.anims.generateFrameNames('Glitch_Yellow_Wall'),
             frameRate: 1,
-            repeat: -1 });
+            repeat: -1
+        });
     }
 
 
@@ -169,7 +180,7 @@ class Level_1 extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Blue_Idle', '0');
 
-        if(tempy != null && tempx != null){
+        if (tempy != null && tempx != null) {
             this.player.y = Number(tempy);
             this.player.x = Number(tempx);
         }
@@ -177,9 +188,9 @@ class Level_1 extends Phaser.Scene {
 
         // create the anims necessary for the player
         this.createPlayerAnims();
-        
+
         this.player.anims.play('Blue_Idle', true);
-       
+
         this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
 
@@ -192,7 +203,7 @@ class Level_1 extends Phaser.Scene {
 
     // Set collision between player and layers, disable blue and yellow by default
     createCollision() {
-        
+
         // // OLD CODE
         // this.baseLayer.setCollisionByProperty({ collision: true });
         // this.blueLayer.setCollisionByProperty({ collision: true });
@@ -250,32 +261,41 @@ class Level_1 extends Phaser.Scene {
         lSight = false;
     }
 
-    createKillzone(){
+    createDeadzone() {
         let tempy = localStorage.getItem("checkpointy");
-        
-        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels + 20, 'killzone').setScale(1);
-        
-        this.killzone.body.onOverlap = true;
-        this.killzone.body.setVelocityY(-3);
-        if(tempy != null){
-            this.killzone.y = Number(tempy) + 100;
+
+        this.deadzone = this.physics.add.sprite(centerX, this.tilemap.heightInPixels + centerY * 1.75, 'deadzone');
+
+        this.deadzone.body.onOverlap = true;
+        this.deadzone.body.setVelocityY(-3);
+        if (tempy != null) {
+            this.deadzone.y = Number(tempy) + 100;
         }
 
-        //Overlap check, runs GameOver scene if player overlaps with killzone
-        this.physics.world.on('overlap', ()=>{
-           this.scene.start('GameOver');
+        //Overlap check, runs GameOver scene if player overlaps with deadzone
+        this.physics.world.on('overlap', () => {
+            this.scene.start('GameOver');
         });
+
+        // Deadzone animation
+        this.anims.create({
+            key: 'Deadzone_FX',
+            frames: this.anims.generateFrameNames('Deadzone_Particles'),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.deadzone.anims.play('Deadzone_FX', true);
     }
 
-    createCheckpoint(){
+    createCheckpoint() {
         //Find locations flagged for checkpoints
         this.checkpointPos = this.tilemap.filterObjects('Objects', obj => obj.name === 'Checkpoint');
-        
+
 
         this.checkpoints = [];
 
         //Create checkpoint objects at every flagged location
-        for(const checkpoint of this.checkpointPos){
+        for (const checkpoint of this.checkpointPos) {
             this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, this.player));
         }
     }
@@ -301,23 +321,23 @@ class Level_1 extends Phaser.Scene {
         // Create and initialize variables
         this.createVariables();
 
-        this.createKillzone();
+        this.createDeadzone();
 
         // this.visionHud = this.add.text(14, 0, 'J',
-           // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+        // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
         // this.visionHud2 = this.add.text(910, 0, 'J',
-           // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+        // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
         this.createCheckpoint();
 
-        
+
     }
 
     // *** UPDATE FUNCTIONS ***
     //jump check
     jumpCheck() {
-        if(!isStuck){
+        if (!isStuck) {
             if (keyW.isDown) {
                 this.preJump();
             }
@@ -359,11 +379,11 @@ class Level_1 extends Phaser.Scene {
 
     // This makes it possible to hold your jump to increase height
     holdJump() {
-        if(!isStuck) {
+        if (!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
             if ((this.player.y > this.jumpStartHeight - 35) &&
-                    !this.player.body.blocked.right) {
+                !this.player.body.blocked.right) {
                 isJumping = true;
                 this.player.setGravityY(-900); //negative gravity simulates extending a jump
             } else {
@@ -384,7 +404,7 @@ class Level_1 extends Phaser.Scene {
 
     // wall jump functionality
     stuckJump() {
-        if(Phaser.Input.Keyboard.JustDown(keyW) && isStuck) {
+        if (Phaser.Input.Keyboard.JustDown(keyW) && isStuck) {
             isRunning = false;
             // this.player.anims.play('jumping', true);
             this.jumpStartHeight = this.player.y;
@@ -446,9 +466,9 @@ class Level_1 extends Phaser.Scene {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
             this.player.flipX = false;
-            if(kSight){
+            if (kSight) {
                 this.player.anims.play('Red_Run', true);
-            } else if(lSight) {
+            } else if (lSight) {
                 this.player.anims.play('Yellow_Run', true);
             } else {
                 this.player.anims.play('Blue_Run', true);
@@ -456,22 +476,22 @@ class Level_1 extends Phaser.Scene {
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
             this.player.flipX = true;
-            if(kSight){
+            if (kSight) {
                 this.player.anims.play('Red_Run', true);
-            } else if(lSight) {
+            } else if (lSight) {
                 this.player.anims.play('Yellow_Run', true);
             } else {
                 this.player.anims.play('Blue_Run', true);
             }
         } else {
-            if(kSight){
+            if (kSight) {
                 this.player.anims.play('Red_Idle', true);
-            } else if(lSight) {
+            } else if (lSight) {
                 this.player.anims.play('Yellow_Idle', true);
             } else {
                 this.player.anims.play('Blue_Idle', true);
             }
-            
+
             this.player.setVelocityX(0);
         }
     }
@@ -480,20 +500,20 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to red
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
-            
+
             // this.visionHud.text = 'J'; // set vision hud to current key press
             // this.visionHud2.text = 'J'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
-            if(this.player.x == 81 || this.player.x == 879){
+            if (this.player.x == 81 || this.player.x == 879) {
                 this.player.anims.play('Blue_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
                 this.isStuck = false;
-                this.player.setGravityY(1000); 
+                this.player.setGravityY(1000);
             }
-            
+
             jSight = true;
             kSight = false;
             lSight = false;
@@ -515,7 +535,7 @@ class Level_1 extends Phaser.Scene {
             // this.visionHud2.text = 'K'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
-            if(this.player.x == 81 || this.player.x == 879){
+            if (this.player.x == 81 || this.player.x == 879) {
                 this.player.anims.play('Red_Wall', true);
                 // do not unstick
             } else {
@@ -545,7 +565,7 @@ class Level_1 extends Phaser.Scene {
             // this.visionHud2.text = 'L'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
-            if(this.player.x == 81 || this.player.x == 879){
+            if (this.player.x == 81 || this.player.x == 879) {
                 this.player.anims.play('Yellow_Wall', true);
                 // do not unstick
             } else {
@@ -571,10 +591,10 @@ class Level_1 extends Phaser.Scene {
     // check for wall jump on left
     wallJumpLeft() {
         //Stick to things on the left
-        if(this.player.body.blocked.left && canStick && isJumping){
-            if(kSight){
+        if (this.player.body.blocked.left && canStick && isJumping) {
+            if (kSight) {
                 this.player.anims.play('Red_Wall', true);
-            } else if(lSight) {
+            } else if (lSight) {
                 this.player.anims.play('Yellow_Wall', true);
             } else {
                 this.player.anims.play('Blue_Wall', true);
@@ -592,10 +612,10 @@ class Level_1 extends Phaser.Scene {
     // check for wall jump on right
     wallJumpRight() {
         // Stick to things on the right
-        if(this.player.body.blocked.right && canStick && isJumping) {
-            if(kSight){
+        if (this.player.body.blocked.right && canStick && isJumping) {
+            if (kSight) {
                 this.player.anims.play('Red_Wall', true);
-            } else if(lSight) {
+            } else if (lSight) {
                 this.player.anims.play('Yellow_Wall', true);
             } else {
                 this.player.anims.play('Blue_Wall', true);
@@ -611,8 +631,8 @@ class Level_1 extends Phaser.Scene {
     }
 
     checkPause() {
-        if(Phaser.Input.Keyboard.JustDown(keyESC) && 
-                !isPaused) {
+        if (Phaser.Input.Keyboard.JustDown(keyESC) &&
+            !isPaused) {
             console.log("PAUSE");
             isPaused = true;
             this.scene.launch('pauseScene');
@@ -624,16 +644,14 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        
-        // console.log(this.player.x);
 
         this.checkPause(); // check if should pause game
-    
+
         //JUMP ---
         this.jumpCheck();
 
         // Only do while player is not stuck to wall
-        if(!isStuck){
+        if (!isStuck) {
             // Horizontal movement
             this.horizontalMovement();
 
@@ -661,11 +679,11 @@ class Level_1 extends Phaser.Scene {
         // Sight
         this.handleSight();
 
-        //Check if player and killzone overlap
-        this.physics.overlap(this.player, this.killzone)
+        //Check if player and deadzone overlap
+        this.physics.overlap(this.player, this.deadzone)
 
         //Check if the player has made contact with any checkpoint objects
-        for(const checkpoint of this.checkpoints){
+        for (const checkpoint of this.checkpoints) {
             checkpoint.update();
         }
     }
