@@ -3,8 +3,9 @@
 // config for game
 let config = {
     type: Phaser.CANVAS,
-    width: 960,
-    height: 640,
+    width: 480,
+    height: 320,
+    zoom: 2,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
@@ -15,7 +16,6 @@ let config = {
         }
     },
     pixelArt: true,
-
     scene: [Title, Test, Tutorial, Level_1, Pause, GameOver],
 };
 

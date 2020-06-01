@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"tilemap.json"
+        }
+    },
  "height":120,
  "infinite":false,
  "layers":[
@@ -88,8 +96,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":256,
-                 "y":752
+                 "x":255.5,
+                 "y":764.5
                 }, 
                 {
                  "height":0,
