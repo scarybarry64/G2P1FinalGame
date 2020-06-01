@@ -56,6 +56,9 @@ class Level_1 extends Phaser.Scene {
         this.load.image('deadzone', './assets/sprites/deadzone.png');
         this.load.image('checkpoint_off', './assets/sprites/checkpoint_off.png');
         // this.load.image('checkpoint_on', './assets/sprites/checkpoint_on.png');
+
+        // loading animation
+        this.load.spritesheet('loadAnim', 'assets/sprites/loadingAnim.png', { frameWidth: 8, frameHeight: 8 });
     }
 
     // *** CREATE FUNCTIONS ***
@@ -302,8 +305,34 @@ class Level_1 extends Phaser.Scene {
         }
     }
 
+    loadingScreen() {
+        this.Border = new Phaser.Geom.Rectangle(centerX - 500, centerY, 5000, 5000);
+
+        this.rectStyle = this.add.graphics({ fillStyle: { color: 0x000000  } });
+
+        this.rectStyle.fillRectShape(this.Border);
+        this.rectStyle.setScale(0.5);
+
+        this.loadingText = this.add.text(240, 765, 'Loading', {
+            fontFamily: 'Consolas', fontSize: '10px', align: 'center'
+        }).setOrigin(0.5);
+
+        this.anims.create({
+            key: 'load',
+            frames: this.anims.generateFrameNumbers('loadAnim'),
+            frameRate: 24,
+            repeat: -1
+        });
+
+        this.loading = this.add.sprite(270, 762, 'loadAnim').setScale(2);
+
+        this.loading.anims.play('load');
+    }
+
     // *** MAIN CREATE FUNCTION ***
     create() {
+
+        
 
         // Create level
         this.createLevel();
@@ -337,6 +366,7 @@ class Level_1 extends Phaser.Scene {
 
         this.timer = 0;
 
+        this.loadingScreen();
 
     }
 
@@ -641,6 +671,16 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        if(isLoading){
+            loadCount++;
+            if(loadCount > 200) {
+                isLoading = false;
+            }
+        } else {
+        
+        this.rectStyle.destroy();
+        this.loadingText.destroy();
+        this.loading.destroy();
 
         this.timer++;
 
@@ -654,7 +694,7 @@ class Level_1 extends Phaser.Scene {
         this.jumpCheck();
 
         // Only do while player is not stuck to wall
-        if (!isStuck) {
+        if (!isStuck && !isLoading) {
             // Horizontal movement
             this.horizontalMovement();
 
@@ -689,5 +729,6 @@ class Level_1 extends Phaser.Scene {
         for (const checkpoint of this.checkpoints) {
             checkpoint.update();
         }
+    }
     }
 }

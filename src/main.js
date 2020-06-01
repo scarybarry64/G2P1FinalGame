@@ -35,6 +35,8 @@ let isStuck = false;
 let canStick = true;
 let isJumping = false;
 let isPaused = false;
+let isLoading = true;
+let loadCount = 0;
 
 // settings
 game.settings = {
