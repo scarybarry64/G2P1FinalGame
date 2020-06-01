@@ -362,7 +362,7 @@ class Level_1 extends Phaser.Scene {
         if(!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
-            if ((this.player.y > this.jumpStartHeight - 35) &&
+            if ((this.player.y > this.jumpStartHeight - 20) &&
                     !this.player.body.blocked.right) {
                 isJumping = true;
                 this.player.setGravityY(-900); //negative gravity simulates extending a jump
@@ -417,7 +417,7 @@ class Level_1 extends Phaser.Scene {
         isRunning = false;
         // this.player.anims.play('jumping', true);
         this.player.angle = 0;
-        this.player.setVelocityY(800);
+        this.player.setVelocityY(600);
     }
 
     // Spin player while in the air
