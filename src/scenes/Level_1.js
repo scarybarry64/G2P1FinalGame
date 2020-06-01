@@ -481,8 +481,8 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
             
-            this.visionHud.text = 'J'; // set vision hud to current key press
-            this.visionHud2.text = 'J'; // set vision hud to current key press
+            // this.visionHud.text = 'J'; // set vision hud to current key press
+            // this.visionHud2.text = 'J'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
             if(this.player.x == 81 || this.player.x == 879){
@@ -511,8 +511,8 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
-            this.visionHud.text = 'K'; // set vision hud to current key press
-            this.visionHud2.text = 'K'; // set vision hud to current key press
+            // this.visionHud.text = 'K'; // set vision hud to current key press
+            // this.visionHud2.text = 'K'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
             if(this.player.x == 81 || this.player.x == 879){
@@ -541,8 +541,8 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
 
-            this.visionHud.text = 'L'; // set vision hud to current key press
-            this.visionHud2.text = 'L'; // set vision hud to current key press
+            // this.visionHud.text = 'L'; // set vision hud to current key press
+            // this.visionHud2.text = 'L'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
             if(this.player.x == 81 || this.player.x == 879){
