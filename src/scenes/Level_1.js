@@ -382,8 +382,13 @@ class Level_1 extends Phaser.Scene {
         if (!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
+<<<<<<< HEAD
             if ((this.player.y > this.jumpStartHeight - 35) &&
                 !this.player.body.blocked.right) {
+=======
+            if ((this.player.y > this.jumpStartHeight - 20) &&
+                    !this.player.body.blocked.right) {
+>>>>>>> d0f8b5d16fc206f2b3786b40199cc5e4491b0724
                 isJumping = true;
                 this.player.setGravityY(-900); //negative gravity simulates extending a jump
             } else {
@@ -437,7 +442,7 @@ class Level_1 extends Phaser.Scene {
         isRunning = false;
         // this.player.anims.play('jumping', true);
         this.player.angle = 0;
-        this.player.setVelocityY(800);
+        this.player.setVelocityY(600);
     }
 
     // Spin player while in the air
@@ -500,9 +505,12 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to red
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
+<<<<<<< HEAD
 
             // this.visionHud.text = 'J'; // set vision hud to current key press
             // this.visionHud2.text = 'J'; // set vision hud to current key press
+=======
+>>>>>>> d0f8b5d16fc206f2b3786b40199cc5e4491b0724
 
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
@@ -531,9 +539,6 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
-            // this.visionHud.text = 'K'; // set vision hud to current key press
-            // this.visionHud2.text = 'K'; // set vision hud to current key press
-
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
                 this.player.anims.play('Red_Wall', true);
@@ -560,9 +565,6 @@ class Level_1 extends Phaser.Scene {
         // L key sight, distorts platforms to yellow
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
-
-            // this.visionHud.text = 'L'; // set vision hud to current key press
-            // this.visionHud2.text = 'L'; // set vision hud to current key press
 
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
