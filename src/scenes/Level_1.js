@@ -382,13 +382,8 @@ class Level_1 extends Phaser.Scene {
         if (!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
-<<<<<<< HEAD
-            if ((this.player.y > this.jumpStartHeight - 35) &&
-                !this.player.body.blocked.right) {
-=======
             if ((this.player.y > this.jumpStartHeight - 20) &&
                     !this.player.body.blocked.right) {
->>>>>>> d0f8b5d16fc206f2b3786b40199cc5e4491b0724
                 isJumping = true;
                 this.player.setGravityY(-900); //negative gravity simulates extending a jump
             } else {
@@ -505,12 +500,6 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to red
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
-<<<<<<< HEAD
-
-            // this.visionHud.text = 'J'; // set vision hud to current key press
-            // this.visionHud2.text = 'J'; // set vision hud to current key press
-=======
->>>>>>> d0f8b5d16fc206f2b3786b40199cc5e4491b0724
 
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
@@ -686,7 +675,7 @@ class Level_1 extends Phaser.Scene {
 
         //Check if the player has made contact with any checkpoint objects
         for (const checkpoint of this.checkpoints) {
-            checkpoint.update();
+s            checkpoint.update();
         }
     }
 }
