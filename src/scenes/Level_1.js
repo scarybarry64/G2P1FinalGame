@@ -54,6 +54,8 @@ class Level_1 extends Phaser.Scene {
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
         this.load.image('deadzone', './assets/sprites/deadzone.png');
+        this.load.image('checkpoint_off', './assets/sprites/checkpoint_off.png');
+        // this.load.image('checkpoint_on', './assets/sprites/checkpoint_on.png');
     }
 
     // *** CREATE FUNCTIONS ***
@@ -267,7 +269,7 @@ class Level_1 extends Phaser.Scene {
         this.deadzone = this.physics.add.sprite(centerX, this.tilemap.heightInPixels + centerY * 1.75, 'deadzone');
 
         this.deadzone.body.onOverlap = true;
-        this.deadzone.body.setVelocityY(-3);
+        // this.deadzone.body.setVelocityY(-3);
         if (tempy != null) {
             this.deadzone.y = Number(tempy) + 480;
         }
@@ -291,12 +293,12 @@ class Level_1 extends Phaser.Scene {
         //Find locations flagged for checkpoints
         this.checkpointPos = this.tilemap.filterObjects('Objects', obj => obj.name === 'Checkpoint');
 
-
         this.checkpoints = [];
 
         //Create checkpoint objects at every flagged location
         for (const checkpoint of this.checkpointPos) {
-            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, this.player));
+            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, this.player, 'checkpoint_off'));
+            // this.add.image(this.checkpoint.x, this.checkpoint.y)
         }
     }
 
@@ -330,6 +332,10 @@ class Level_1 extends Phaser.Scene {
         // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
         this.createCheckpoint();
+
+        // this.checkpoint1 = this.add.image(centerX - 150, centerY + 168, 'checkpoint_off');
+
+        this.timer = 0;
 
 
     }
@@ -635,6 +641,12 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+
+        this.timer++;
+
+        if(this.timer % 50 == 0) {
+            this.deadzone.y = this.deadzone.y - 10;
+        }
 
         this.checkPause(); // check if should pause game
 
