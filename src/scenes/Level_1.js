@@ -173,7 +173,7 @@ class Level_1 extends Phaser.Scene {
             this.player.y = Number(tempy);
             this.player.x = Number(tempx);
         }
-        this.player.setGravityY(1000); // default gravity
+        this.player.setGravityY(600); // default gravity
 
         // create the anims necessary for the player
         this.createPlayerAnims();
@@ -253,10 +253,10 @@ class Level_1 extends Phaser.Scene {
     createKillzone(){
         let tempy = localStorage.getItem("checkpointy");
         
-        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels + 100, 'killzone').setScale(1);
+        this.killzone = this.physics.add.sprite(0, this.tilemap.heightInPixels + 20, 'killzone').setScale(1);
         
         this.killzone.body.onOverlap = true;
-        this.killzone.body.setVelocityY(-20);
+        this.killzone.body.setVelocityY(-3);
         if(tempy != null){
             this.killzone.y = Number(tempy) + 100;
         }
@@ -303,13 +303,12 @@ class Level_1 extends Phaser.Scene {
 
         this.createKillzone();
 
-        this.visionHud = this.add.text(14, 0, 'J',
-            { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+        // this.visionHud = this.add.text(14, 0, 'J',
+           // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
-        this.visionHud2 = this.add.text(910, 0, 'J',
-            { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
+        // this.visionHud2 = this.add.text(910, 0, 'J',
+           // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
 
-        
         this.createCheckpoint();
 
         
@@ -354,7 +353,7 @@ class Level_1 extends Phaser.Scene {
 
     // Initial Jump made from object, -300 is the smallest possible jump height
     startJump() {
-        this.player.setVelocityY(-300);
+        this.player.setVelocityY(-175);
         isJumping = true;
     }
 
@@ -363,14 +362,14 @@ class Level_1 extends Phaser.Scene {
         if(!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
-            if ((this.player.y > this.jumpStartHeight - 65) &&
+            if ((this.player.y > this.jumpStartHeight - 35) &&
                     !this.player.body.blocked.right) {
                 isJumping = true;
-                this.player.setGravityY(-1500); //negative gravity simulates extending a jump
+                this.player.setGravityY(-900); //negative gravity simulates extending a jump
             } else {
                 // else reset the gravity to pull the player to the ground
                 isJumping = true;
-                this.player.setGravityY(1000);
+                this.player.setGravityY(600);
                 this.canHoldJump = false; // disables double jump
             }
         }
@@ -379,8 +378,8 @@ class Level_1 extends Phaser.Scene {
     // reset gravity after jump
     postJump() {
         this.canHoldJump = false;
-        this.currGravity = 1000;
-        this.player.setGravityY(1000);
+        this.currGravity = 600;
+        this.player.setGravityY(600);
     }
 
     // wall jump functionality
@@ -621,14 +620,6 @@ class Level_1 extends Phaser.Scene {
         }
     }
 
-    // check if player is within checkpoint area
-    checkpointCheck() {
-        if(this.player.x < this.checkpoint1.x + 55 && this.player.x > this.checkpoint1.x - 55) {
-            if(this.player.y < this.checkpoint1.y + 25 && this.player.y > this.checkpoint1.y - 25) {
-                console.log("HERE");
-            }
-        }
-    }
 
     // *** MAIN UPDATE FUNCTION ***
 
@@ -672,8 +663,6 @@ class Level_1 extends Phaser.Scene {
 
         //Check if player and killzone overlap
         this.physics.overlap(this.player, this.killzone)
-
-        this.checkpointCheck();
 
         //Check if the player has made contact with any checkpoint objects
         for(const checkpoint of this.checkpoints){

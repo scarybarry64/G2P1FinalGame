@@ -18,7 +18,7 @@ class Tutorial extends Phaser.Scene {
             'Use the WASD buttons to move in 4 directions (W jumps).\nJump next to a wall/platform to wall-jump.\n' +
             'Press S while jumping to ground slam.\n\n\n\n\n' +
             '(Press C to continue or S to skip the tutorial . . .)',
-            { fontFamily: 'Consolas', fontSize: '20px', align: 'center' }).setOrigin(0.5);
+            { fontFamily: 'Consolas', fontSize: '10px', align: 'center' }).setOrigin(0.5);
 
     }
 
@@ -39,7 +39,7 @@ class Tutorial extends Phaser.Scene {
                 console.log(this.progress);
             }
             else if (this.progress == 1) {
-                this.message.text = 'Try to reach the top right corner of the level. That\'s it!\n\n\n\n\n' +
+                this.message.text = 'Try to reach the top of the level. That\'s it!\n\n\n\n\n' +
                 '(Press C to continue . . .)';
                 this.progress = 2;
                 console.log(this.progress);

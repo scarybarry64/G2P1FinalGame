@@ -3,8 +3,8 @@
 // config for game
 let config = {
     type: Phaser.CANVAS,
-    width: 480,
-    height: 320,
+    width: 480, // 480
+    height: 320, // 320
     zoom: 2,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -38,7 +38,7 @@ let isPaused = false;
 
 // settings
 game.settings = {
-    playerSpeed: 200,
+    playerSpeed: 100,
 }
 
 // reserve keyboard controls

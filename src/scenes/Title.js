@@ -24,6 +24,11 @@ class Title extends Phaser.Scene {
         this.load.image('button_three_disabled', './assets/buttons/button_3_disabled.png');
         this.load.image('button_two_disabled', './assets/buttons/button_2_disabled.png');
 
+        // preload text images
+        this.load.image('title_purple', './assets/text/title_purple.png');
+        this.load.image('title_blue', './assets/text/title_blue.png');
+        this.load.image('title_red', './assets/text/title_red.png');
+        this.load.image('title_yellow', './assets/text/title_yellow.png');
 
         // preload sound effects
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
@@ -52,28 +57,28 @@ class Title extends Phaser.Scene {
     }
 
     spawnFloor() {
-        let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 112, 'bounds_terminal').
-            setScale(4, 0.5);
-        floor.setImmovable();
+        // let floor = this.physics.add.sprite(game.config.width / 2, game.config.width / 2 + 76, 'bounds_terminal').
+           // setScale(2, 0.25);
+        // floor.setImmovable();
         
         // this.floor = new Floor(this,game.config.width / 2, game.config.width / 2 + 110, 'bounds_terminal');
 
         // set the collision property of player on objects
-        this.physics.add.collider(this.player, floor);
+        // this.physics.add.collider(this.player, floor);
 
     }
 
     // add all visible and invisible buttons
     addButtons() {
         // Play Button (goes to tutorial first)
-        this.playButton = this.add.image(centerX, centerY / 2 + 250, 'button_play').
-            setScale(0.75, 0.75).
+        this.playButton = this.add.image(centerX, centerY / 2 + 130, 'button_play').
+            setScale(0.5, 0.5).
             on('pointerdown', () => this.goToLevel1());
         this.playButton.setInteractive(); 
         this.playButton.on('pointerover', () => { console.log('pointerover'); }); //on hover
 
-        this.levelsButton = this.add.image(centerX, centerY / 2 + 300, 'button_tutorial').
-            setScale(0.75, 0.75).
+        this.levelsButton = this.add.image(centerX, centerY / 2 + 170, 'button_tutorial').
+            setScale(0.5, 0.5).
             on('pointerdown', () => this.goToTutorial());
         this.levelsButton.setInteractive(); 
 
@@ -141,19 +146,25 @@ class Title extends Phaser.Scene {
         this.spawnFloor();
 
         // spawn the roof and set it immovable
-        let roof = this.physics.add.sprite(game.config.width / 2, 40, 'bounds_terminal').
-            setScale(4, 0.5);
-        roof.setImmovable();
+        // let roof = this.physics.add.sprite(game.config.width / 2, 4, 'bounds_terminal').
+           //  setScale(2, 0.25);
+        // roof.setImmovable();
 
         // title stuff
-        this.add.text(centerX, centerY / 1.5 - 10, 'Final Game', {
-            fontFamily: 'Consolas', fontSize: '60px'
-        }).setOrigin(0.5);
-        this.add.text(centerX, centerY - 40, 'A Matrix-esque Puzzle Platformer\nby Barry Day, Trevor Moropoulos, and Lucio Espinoza', {
-            fontFamily: 'Consolas', fontSize: '20px', align: 'center'
+        // this.add.text(centerX, centerY / 1.5 - 10, 'Nightsight', {
+           // fontFamily: 'Consolas', fontSize: '30px'
+        // }).setOrigin(0.5);
+        this.add.text(centerX, centerY - 20, 'A Matrix-esque Puzzle Platformer\nby Barry Day, Trevor Moropoulos, and Lucio Espinoza', {
+            fontFamily: 'Consolas', fontSize: '10px', align: 'center'
         }).setOrigin(0.5);
 
+        this.title = this.add.image(centerX, centerY - 80, 'title_blue');
+
+        this.color = 0; // 0 = blue, 1 = red, 2 = yellow
+
         this.addButtons();
+
+        this.timer = 0;
     }
 
     goToTutorial() {
@@ -240,6 +251,20 @@ class Title extends Phaser.Scene {
     }
 
     update() {
+        this.timer++;
+
+        if((this.timer % 200) == 0) {
+            if(this.color == 0) {
+                this.title.setTexture('title_red');
+                this.color = 1;
+            } else if(this.color == 1) {
+                this.title.setTexture('title_yellow');
+                this.color = 2;
+            } else {
+                this.title.setTexture('title_blue');
+                this.color = 0;
+            }
+        }
         // this.player.anims.play('running', true);
 
     }
