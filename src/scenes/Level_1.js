@@ -675,7 +675,7 @@ class Level_1 extends Phaser.Scene {
 
         //Check if the player has made contact with any checkpoint objects
         for (const checkpoint of this.checkpoints) {
-            checkpoint.update();
+s            checkpoint.update();
         }
     }
 }
