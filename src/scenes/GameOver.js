@@ -102,7 +102,7 @@ class GameOver extends Phaser.Scene {
         isPaused = false;
         this.scene.launch('level1Scene');
         this.scene.setVisible(0);
-        // no functionality currently
+
     }
 
     update(){

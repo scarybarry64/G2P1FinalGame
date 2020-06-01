@@ -269,7 +269,7 @@ class Level_1 extends Phaser.Scene {
         this.deadzone.body.onOverlap = true;
         this.deadzone.body.setVelocityY(-3);
         if (tempy != null) {
-            this.deadzone.y = Number(tempy) + 100;
+            this.deadzone.y = Number(tempy) + 480;
         }
 
         //Overlap check, runs GameOver scene if player overlaps with deadzone
