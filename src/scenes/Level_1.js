@@ -286,10 +286,10 @@ class Level_1 extends Phaser.Scene {
         this.anims.create({
             key: 'Deadzone_FX',
             frames: this.anims.generateFrameNames('Deadzone_Particles'),
-            frameRate: 5,
+            frameRate: 6,
             repeat: -1
         });
-        this.deadzone.anims.play('Deadzone_FX', true);
+        //this.deadzone.anims.play('Deadzone_FX', true);
     }
 
     createCheckpoint() {
@@ -685,8 +685,11 @@ class Level_1 extends Phaser.Scene {
         this.timer++;
 
         if(this.timer % 50 == 0) {
-            this.deadzone.y = this.deadzone.y - 10;
+            this.deadzone.y = this.deadzone.y - 4;
+            this.deadzone.anims.play('Deadzone_FX', true);
         }
+
+
 
         this.checkPause(); // check if should pause game
 

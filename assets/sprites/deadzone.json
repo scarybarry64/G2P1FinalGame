@@ -46,38 +46,6 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 496, "h": 640 },
     "sourceSize": { "w": 496, "h": 640 },
     "duration": 150
-   },
-   "6": {
-    "frame": { "x": 2976, "y": 0, "w": 496, "h": 640 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 496, "h": 640 },
-    "sourceSize": { "w": 496, "h": 640 },
-    "duration": 150
-   },
-   "7": {
-    "frame": { "x": 3472, "y": 0, "w": 496, "h": 640 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 496, "h": 640 },
-    "sourceSize": { "w": 496, "h": 640 },
-    "duration": 150
-   },
-   "8": {
-    "frame": { "x": 3968, "y": 0, "w": 496, "h": 640 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 496, "h": 640 },
-    "sourceSize": { "w": 496, "h": 640 },
-    "duration": 150
-   },
-   "9": {
-    "frame": { "x": 4464, "y": 0, "w": 496, "h": 640 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 496, "h": 640 },
-    "sourceSize": { "w": 496, "h": 640 },
-    "duration": 150
    }
  },
  "meta": {
@@ -85,7 +53,7 @@
   "version": "1.2.17-x64",
   "image": "deadzone.png",
   "format": "RGBA8888",
-  "size": { "w": 4960, "h": 640 },
+  "size": { "w": 2976, "h": 640 },
   "scale": "1",
   "frameTags": [
   ],
