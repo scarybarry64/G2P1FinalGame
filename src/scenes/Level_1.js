@@ -409,7 +409,7 @@ class Level_1 extends Phaser.Scene {
 
     // Initial Jump made from object, -300 is the smallest possible jump height
     startJump() {
-        this.player.setVelocityY(-175);
+        this.player.setVelocityY(-150);
         isJumping = true;
     }
 
@@ -618,7 +618,7 @@ class Level_1 extends Phaser.Scene {
     // check for wall jump on left
     wallJumpLeft() {
         //Stick to things on the left
-        if (this.player.body.blocked.left && canStick && isJumping) {
+        if ((this.player.body.blocked.left && canStick && isJumping) || (this.player.body.blocked.left && canStickLeft && isJumping)) {
             if (kSight) {
                 this.player.anims.play('Red_Wall', true);
             } else if (lSight) {
@@ -639,7 +639,7 @@ class Level_1 extends Phaser.Scene {
     // check for wall jump on right
     wallJumpRight() {
         // Stick to things on the right
-        if (this.player.body.blocked.right && canStick && isJumping) {
+        if ((this.player.body.blocked.right && canStick && isJumping) || (this.player.body.blocked.right && canStickRight && isJumping)) {
             if (kSight) {
                 this.player.anims.play('Red_Wall', true);
             } else if (lSight) {
@@ -720,6 +720,16 @@ class Level_1 extends Phaser.Scene {
             isJumping = false;
             canStick = true;
             this.resetPlayerAngle();
+        }
+
+        if(this.player.body.blocked.left) {
+            canStickRight = true;
+            canStickLeft = false;
+        }
+
+        if(this.player.body.blocked.right) {
+            canStickRight = false;
+            canStickLeft = true;
         }
 
         // Sight
