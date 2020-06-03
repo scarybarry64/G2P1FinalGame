@@ -37,6 +37,8 @@ let isJumping = false;
 let isPaused = false;
 let isLoading = true;
 let loadCount = 0;
+let canStickRight = false;
+let canStickLeft = false;
 
 // settings
 game.settings = {
