@@ -313,7 +313,7 @@ class Level_1 extends Phaser.Scene {
         this.rectStyle.fillRectShape(this.Border);
         this.rectStyle.setScale(0.5);
 
-        this.loadingText = this.add.text(240, 765, 'Loading', {
+        this.loadingText = this.add.text(this.player.x, this.player.y, 'Loading', {
             fontFamily: 'Consolas', fontSize: '10px', align: 'center'
         }).setOrigin(0.5);
 
@@ -324,7 +324,7 @@ class Level_1 extends Phaser.Scene {
             repeat: -1
         });
 
-        this.loading = this.add.sprite(270, 762, 'loadAnim').setScale(2);
+        this.loading = this.add.sprite(this.player.x + 28, this.player.y - 3, 'loadAnim').setScale(2);
 
         this.loading.anims.play('load');
     }
