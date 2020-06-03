@@ -1,9 +1,12 @@
-class Checkpoint{
-    constructor(scene, x, y, player){
+class Checkpoint extends Phaser.GameObjects.Sprite{
+    constructor(scene, x, y, texture, texture2, player){
+        super(scene, x, y, texture, texture2, player);
         this.active = false;
         this.player = player;
         this.x = x;
         this.y = y;
+        this.setTexture(texture);
+        this.secTexture = texture2;
 
         //add object to existing scene, displayList, updateList
         scene.add.existing(this);
@@ -19,6 +22,7 @@ class Checkpoint{
         if(this.player.x < this.x + 25 && this.player.x > this.x - 25) {
             if(this.player.y < this.y + 20 && this.player.y > this.y - 20) {
                 if(!this.checkpointSet){
+                    this.setTexture(this.secTexture);
                     // console.log("player reached checkpoint");
                     this.tempx = localStorage.getItem('checkpointx');
                     this.tempy = localStorage.getItem('checkpointy');

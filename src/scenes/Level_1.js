@@ -55,7 +55,7 @@ class Level_1 extends Phaser.Scene {
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
         this.load.image('deadzone', './assets/sprites/deadzone.png');
         this.load.image('checkpoint_off', './assets/sprites/checkpoint_off.png');
-        // this.load.image('checkpoint_on', './assets/sprites/checkpoint_on.png');
+        this.load.image('checkpoint_on', './assets/sprites/checkpoint_on.png');
 
         // loading animation
         this.load.spritesheet('loadAnim', 'assets/sprites/loadingAnim.png', { frameWidth: 8, frameHeight: 8 });
@@ -300,7 +300,7 @@ class Level_1 extends Phaser.Scene {
 
         //Create checkpoint objects at every flagged location
         for (const checkpoint of this.checkpointPos) {
-            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, this.player, 'checkpoint_off'));
+            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player));
             // this.add.image(this.checkpoint.x, this.checkpoint.y)
         }
     }

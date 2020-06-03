@@ -21714,19 +21714,19 @@
   <object id="1" name="Spawn" x="239.167" y="1417.33">
    <point/>
   </object>
-  <object id="2" name="Checkpoint" x="65.9296" y="975.093">
+  <object id="2" name="Checkpoint" x="68.5963" y="969.76">
    <point/>
   </object>
   <object id="3" name="Goal" x="208.172" y="54.7805">
    <point/>
   </object>
-  <object id="4" name="Checkpoint" x="68.6667" y="815.333">
+  <object id="4" name="Checkpoint" x="68.6667" y="810.667">
    <point/>
   </object>
-  <object id="5" name="Checkpoint" x="410" y="631.333">
+  <object id="5" name="Checkpoint" x="412" y="627.333">
    <point/>
   </object>
-  <object id="6" name="Checkpoint" x="68" y="320">
+  <object id="6" name="Checkpoint" x="68" y="314">
    <point/>
   </object>
  </objectgroup>
