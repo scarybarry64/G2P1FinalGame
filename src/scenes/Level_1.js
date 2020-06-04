@@ -33,16 +33,19 @@ class Level_1 extends Phaser.Scene {
         this.load.atlas('Glitch_Skyway_Idle', './assets/sprites/Player/Skyway/Idle/Glitch_Skyway_Idle.png', './assets/sprites/Player/Skyway/Idle/Glitch_Skyway_Idle.json');
         this.load.atlas('Glitch_Skyway_Run', './assets/sprites/Player/Skyway/Running/Glitch_Skyway_Running.png', './assets/sprites/Player/Skyway/Running/Glitch_Skyway_Running.json');
         this.load.atlas('Glitch_Skyway_Wall', './assets/sprites/Player/Skyway/Holding/Glitch_Skyway_Holding.png', './assets/sprites/Player/Skyway/Holding/Glitch_Skyway_Holding.json');
+        this.load.atlas('Glitch_Skyway_Jumping', './assets/sprites/Player/Skyway/Jumping/Glitch_Skyway_Jumping.png', './assets/sprites/Player/Skyway/Jumping/Glitch_Skyway_Jumping.json');
 
         // Glitch sunset anims
         this.load.atlas('Glitch_Sunset_Idle', './assets/sprites/Player/Sunset/Idle/Glitch_Sunset_Idle.png', './assets/sprites/Player/Sunset/Idle/Glitch_Sunset_Idle.json');
         this.load.atlas('Glitch_Sunset_Run', './assets/sprites/Player/Sunset/Running/Glitch_Sunset_Running.png', './assets/sprites/Player/Sunset/Running/Glitch_Sunset_Running.json');
         this.load.atlas('Glitch_Sunset_Wall', './assets/sprites/Player/Sunset/Holding/Glitch_Sunset_Holding.png', './assets/sprites/Player/Sunset/Holding/Glitch_Sunset_Holding.json');
+        this.load.atlas('Glitch_Sunset_Jumping', './assets/sprites/Player/Sunset/Jumping/Glitch_Sunset_Jumping.png', './assets/sprites/Player/Sunset/Jumping/Glitch_Sunset_Jumping.json');
 
         // Glitch starfall anims
         this.load.atlas('Glitch_Starfall_Idle', './assets/sprites/Player/Starfall/Idle/Glitch_Starfall_Idle.png', './assets/sprites/Player/Starfall/Idle/Glitch_Starfall_Idle.json');
         this.load.atlas('Glitch_Starfall_Run', './assets/sprites/Player/Starfall/Running/Glitch_Starfall_Running.png', './assets/sprites/Player/Starfall/Running/Glitch_Starfall_Running.json');
         this.load.atlas('Glitch_Starfall_Wall', './assets/sprites/Player/Starfall/Holding/Glitch_Starfall_Holding.png', './assets/sprites/Player/Starfall/Holding/Glitch_Starfall_Holding.json');
+        this.load.atlas('Glitch_Starfall_Jumping', './assets/sprites/Player/Starfall/Jumping/Glitch_Starfall_Jumping.png', './assets/sprites/Player/Starfall/Jumping/Glitch_Starfall_Jumping.json');
 
         // Deadzone anims
         this.load.atlas('Deadzone_Particles', './assets/sprites/deadzone.png', './assets/sprites/deadzone.json');
@@ -169,6 +172,30 @@ class Level_1 extends Phaser.Scene {
         this.anims.create({
             key: 'Starfall_Wall',
             frames: this.anims.generateFrameNames('Glitch_Starfall_Wall'),
+            frameRate: 1,
+            repeat: -1
+        });
+
+        // Skyway Jump Anim
+        this.anims.create({
+            key: 'Skyway_Jumping',
+            frames: this.anims.generateFrameNames('Glitch_Skyway_Jumping'),
+            frameRate: 1,
+            repeat: -1
+        });
+
+        // Sunset Jump Anim
+        this.anims.create({
+            key: 'Sunset_Jumping',
+            frames: this.anims.generateFrameNames('Glitch_Sunset_Jumping'),
+            frameRate: 1,
+            repeat: -1
+        });
+
+        // Starfall Jump Anim
+        this.anims.create({
+            key: 'Starfall_Jumping',
+            frames: this.anims.generateFrameNames('Glitch_Starfall_Jumping'),
             frameRate: 1,
             repeat: -1
         });
@@ -411,6 +438,13 @@ class Level_1 extends Phaser.Scene {
     startJump() {
         this.player.setVelocityY(-150);
         isJumping = true;
+        if (kSight) {
+            this.player.anims.play('Sunset_Jumping', true);
+        } else if (lSight) {
+            this.player.anims.play('Starfall_Jumping', true);
+        } else {
+            this.player.anims.play('Skyway_Jumping', true);
+        }
     }
 
     // This makes it possible to hold your jump to increase height
@@ -420,9 +454,23 @@ class Level_1 extends Phaser.Scene {
             // height at which the jump was made
             if ((this.player.y > this.jumpStartHeight - 20) &&
                     !this.player.body.blocked.right) {
+                if (kSight) {
+                    this.player.anims.play('Sunset_Jumping', true);
+                } else if (lSight) {
+                    this.player.anims.play('Starfall_Jumping', true);
+                } else {
+                    this.player.anims.play('Skyway_Jumping', true);
+                }
                 isJumping = true;
                 this.player.setGravityY(-900); //negative gravity simulates extending a jump
             } else {
+                if (kSight) {
+                    this.player.anims.play('Sunset_Jumping', true);
+                } else if (lSight) {
+                    this.player.anims.play('Starfall_Jumping', true);
+                } else {
+                    this.player.anims.play('Skyway_Jumping', true);
+                }
                 // else reset the gravity to pull the player to the ground
                 isJumping = true;
                 this.player.setGravityY(600);
@@ -433,6 +481,13 @@ class Level_1 extends Phaser.Scene {
 
     // reset gravity after jump
     postJump() {
+        if (kSight) {
+            this.player.anims.play('Sunset_Jumping', true);
+        } else if (lSight) {
+            this.player.anims.play('Starfall_Jumping', true);
+        } else {
+            this.player.anims.play('Skyway_Jumping', true);
+        }
         this.canHoldJump = false;
         this.currGravity = 600;
         this.player.setGravityY(600);
@@ -494,7 +549,7 @@ class Level_1 extends Phaser.Scene {
             // shake the camera (duration, intensity)
             this.cameras.main.shake(50, 0.005);
             this.isSlamming = false;
-            this.sound.play('sfx_slam');
+            // this.sound.play('sfx_slam');
         }
     }
 
@@ -502,29 +557,29 @@ class Level_1 extends Phaser.Scene {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
             this.player.flipX = false;
-            if (kSight) {
+            if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Run', true);
-            } else if (lSight) {
+            } else if (lSight && !isJumping) {
                 this.player.anims.play('Starfall_Run', true);
-            } else {
+            } else if (jSight && !isJumping) {
                 this.player.anims.play('Skyway_Run', true);
             }
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
             this.player.flipX = true;
-            if (kSight) {
+            if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Run', true);
-            } else if (lSight) {
+            } else if (lSight && !isJumping) {
                 this.player.anims.play('Starfall_Run', true);
-            } else {
+            } else if(jSight && !isJumping) {
                 this.player.anims.play('Skyway_Run', true);
             }
         } else {
-            if (kSight) {
+            if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Idle', true);
-            } else if (lSight) {
+            } else if (lSight && !isJumping) {
                 this.player.anims.play('Starfall_Idle', true);
-            } else {
+            } else if (jSight && !isJumping){
                 this.player.anims.play('Skyway_Idle', true);
             }
 
@@ -671,7 +726,6 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
-        console.log(this.player.x);
 
         if(isLoading){
             loadCount++;
