@@ -538,13 +538,13 @@ class Level_1 extends Phaser.Scene {
             !jSight) {
 
             // unstick to wall if on an obstacle
-            if (this.player.x == 81 || this.player.x == 879) {
+            if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Skyway_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
                 this.isStuck = false;
-                this.player.setGravityY(1000);
+                this.player.setGravityY(600);
             }
 
             jSight = true;
@@ -565,13 +565,13 @@ class Level_1 extends Phaser.Scene {
             !kSight) {
 
             // unstick to wall if on an obstacle
-            if (this.player.x == 81 || this.player.x == 879) {
+            if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Sunset_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
                 this.isStuck = false;
-                this.player.setGravityY(1000);
+                this.player.setGravityY(600);
             }
 
             kSight = true;
@@ -592,13 +592,13 @@ class Level_1 extends Phaser.Scene {
             !lSight) {
 
             // unstick to wall if on an obstacle
-            if (this.player.x == 81 || this.player.x == 879) {
+            if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Starfall_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
                 this.isStuck = false;
-                this.player.setGravityY(1000);
+                this.player.setGravityY(600);
             }
 
             lSight = true;
@@ -671,6 +671,8 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        console.log(this.player.x);
+
         if(isLoading){
             loadCount++;
             if(loadCount > 200) {
