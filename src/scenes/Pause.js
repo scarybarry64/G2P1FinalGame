@@ -15,80 +15,69 @@ class Pause extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
     }
 
-    createBox() {
-        var Border2 = new Phaser.Geom.Rectangle(centerX - 260, centerY - 260, 520, 520);
-
-        var rectStyle2 = this.add.graphics({ fillStyle: { color: 0x1B2631 } });
-
-        rectStyle2.fillRectShape(Border2);
-
-
-        var Border = new Phaser.Geom.Rectangle(centerX - 250, centerY - 250, 500, 500);
-
-        var rectStyle = this.add.graphics({ fillStyle: { color: 0x34495E  } });
-
-        rectStyle.fillRectShape(Border);
-
-        this.add.text(centerX, 165, 'Game is paused', {
-            fontFamily: 'Consolas', fontSize: '30px', align: 'center'
-        }).setOrigin(0.5);
-    }
-
     createButtons() {
-        // Resume button
-        this.backButton = this.add.image(centerX, centerY / 2 + 100, 'button_resume').
-            setScale(0.75, 0.75).
-            on('pointerdown', () => this.goBack());
-        this.backButton.setInteractive();
-        this.backButton.visible = true;
 
         // Restart Checkpoint button
-        this.restartCheckpointButton = this.add.image(centerX, centerY / 2 + 175, 'button_lastcheckpoint').
-            setScale(0.75, 0.75).
+        this.restartCheckpointButton = this.add.image(centerX, centerY - 30, 'button_lastcheckpoint').
+            setScale(0.5, 0.5).
             on('pointerdown', () => this.restartFromLastCheckpoint());
         this.restartCheckpointButton.setInteractive();
         this.restartCheckpointButton.visible = true;
 
         // Restart Level button
-        this.restartLevelButton = this.add.image(centerX, centerY / 2 + 250, 'button_restartlevel').
-            setScale(0.75, 0.75).
+        this.restartLevelButton = this.add.image(centerX, centerY + 20, 'button_restartlevel').
+            setScale(0.5, 0.5).
             on('pointerdown', () => this.restartLevel());
         this.restartLevelButton.setInteractive();
         this.restartLevelButton.visible = true;
 
         // main menu button
-        this.mainMenuButton = this.add.image(centerX, centerY / 2 + 325, 'button_mainmenu').
-            setScale(0.75, 0.75).
+        this.mainMenuButton = this.add.image(centerX, centerY + 70, 'button_mainmenu').
+            setScale(0.5, 0.5).
             on('pointerdown', () => this.goToMainMenu());
         this.mainMenuButton.setInteractive();
         this.mainMenuButton.visible = true;
 
-        // x button
-        this.backButton = this.add.image(centerX + 220, 100, 'button_x').
-            setScale(0.75, 0.75).
-            on('pointerdown', () => this.goBack());
-        this.backButton.setInteractive();
-        this.backButton.visible = true;
     }
 
-    
+    createBorder() {
+        var Border2 = new Phaser.Geom.Rectangle(centerX - 20, centerY - 95, 520, 520);
 
-    create() {
-        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
+        var rectStyle2 = this.add.graphics({ fillStyle: { color: 0x1B2631 } });
 
-        this.createBox();
+        rectStyle2.fillRectShape(Border2);
+
+        rectStyle2.setScale(0.5);
+
+
+        var Border = new Phaser.Geom.Rectangle(centerX - 10, centerY - 85, 500, 500);
+
+        var rectStyle = this.add.graphics({ fillStyle: { color: 0x34495E  } });
+
+        rectStyle.fillRectShape(Border);
+        rectStyle.setScale(0.5);
+
+        this.add.text(centerX, centerY - 85, 'Game Paused', {
+            fontFamily: 'Consolas', fontSize: '25px', align: 'center'
+        }).setOrigin(0.5);
+    }
+
+    create(){
+        /*
+        this.add.text(centerX, centerY / 1.5 - 10, 'Game Over!', {
+            fontFamily: 'Consolas', fontSize: '40px'
+        }).setOrigin(0.5);
+        this.add.text(centerX, centerY - 40, 'Press \'R\' to go back to the main menu', {
+            fontFamily: 'Consolas', fontSize: '40px'
+        }).setOrigin(0.5);
+
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        */
+
+        this.createBorder();
 
         this.createButtons();
-        
-    }
 
-    goBack() {
-        this.sound.play('sfx_select');
-        isPaused = false;
-        this.scene.resume('level1Scene');
-        this.scene.setVisible(0);
-        //this.scene.stop();
-        //this.scene.remove('pauseScene');
     }
 
     goToMainMenu() {
@@ -113,10 +102,14 @@ class Pause extends Phaser.Scene {
         isPaused = false;
         this.scene.launch('level1Scene');
         this.scene.setVisible(0);
-        // no functionality currently
+
     }
 
-    update() {
-
+    update(){
+        /*
+        if(keyR.isDown){
+            this.scene.start('titleScene');
+        }
+        */
     }
 }

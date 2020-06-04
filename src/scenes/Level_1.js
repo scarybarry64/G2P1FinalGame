@@ -574,7 +574,7 @@ class Level_1 extends Phaser.Scene {
             } else if(jSight && !isJumping) {
                 this.player.anims.play('Skyway_Run', true);
             }
-        } else {
+        } else if (!keyD.isDown && !keyA.isDown && !isJumping) {
             if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Idle', true);
             } else if (lSight && !isJumping) {
@@ -717,8 +717,9 @@ class Level_1 extends Phaser.Scene {
             !isPaused) {
             console.log("PAUSE");
             isPaused = true;
-            this.scene.launch('pauseScene');
-            this.scene.pause();
+            this.scene.start('GameOver');
+            // this.scene.launch('pauseScene');
+            // this.scene.pause();
         }
     }
 
