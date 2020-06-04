@@ -528,7 +528,7 @@ class Level_1 extends Phaser.Scene {
         isRunning = false;
         // this.player.anims.play('jumping', true);
         this.player.angle = 0;
-        this.player.setVelocityY(600);
+        this.player.setVelocityY(200);
     }
 
     // Spin player while in the air
@@ -715,10 +715,10 @@ class Level_1 extends Phaser.Scene {
     checkPause() {
         if (Phaser.Input.Keyboard.JustDown(keyESC) &&
             !isPaused) {
-            console.log("PAUSE");
+            // console.log("PAUSE");
             isPaused = true;
-            this.scene.start('GameOver');
-            // this.scene.launch('pauseScene');
+            this.scene.start('pauseScene');
+            // this.scene.launch('pauseScened');
             // this.scene.pause();
         }
     }
@@ -748,7 +748,7 @@ class Level_1 extends Phaser.Scene {
 
 
 
-        this.checkPause(); // check if should pause game
+        // this.checkPause(); // check if should pause game
 
         //JUMP ---
         this.jumpCheck();
@@ -766,6 +766,12 @@ class Level_1 extends Phaser.Scene {
                 //this.player.anims.play('jumping', true);
                 this.spinPlayer();
             }
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(keyS) && isStuck) {
+            console.log("letgo");
+            isStuck = false;
+            this.player.setGravityY(600);
         }
 
         this.wallJumpLeft();
