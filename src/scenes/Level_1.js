@@ -333,7 +333,7 @@ class Level_1 extends Phaser.Scene {
     }
 
     loadingScreen() {
-        this.Border = new Phaser.Geom.Rectangle(centerX - 500, centerY, 5000, 5000);
+        this.Border = new Phaser.Geom.Rectangle(0, this.player.y, 5000, 5000);
 
         this.rectStyle = this.add.graphics({ fillStyle: { color: 0x000000  } });
 
