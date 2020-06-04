@@ -17,22 +17,28 @@ class Pause extends Phaser.Scene {
 
     createButtons() {
 
+        this.resumeButton = this.add.image(centerX, centerY - 30, 'button_resume').
+        setScale(0.5, 0.5).
+        on('pointerdown', () => this.resume());
+        this.resumeButton.setInteractive();
+        this.resumeButton.visible = true;
+
         // Restart Checkpoint button
-        this.restartCheckpointButton = this.add.image(centerX, centerY - 30, 'button_lastcheckpoint').
+        this.restartCheckpointButton = this.add.image(centerX, centerY + 10, 'button_lastcheckpoint').
             setScale(0.5, 0.5).
             on('pointerdown', () => this.restartFromLastCheckpoint());
         this.restartCheckpointButton.setInteractive();
         this.restartCheckpointButton.visible = true;
 
         // Restart Level button
-        this.restartLevelButton = this.add.image(centerX, centerY + 20, 'button_restartlevel').
+        this.restartLevelButton = this.add.image(centerX, centerY + 50, 'button_restartlevel').
             setScale(0.5, 0.5).
             on('pointerdown', () => this.restartLevel());
         this.restartLevelButton.setInteractive();
         this.restartLevelButton.visible = true;
 
         // main menu button
-        this.mainMenuButton = this.add.image(centerX, centerY + 70, 'button_mainmenu').
+        this.mainMenuButton = this.add.image(centerX, centerY + 90, 'button_mainmenu').
             setScale(0.5, 0.5).
             on('pointerdown', () => this.goToMainMenu());
         this.mainMenuButton.setInteractive();
@@ -78,6 +84,13 @@ class Pause extends Phaser.Scene {
 
         this.createButtons();
 
+    }
+
+    resume() {
+        this.sound.play('sfx_select');
+        isPaused = false;
+        this.scene.start('level1Scene');
+        this.scene.setVisible(0);
     }
 
     goToMainMenu() {
