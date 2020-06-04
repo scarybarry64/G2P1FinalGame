@@ -1,0 +1,26 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 16, "h": 20 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 20 },
+    "sourceSize": { "w": 16, "h": 20 },
+    "duration": 90
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.17-x64",
+  "image": "Glitch_Skyway_Jumping.png",
+  "format": "RGBA8888",
+  "size": { "w": 16, "h": 20 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Jumping Skyway", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

@@ -11,9 +11,9 @@ class Level_1 extends Phaser.Scene {
         // this.load.image('tileset2', './assets/tilemaps/test_tilemap_t.png');
         // this.load.tilemapTiledJSON('tilemap', './assets/tilemaps/test_tilemap.json');
 
-        // NEW CODE
-        this.load.image('tileset', './assets/tiles_NEW/tileset.png');
-        this.load.tilemapTiledJSON('tilemap', './assets/tiles_NEW/tilemap.json');
+        // load tile stuff
+        this.load.image('tileset', './assets/tiles/tileset.png');
+        this.load.tilemapTiledJSON('tilemap', './assets/tiles/tilemap.json');
 
         /*
         // load player sprite
@@ -24,25 +24,25 @@ class Level_1 extends Phaser.Scene {
         
 
         // load player color sprites
-        this.load.atlas('Glitch_Blue', './assets/sprites/Player/Blue/Glitch_Blue_IdleRunning.png', './assets/sprites/Player/Blue/Glitch_Blue_IdleRunning.json');
-        this.load.atlas('Glitch_Red', './assets/sprites/Player/Red/Glitch_Red_IdleRunning.png', './assets/sprites/Player/Red/Glitch_Red_IdleRunning.json');
-        this.load.atlas('Glitch_Yellow', './assets/sprites/Player/Yellow/Glitch_Yellow_IdleRunning.png', './assets/sprites/Player/Yellow/Glitch_Yellow_IdleRunning.json');
+        this.load.atlas('Glitch_Skyway', './assets/sprites/Player/Skyway/Glitch_Skyway_IdleRunning.png', './assets/sprites/Player/Skyway/Glitch_Skyway_IdleRunning.json');
+        this.load.atlas('Glitch_Sunset', './assets/sprites/Player/Sunset/Glitch_Sunset_IdleRunning.png', './assets/sprites/Player/Sunset/Glitch_Sunset_IdleRunning.json');
+        this.load.atlas('Glitch_Starfall', './assets/sprites/Player/Starfall/Glitch_Starfall_IdleRunning.png', './assets/sprites/Player/Starfall/Glitch_Starfall_IdleRunning.json');
         */
 
-        // Glitch blue anims
-        this.load.atlas('Glitch_Blue_Idle', './assets/sprites/Player/Blue/Glitch_Blue_Idle.png', './assets/sprites/Player/Blue/Glitch_Blue_Idle.json');
-        this.load.atlas('Glitch_Blue_Run', './assets/sprites/Player/Blue/Glitch_Blue_Running.png', './assets/sprites/Player/Blue/Glitch_Blue_Running.json');
-        this.load.atlas('Glitch_Blue_Wall', './assets/sprites/Player/Blue/Glitch_Blue_Wall.png', './assets/sprites/Player/Blue/Glitch_Blue_Wall.json');
+        // Glitch skyway anims
+        this.load.atlas('Glitch_Skyway_Idle', './assets/sprites/Player/Skyway/Idle/Glitch_Skyway_Idle.png', './assets/sprites/Player/Skyway/Idle/Glitch_Skyway_Idle.json');
+        this.load.atlas('Glitch_Skyway_Run', './assets/sprites/Player/Skyway/Running/Glitch_Skyway_Running.png', './assets/sprites/Player/Skyway/Running/Glitch_Skyway_Running.json');
+        this.load.atlas('Glitch_Skyway_Wall', './assets/sprites/Player/Skyway/Holding/Glitch_Skyway_Holding.png', './assets/sprites/Player/Skyway/Holding/Glitch_Skyway_Holding.json');
 
-        // Glitch red anims
-        this.load.atlas('Glitch_Red_Idle', './assets/sprites/Player/Red/Glitch_Red_Idle.png', './assets/sprites/Player/Red/Glitch_Red_Idle.json');
-        this.load.atlas('Glitch_Red_Run', './assets/sprites/Player/Red/Glitch_Red_Running.png', './assets/sprites/Player/Red/Glitch_Red_Running.json');
-        this.load.atlas('Glitch_Red_Wall', './assets/sprites/Player/Red/Glitch_Red_Wall.png', './assets/sprites/Player/Red/Glitch_Red_Wall.json');
+        // Glitch sunset anims
+        this.load.atlas('Glitch_Sunset_Idle', './assets/sprites/Player/Sunset/Idle/Glitch_Sunset_Idle.png', './assets/sprites/Player/Sunset/Idle/Glitch_Sunset_Idle.json');
+        this.load.atlas('Glitch_Sunset_Run', './assets/sprites/Player/Sunset/Running/Glitch_Sunset_Running.png', './assets/sprites/Player/Sunset/Running/Glitch_Sunset_Running.json');
+        this.load.atlas('Glitch_Sunset_Wall', './assets/sprites/Player/Sunset/Holding/Glitch_Sunset_Holding.png', './assets/sprites/Player/Sunset/Holding/Glitch_Sunset_Holding.json');
 
-        // Glitch yellow anims
-        this.load.atlas('Glitch_Yellow_Idle', './assets/sprites/Player/Yellow/Glitch_Yellow_Idle.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Idle.json');
-        this.load.atlas('Glitch_Yellow_Run', './assets/sprites/Player/Yellow/Glitch_Yellow_Running.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Running.json');
-        this.load.atlas('Glitch_Yellow_Wall', './assets/sprites/Player/Yellow/Glitch_Yellow_Wall.png', './assets/sprites/Player/Yellow/Glitch_Yellow_Wall.json');
+        // Glitch starfall anims
+        this.load.atlas('Glitch_Starfall_Idle', './assets/sprites/Player/Starfall/Idle/Glitch_Starfall_Idle.png', './assets/sprites/Player/Starfall/Idle/Glitch_Starfall_Idle.json');
+        this.load.atlas('Glitch_Starfall_Run', './assets/sprites/Player/Starfall/Running/Glitch_Starfall_Running.png', './assets/sprites/Player/Starfall/Running/Glitch_Starfall_Running.json');
+        this.load.atlas('Glitch_Starfall_Wall', './assets/sprites/Player/Starfall/Holding/Glitch_Starfall_Holding.png', './assets/sprites/Player/Starfall/Holding/Glitch_Starfall_Holding.json');
 
         // Deadzone anims
         this.load.atlas('Deadzone_Particles', './assets/sprites/deadzone.png', './assets/sprites/deadzone.json');
@@ -63,18 +63,18 @@ class Level_1 extends Phaser.Scene {
 
     // *** CREATE FUNCTIONS ***
 
-    // Creates level using tilemap and layers, hide blue and yellow layers
+    // Creates level using tilemap and layers, hide skyway and starfall layers
     createLevel() {
 
         // // OLD CODE
         // this.tilemap = this.add.tilemap('tilemap');
         // this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset2');
         // this.baseLayer = this.tilemap.createStaticLayer('Base', this.tileset, 0, 0);
-        // this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
-        // this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
-        // this.yellowLayer = this.tilemap.createStaticLayer('Yellow', this.tileset, 0, 0);
-        // this.redLayer.alpha = 0;
-        // this.yellowLayer.alpha = 0;
+        // this.sunsetLayer = this.tilemap.createStaticLayer('Sunset', this.tileset, 0, 0);
+        // this.skywayLayer = this.tilemap.createStaticLayer('Skyway', this.tileset, 0, 0);
+        // this.starfallLayer = this.tilemap.createStaticLayer('Starfall', this.tileset, 0, 0);
+        // this.sunsetLayer.alpha = 0;
+        // this.starfallLayer.alpha = 0;
 
         // NEW CODE
         this.tilemap = this.add.tilemap('tilemap');
@@ -83,43 +83,43 @@ class Level_1 extends Phaser.Scene {
         this.backgroundLayer = this.tilemap.createStaticLayer('Background', this.tileset, 0, 0);
         this.buildingLayer = this.tilemap.createStaticLayer('Buildings', this.tileset, 0, 0);
         this.offLayer = this.tilemap.createStaticLayer('Off', this.tileset, 0, 0);
-        this.yellowLayer = this.tilemap.createStaticLayer('Yellow', this.tileset, 0, 0);
-        this.blueLayer = this.tilemap.createStaticLayer('Blue', this.tileset, 0, 0);
-        this.redLayer = this.tilemap.createStaticLayer('Red', this.tileset, 0, 0);
+        this.starfallLayer = this.tilemap.createStaticLayer('Starfall', this.tileset, 0, 0);
+        this.sunsetLayer = this.tilemap.createStaticLayer('Sunset', this.tileset, 0, 0);
+        this.skywayLayer = this.tilemap.createStaticLayer('Skyway', this.tileset, 0, 0);
 
-        this.redLayer.alpha = 0;
-        this.yellowLayer.alpha = 0;
+        this.sunsetLayer.alpha = 0;
+        this.starfallLayer.alpha = 0;
     }
 
     createPlayerAnims() {
-        // Blue Run Anim
+        // Skyway Run Anim
         this.anims.create({
-            key: 'Blue_Run',
-            frames: this.anims.generateFrameNames('Glitch_Blue_Run'),
-            frameRate: 10,
+            key: 'Skyway_Run',
+            frames: this.anims.generateFrameNames('Glitch_Skyway_Run'),
+            frameRate: 12,
             repeat: -1
         });
 
-        // Red Run Anim
+        // Sunset Run Anim
         this.anims.create({
-            key: 'Red_Run',
-            frames: this.anims.generateFrameNames('Glitch_Red_Run'),
-            frameRate: 10,
+            key: 'Sunset_Run',
+            frames: this.anims.generateFrameNames('Glitch_Sunset_Run'),
+            frameRate: 12,
             repeat: -1
         });
 
-        // Yellow Run Anim
+        // Starfall Run Anim
         this.anims.create({
-            key: 'Yellow_Run',
-            frames: this.anims.generateFrameNames('Glitch_Yellow_Run'),
-            frameRate: 10,
+            key: 'Starfall_Run',
+            frames: this.anims.generateFrameNames('Glitch_Starfall_Run'),
+            frameRate: 12,
             repeat: -1
         });
 
-        // Blue Idle Anim
+        // Skyway Idle Anim
         this.anims.create({
-            key: 'Blue_Idle',
-            frames: this.anims.generateFrameNames('Glitch_Blue_Idle', {
+            key: 'Skyway_Idle',
+            frames: this.anims.generateFrameNames('Glitch_Skyway_Idle', {
                 start: 0,
                 end: 1,
             }),
@@ -127,10 +127,10 @@ class Level_1 extends Phaser.Scene {
             repeat: -1
         });
 
-        // Red Idle Anim
+        // Sunset Idle Anim
         this.anims.create({
-            key: 'Red_Idle',
-            frames: this.anims.generateFrameNames('Glitch_Red_Idle', {
+            key: 'Sunset_Idle',
+            frames: this.anims.generateFrameNames('Glitch_Sunset_Idle', {
                 start: 0,
                 end: 1,
             }),
@@ -138,10 +138,10 @@ class Level_1 extends Phaser.Scene {
             repeat: -1
         });
 
-        // Yellow Idle Anim
+        // Starfall Idle Anim
         this.anims.create({
-            key: 'Yellow_Idle',
-            frames: this.anims.generateFrameNames('Glitch_Yellow_Idle', {
+            key: 'Starfall_Idle',
+            frames: this.anims.generateFrameNames('Glitch_Starfall_Idle', {
                 start: 0,
                 end: 1,
             }),
@@ -149,26 +149,26 @@ class Level_1 extends Phaser.Scene {
             repeat: -1
         });
 
-        // Blue Wall Anim
+        // Skyway Wall Anim
         this.anims.create({
-            key: 'Blue_Wall',
-            frames: this.anims.generateFrameNames('Glitch_Blue_Wall'),
+            key: 'Skyway_Wall',
+            frames: this.anims.generateFrameNames('Glitch_Skyway_Wall'),
             frameRate: 1,
             repeat: -1
         });
 
-        // Red Wall Anim
+        // Sunset Wall Anim
         this.anims.create({
-            key: 'Red_Wall',
-            frames: this.anims.generateFrameNames('Glitch_Red_Wall'),
+            key: 'Sunset_Wall',
+            frames: this.anims.generateFrameNames('Glitch_Sunset_Wall'),
             frameRate: 1,
             repeat: -1
         });
 
-        // Yellow Wall Anim
+        // Starfall Wall Anim
         this.anims.create({
-            key: 'Yellow_Wall',
-            frames: this.anims.generateFrameNames('Glitch_Yellow_Wall'),
+            key: 'Starfall_Wall',
+            frames: this.anims.generateFrameNames('Glitch_Starfall_Wall'),
             frameRate: 1,
             repeat: -1
         });
@@ -183,7 +183,7 @@ class Level_1 extends Phaser.Scene {
         let tempy = localStorage.getItem("checkpointy");
         let tempx = localStorage.getItem("checkpointx");
 
-        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Blue_Idle', '0');
+        this.player = this.physics.add.sprite(this.spawn.x, this.spawn.y - 20, 'Glitch_Skyway_Idle', '0');
 
         if (tempy != null && tempx != null) {
             this.player.y = Number(tempy);
@@ -194,7 +194,7 @@ class Level_1 extends Phaser.Scene {
         // create the anims necessary for the player
         this.createPlayerAnims();
 
-        this.player.anims.play('Blue_Idle', true);
+        this.player.anims.play('Skyway_Idle', true);
 
         this.player.body.setMaxSpeed(850); // set max speed to keep from collision bug
     }
@@ -206,29 +206,29 @@ class Level_1 extends Phaser.Scene {
         this.cameras.roundPixels = true;
     }
 
-    // Set collision between player and layers, disable blue and yellow by default
+    // Set collision between player and layers, disable skyway and starfall by default
     createCollision() {
 
         // // OLD CODE
         // this.baseLayer.setCollisionByProperty({ collision: true });
-        // this.blueLayer.setCollisionByProperty({ collision: true });
-        // this.redLayer.setCollisionByProperty({ collision: true }, false);
-        // this.yellowLayer.setCollisionByProperty({ collision: true }, false);
+        // this.skywayLayer.setCollisionByProperty({ collision: true });
+        // this.sunsetLayer.setCollisionByProperty({ collision: true }, false);
+        // this.starfallLayer.setCollisionByProperty({ collision: true }, false);
         // this.physics.add.collider(this.player, this.baseLayer);
-        // this.physics.add.collider(this.player, this.redLayer);
-        // this.physics.add.collider(this.player, this.blueLayer);
-        // this.physics.add.collider(this.player, this.yellowLayer);
+        // this.physics.add.collider(this.player, this.sunsetLayer);
+        // this.physics.add.collider(this.player, this.skywayLayer);
+        // this.physics.add.collider(this.player, this.starfallLayer);
 
         // NEW CODE
         this.buildingLayer.setCollisionByProperty({ collision: true });
-        this.blueLayer.setCollisionByProperty({ collision: true });
-        this.redLayer.setCollisionByProperty({ collision: true }, false);
-        this.yellowLayer.setCollisionByProperty({ collision: true }, false);
+        this.skywayLayer.setCollisionByProperty({ collision: true });
+        this.sunsetLayer.setCollisionByProperty({ collision: true }, false);
+        this.starfallLayer.setCollisionByProperty({ collision: true }, false);
 
         this.physics.add.collider(this.player, this.buildingLayer);
-        this.physics.add.collider(this.player, this.redLayer);
-        this.physics.add.collider(this.player, this.blueLayer);
-        this.physics.add.collider(this.player, this.yellowLayer);
+        this.physics.add.collider(this.player, this.sunsetLayer);
+        this.physics.add.collider(this.player, this.skywayLayer);
+        this.physics.add.collider(this.player, this.starfallLayer);
     }
 
     createControls() {
@@ -503,29 +503,29 @@ class Level_1 extends Phaser.Scene {
             this.player.setVelocityX(game.settings.playerSpeed);
             this.player.flipX = false;
             if (kSight) {
-                this.player.anims.play('Red_Run', true);
+                this.player.anims.play('Sunset_Run', true);
             } else if (lSight) {
-                this.player.anims.play('Yellow_Run', true);
+                this.player.anims.play('Starfall_Run', true);
             } else {
-                this.player.anims.play('Blue_Run', true);
+                this.player.anims.play('Skyway_Run', true);
             }
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
             this.player.flipX = true;
             if (kSight) {
-                this.player.anims.play('Red_Run', true);
+                this.player.anims.play('Sunset_Run', true);
             } else if (lSight) {
-                this.player.anims.play('Yellow_Run', true);
+                this.player.anims.play('Starfall_Run', true);
             } else {
-                this.player.anims.play('Blue_Run', true);
+                this.player.anims.play('Skyway_Run', true);
             }
         } else {
             if (kSight) {
-                this.player.anims.play('Red_Idle', true);
+                this.player.anims.play('Sunset_Idle', true);
             } else if (lSight) {
-                this.player.anims.play('Yellow_Idle', true);
+                this.player.anims.play('Starfall_Idle', true);
             } else {
-                this.player.anims.play('Blue_Idle', true);
+                this.player.anims.play('Skyway_Idle', true);
             }
 
             this.player.setVelocityX(0);
@@ -533,13 +533,13 @@ class Level_1 extends Phaser.Scene {
     }
 
     handleSight() {
-        // J key sight, distorts platforms to red
+        // J key sight, distorts platforms to sunset
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
 
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
-                this.player.anims.play('Blue_Wall', true);
+                this.player.anims.play('Skyway_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
@@ -551,22 +551,22 @@ class Level_1 extends Phaser.Scene {
             kSight = false;
             lSight = false;
 
-            // Enable red layer, disable blue and yellow layers
-            this.redLayer.alpha = 0;
-            this.blueLayer.alpha = 1;
-            this.yellowLayer.alpha = 0;
-            this.blueLayer.setCollisionByProperty({ collision: true });
-            this.redLayer.setCollisionByProperty({ collision: true }, false);
-            this.yellowLayer.setCollisionByProperty({ collision: true }, false);
+            // Enable sunset layer, disable skyway and starfall layers
+            this.sunsetLayer.alpha = 0;
+            this.skywayLayer.alpha = 1;
+            this.starfallLayer.alpha = 0;
+            this.skywayLayer.setCollisionByProperty({ collision: true });
+            this.sunsetLayer.setCollisionByProperty({ collision: true }, false);
+            this.starfallLayer.setCollisionByProperty({ collision: true }, false);
         }
 
-        // K key sight, distorts platforms to blue
+        // K key sight, distorts platforms to skyway
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
-                this.player.anims.play('Red_Wall', true);
+                this.player.anims.play('Sunset_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
@@ -578,22 +578,22 @@ class Level_1 extends Phaser.Scene {
             jSight = false;
             lSight = false;
 
-            // Enable blue layer, disable red and yellow layers
-            this.redLayer.alpha = 1;
-            this.blueLayer.alpha = 0;
-            this.yellowLayer.alpha = 0;
-            this.blueLayer.setCollisionByProperty({ collision: true }, false);
-            this.redLayer.setCollisionByProperty({ collision: true });
-            this.yellowLayer.setCollisionByProperty({ collision: true }, false);
+            // Enable skyway layer, disable sunset and starfall layers
+            this.sunsetLayer.alpha = 1;
+            this.skywayLayer.alpha = 0;
+            this.starfallLayer.alpha = 0;
+            this.skywayLayer.setCollisionByProperty({ collision: true }, false);
+            this.sunsetLayer.setCollisionByProperty({ collision: true });
+            this.starfallLayer.setCollisionByProperty({ collision: true }, false);
         }
 
-        // L key sight, distorts platforms to yellow
+        // L key sight, distorts platforms to starfall
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
 
             // unstick to wall if on an obstacle
             if (this.player.x == 81 || this.player.x == 879) {
-                this.player.anims.play('Yellow_Wall', true);
+                this.player.anims.play('Starfall_Wall', true);
                 // do not unstick
             } else {
                 //console.log("UNSTICK");
@@ -605,13 +605,13 @@ class Level_1 extends Phaser.Scene {
             jSight = false;
             kSight = false;
 
-            // Enable yellow layer, disable blue and red layers
-            this.redLayer.alpha = 0;
-            this.blueLayer.alpha = 0;
-            this.yellowLayer.alpha = 1;
-            this.redLayer.setCollisionByProperty({ collision: true }, false);
-            this.blueLayer.setCollisionByProperty({ collision: true }, false);
-            this.yellowLayer.setCollisionByProperty({ collision: true });
+            // Enable starfall layer, disable skyway and sunset layers
+            this.sunsetLayer.alpha = 0;
+            this.skywayLayer.alpha = 0;
+            this.starfallLayer.alpha = 1;
+            this.sunsetLayer.setCollisionByProperty({ collision: true }, false);
+            this.skywayLayer.setCollisionByProperty({ collision: true }, false);
+            this.starfallLayer.setCollisionByProperty({ collision: true });
         }
     }
 
@@ -620,11 +620,11 @@ class Level_1 extends Phaser.Scene {
         //Stick to things on the left
         if ((this.player.body.blocked.left && canStick && isJumping) || (this.player.body.blocked.left && canStickLeft && isJumping)) {
             if (kSight) {
-                this.player.anims.play('Red_Wall', true);
+                this.player.anims.play('Sunset_Wall', true);
             } else if (lSight) {
-                this.player.anims.play('Yellow_Wall', true);
+                this.player.anims.play('Starfall_Wall', true);
             } else {
-                this.player.anims.play('Blue_Wall', true);
+                this.player.anims.play('Skyway_Wall', true);
             }
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
@@ -641,11 +641,11 @@ class Level_1 extends Phaser.Scene {
         // Stick to things on the right
         if ((this.player.body.blocked.right && canStick && isJumping) || (this.player.body.blocked.right && canStickRight && isJumping)) {
             if (kSight) {
-                this.player.anims.play('Red_Wall', true);
+                this.player.anims.play('Sunset_Wall', true);
             } else if (lSight) {
-                this.player.anims.play('Yellow_Wall', true);
+                this.player.anims.play('Starfall_Wall', true);
             } else {
-                this.player.anims.play('Blue_Wall', true);
+                this.player.anims.play('Skyway_Wall', true);
             }
             isStuck = true; //set the global var true
             canStick = false; // make it so you can only stick to another wall after touching down
