@@ -14,6 +14,7 @@ class Level_1 extends Phaser.Scene {
         // load tile stuff
         this.load.image('tileset', './assets/tiles/tileset.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tiles/tilemap.json');
+        this.load.image('background', './assets/tiles/background.png');
 
         /*
         // load player sprite
@@ -83,7 +84,14 @@ class Level_1 extends Phaser.Scene {
         this.tilemap = this.add.tilemap('tilemap');
         this.tileset = this.tilemap.addTilesetImage('tileset', 'tileset');
 
-        this.backgroundLayer = this.tilemap.createStaticLayer('Background', this.tileset, 0, 0);
+
+
+
+        this.backgroundLayer = this.add.sprite(this.tilemap.widthInPixels / 2, this.tilemap.heightInPixels / 2, 'background').depth = 0;
+        //this.backgroundLayer.setScrollFactor(0.25);
+
+
+
         this.buildingLayer = this.tilemap.createStaticLayer('Buildings', this.tileset, 0, 0);
         this.offLayer = this.tilemap.createStaticLayer('Off', this.tileset, 0, 0);
         this.starfallLayer = this.tilemap.createStaticLayer('Starfall', this.tileset, 0, 0);
@@ -335,7 +343,7 @@ class Level_1 extends Phaser.Scene {
     loadingScreen() {
         this.Border = new Phaser.Geom.Rectangle(0, this.player.y, 5000, 5000);
 
-        this.rectStyle = this.add.graphics({ fillStyle: { color: 0x000000  } });
+        this.rectStyle = this.add.graphics({ fillStyle: { color: 0x000000 } });
 
         this.rectStyle.fillRectShape(this.Border);
         this.rectStyle.setScale(0.5);
@@ -359,7 +367,7 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN CREATE FUNCTION ***
     create() {
 
-        
+
 
         // Create level
         this.createLevel();
@@ -453,7 +461,7 @@ class Level_1 extends Phaser.Scene {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
             if ((this.player.y > this.jumpStartHeight - 20) &&
-                    !this.player.body.blocked.right) {
+                !this.player.body.blocked.right) {
                 if (kSight) {
                     this.player.anims.play('Sunset_Jumping', true);
                 } else if (lSight) {
@@ -571,7 +579,7 @@ class Level_1 extends Phaser.Scene {
                 this.player.anims.play('Sunset_Run', true);
             } else if (lSight && !isJumping) {
                 this.player.anims.play('Starfall_Run', true);
-            } else if(jSight && !isJumping) {
+            } else if (jSight && !isJumping) {
                 this.player.anims.play('Skyway_Run', true);
             }
         } else if (!keyD.isDown && !keyA.isDown && !isJumping) {
@@ -579,7 +587,7 @@ class Level_1 extends Phaser.Scene {
                 this.player.anims.play('Sunset_Idle', true);
             } else if (lSight && !isJumping) {
                 this.player.anims.play('Starfall_Idle', true);
-            } else if (jSight && !isJumping){
+            } else if (jSight && !isJumping) {
                 this.player.anims.play('Skyway_Idle', true);
             }
 
@@ -728,83 +736,83 @@ class Level_1 extends Phaser.Scene {
 
     update() {
 
-        if(isLoading){
+        if (isLoading) {
             loadCount++;
-            if(loadCount > 200) {
+            if (loadCount > 200) {
                 isLoading = false;
             }
         } else {
-        
-        this.rectStyle.destroy();
-        this.loadingText.destroy();
-        this.loading.destroy();
 
-        this.timer++;
+            this.rectStyle.destroy();
+            this.loadingText.destroy();
+            this.loading.destroy();
 
-        if(this.timer % 50 == 0) {
-            this.deadzone.y = this.deadzone.y - 4;
-            this.deadzone.anims.play('Deadzone_FX', true);
-        }
+            this.timer++;
+
+            if (this.timer % 50 == 0) {
+                this.deadzone.y = this.deadzone.y - 4;
+                this.deadzone.anims.play('Deadzone_FX', true);
+            }
 
 
 
-        // this.checkPause(); // check if should pause game
+            // this.checkPause(); // check if should pause game
 
-        //JUMP ---
-        this.jumpCheck();
+            //JUMP ---
+            this.jumpCheck();
 
-        // Only do while player is not stuck to wall
-        if (!isStuck && !isLoading) {
-            // Horizontal movement
-            this.horizontalMovement();
+            // Only do while player is not stuck to wall
+            if (!isStuck && !isLoading) {
+                // Horizontal movement
+                this.horizontalMovement();
 
-            // ground slam functionality
-            this.checkGroundSlam();
+                // ground slam functionality
+                this.checkGroundSlam();
 
-            // Spin the player whilst in the air
-            if (!this.player.body.blocked.down && !this.isSlamming) {
-                //this.player.anims.play('jumping', true);
-                this.spinPlayer();
+                // Spin the player whilst in the air
+                if (!this.player.body.blocked.down && !this.isSlamming) {
+                    //this.player.anims.play('jumping', true);
+                    this.spinPlayer();
+                }
+            }
+
+            if (Phaser.Input.Keyboard.JustDown(keyS) && isStuck) {
+                console.log("letgo");
+                isStuck = false;
+                this.player.setGravityY(600);
+            }
+
+            this.wallJumpLeft();
+
+            this.wallJumpRight();
+
+            // reset the player sprite and angle when back on the ground
+            if (this.player.body.blocked.down) {
+                isJumping = false;
+                canStick = true;
+                this.resetPlayerAngle();
+            }
+
+            if (this.player.body.blocked.left) {
+                canStickRight = true;
+                canStickLeft = false;
+            }
+
+            if (this.player.body.blocked.right) {
+                canStickRight = false;
+                canStickLeft = true;
+            }
+
+            // Sight
+            this.handleSight();
+
+            //Check if player and deadzone overlap
+            this.physics.overlap(this.player, this.deadzone)
+
+            //Check if the player has made contact with any checkpoint objects
+            for (const checkpoint of this.checkpoints) {
+                checkpoint.update();
             }
         }
-
-        if(Phaser.Input.Keyboard.JustDown(keyS) && isStuck) {
-            console.log("letgo");
-            isStuck = false;
-            this.player.setGravityY(600);
-        }
-
-        this.wallJumpLeft();
-
-        this.wallJumpRight();
-
-        // reset the player sprite and angle when back on the ground
-        if (this.player.body.blocked.down) {
-            isJumping = false;
-            canStick = true;
-            this.resetPlayerAngle();
-        }
-
-        if(this.player.body.blocked.left) {
-            canStickRight = true;
-            canStickLeft = false;
-        }
-
-        if(this.player.body.blocked.right) {
-            canStickRight = false;
-            canStickLeft = true;
-        }
-
-        // Sight
-        this.handleSight();
-
-        //Check if player and deadzone overlap
-        this.physics.overlap(this.player, this.deadzone)
-
-        //Check if the player has made contact with any checkpoint objects
-        for (const checkpoint of this.checkpoints) {
-            checkpoint.update();
-        }
-    }
     }
 }
