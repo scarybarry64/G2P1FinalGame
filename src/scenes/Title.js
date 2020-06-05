@@ -87,7 +87,7 @@ class Title extends Phaser.Scene {
 
     create() {
         // spawn frozen player
-        this.createPlayer(); 
+        this.createPlayer();
 
         // spawn the floor and set it immovable
         this.spawnFloor();
