@@ -777,7 +777,6 @@ class Level_1 extends Phaser.Scene {
             }
 
             if (Phaser.Input.Keyboard.JustDown(keyS) && isStuck) {
-                console.log("letgo");
                 isStuck = false;
                 this.player.setGravityY(600);
             }
