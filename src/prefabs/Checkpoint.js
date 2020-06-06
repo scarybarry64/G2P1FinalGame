@@ -36,9 +36,6 @@ class Checkpoint extends Phaser.GameObjects.Sprite{
                     if(this.y < this.tempy || this.tempy == null){
                         localStorage.setItem('checkpointx', this.x);
                         localStorage.setItem('checkpointy', this.y);
-                        // for(let x = 0; x < this.checkpoints.length; x++){
-                        //     this.checkpoints[x].active = false;
-                        // }
                     }
                 }
             }
