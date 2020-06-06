@@ -564,6 +564,7 @@ class Level_1 extends Phaser.Scene {
     horizontalMovement() {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
+            game.settings.playerSpeed = 100;
             this.player.flipX = false;
             if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Run', true);
@@ -574,6 +575,7 @@ class Level_1 extends Phaser.Scene {
             }
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
+            game.settings.playerSpeed = 100;
             this.player.flipX = true;
             if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Run', true);
@@ -592,6 +594,15 @@ class Level_1 extends Phaser.Scene {
             }
 
             this.player.setVelocityX(0);
+        } else {
+            if(!this.player.flipX && game.settings.playerSpeed > 2){
+                this.player.setVelocityX((game.settings.playerSpeed = game.settings.playerSpeed - 3));
+            } else if (this.player.flipX && game.settings.playerSpeed > 0){
+                this.player.setVelocityX(-(game.settings.playerSpeed = game.settings.playerSpeed - 3));
+            } else {
+                game.settings.playerSpeed = 0;
+            }
+            
         }
     }
 
@@ -736,12 +747,17 @@ class Level_1 extends Phaser.Scene {
 
     update() {
 
+        console.log(game.settings.playerSpeed);
+
         if (isLoading) {
             loadCount++;
             if (loadCount > 200) {
                 isLoading = false;
             }
         } else {
+
+            // Sight
+            this.handleSight();
 
             this.rectStyle.destroy();
             this.loadingText.destroy();
@@ -801,9 +817,6 @@ class Level_1 extends Phaser.Scene {
                 canStickRight = false;
                 canStickLeft = true;
             }
-
-            // Sight
-            this.handleSight();
 
             //Check if player and deadzone overlap
             this.physics.overlap(this.player, this.deadzone)
