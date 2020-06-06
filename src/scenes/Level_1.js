@@ -101,22 +101,22 @@ class Level_1 extends Phaser.Scene {
 
         this.backgroundLayer_1 = this.add.image(0, 0, 'background_1');
         this.backgroundLayer_1.setOrigin(0, 0);
-        //this.backgroundLayer_1.setScrollFactor(1, 0.25);
+        //this.backgroundLayer_1.setScrollFactor(1, 0.20);
 
 
         this.backgroundLayer_2 = this.add.image(0, 2294, 'background_2');
         this.backgroundLayer_2.setOrigin(0, 1);
-        //this.backgroundLayer_2.setScrollFactor(1, 0.50);
+        //this.backgroundLayer_2.setScrollFactor(1, 0.40);
 
 
         this.backgroundLayer_3 = this.add.image(0, 3176, 'background_3');
         this.backgroundLayer_3.setOrigin(0, 1);
-        //this.backgroundLayer_3.setScrollFactor(1, 0.75);
+        //this.backgroundLayer_3.setScrollFactor(1, 0.60);
 
 
         this.backgroundLayer_4 = this.add.image(0, this.tilemap.heightInPixels, 'background_4');
         this.backgroundLayer_4.setOrigin(0, 1);
-        //this.backgroundLayer_4.setScrollFactor(1, 1);
+        //this.backgroundLayer_4.setScrollFactor(1, 0.80);
 
 
 
