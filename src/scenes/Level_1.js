@@ -66,6 +66,7 @@ class Level_1 extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
         this.load.audio('sfx_slam', './assets/audio/Hit_Hurt39.wav');
+        this.load.audio('checkpoint_achieved', './assets/audio/checkpoint_achieved.mp3');
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
@@ -75,6 +76,17 @@ class Level_1 extends Phaser.Scene {
 
         // loading animation
         this.load.spritesheet('loadAnim', 'assets/sprites/loadingAnim.png', { frameWidth: 8, frameHeight: 8 });
+
+        // load tutorial signs
+        this.load.image('tutorial_blank', './assets/tutorial_text/blank_tutorial.png');
+        this.load.image('tutorial_1', './assets/tutorial_text/tutorial_1.png');
+        this.load.image('tutorial_2', './assets/tutorial_text/tutorial_2.png');
+        this.load.image('tutorial_3', './assets/tutorial_text/tutorial_3.png');
+        this.load.image('tutorial_4', './assets/tutorial_text/tutorial_4.png');
+        this.load.image('tutorial_5', './assets/tutorial_text/tutorial_5.png');
+        this.load.image('tutorial_6', './assets/tutorial_text/tutorial_6.png');
+        this.load.image('tutorial_7', './assets/tutorial_text/tutorial_7.png');
+
     }
 
     // *** CREATE FUNCTIONS ***
@@ -355,7 +367,7 @@ class Level_1 extends Phaser.Scene {
 
         //Create checkpoint objects at every flagged location
         for (const checkpoint of this.checkpointPos) {
-            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player, this.checkpoints));
+            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player, this.checkpoints, 'checkpoint_achieved'));
             // this.add.image(this.checkpoint.x, this.checkpoint.y)
         }
     }

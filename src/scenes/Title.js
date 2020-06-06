@@ -21,7 +21,7 @@ class Title extends Phaser.Scene {
 
 
         // preload sound effects
-        this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
+        this.load.audio('sfx_select', './assets/audio/select.mp3');
 
         this.load.audio('music', './assets/audio/CyberPunk.wav');
 
