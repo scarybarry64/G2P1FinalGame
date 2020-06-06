@@ -329,7 +329,7 @@ class Level_1 extends Phaser.Scene {
 
         this.moveRate = localStorage.getItem('incrementer');
         if(this.moveRate == null){
-            this.moveRate = 16;
+            this.moveRate = 4;
         }
 
         //Overlap check, runs GameOver scene if player overlaps with deadzone
@@ -480,7 +480,7 @@ class Level_1 extends Phaser.Scene {
         if (!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
-            if ((this.player.y > this.jumpStartHeight - 20) &&
+            if ((this.player.y > this.jumpStartHeight - 23) &&
                 !this.player.body.blocked.right) {
                 if (kSight) {
                     this.player.anims.play('Sunset_Jumping', true);
@@ -615,12 +615,12 @@ class Level_1 extends Phaser.Scene {
 
             this.player.setVelocityX(0);
         } else {
-            if (!this.player.flipX && game.settings.playerSpeed > 2) {
+            if (!this.player.flipX && game.settings.playerSpeed > 2 && canStick) {
                 this.player.setVelocityX((game.settings.playerSpeed = game.settings.playerSpeed - 3));
-            } else if (this.player.flipX && game.settings.playerSpeed > 0) {
+            } else if (this.player.flipX && game.settings.playerSpeed > 0 && canStick) {
                 this.player.setVelocityX(-(game.settings.playerSpeed = game.settings.playerSpeed - 3));
             } else {
-                game.settings.playerSpeed = 0;
+                game.settings.playerSpeed = 100;
             }
 
         }
