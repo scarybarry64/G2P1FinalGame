@@ -1,5 +1,5 @@
 class Checkpoint extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, texture2, player){
+    constructor(scene, x, y, texture, texture2, player, checkpoints){
         super(scene, x, y, texture, texture2, player);
         this.active = false;
         this.player = player;
@@ -7,6 +7,7 @@ class Checkpoint extends Phaser.GameObjects.Sprite{
         this.y = y;
         this.setTexture(texture);
         this.secTexture = texture2;
+        this.checkpoints = checkpoints;
 
         //add object to existing scene, displayList, updateList
         scene.add.existing(this);
@@ -35,7 +36,9 @@ class Checkpoint extends Phaser.GameObjects.Sprite{
                     if(this.y < this.tempy || this.tempy == null){
                         localStorage.setItem('checkpointx', this.x);
                         localStorage.setItem('checkpointy', this.y);
-                        // console.log("changed checkpoint");
+                        // for(let x = 0; x < this.checkpoints.length; x++){
+                        //     this.checkpoints[x].active = false;
+                        // }
                     }
                 }
             }

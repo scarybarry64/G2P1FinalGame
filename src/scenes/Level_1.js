@@ -312,6 +312,11 @@ class Level_1 extends Phaser.Scene {
             this.deadzone.y = Number(tempy) + 480;
         }
 
+        this.moveRate = localStorage.getItem('incrementer');
+        if(this.moveRate == null){
+            this.moveRate = 16;
+        }
+
         //Overlap check, runs GameOver scene if player overlaps with deadzone
         this.physics.world.on('overlap', () => {
             this.scene.start('GameOver');
@@ -335,7 +340,7 @@ class Level_1 extends Phaser.Scene {
 
         //Create checkpoint objects at every flagged location
         for (const checkpoint of this.checkpointPos) {
-            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player));
+            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player, this.checkpoints));
             // this.add.image(this.checkpoint.x, this.checkpoint.y)
         }
     }
@@ -735,6 +740,14 @@ class Level_1 extends Phaser.Scene {
     // *** MAIN UPDATE FUNCTION ***
 
     update() {
+        this.moveMod = 1;
+
+        for(let x = 0; x < this.checkpoints.length; x++){
+            if(!this.checkpoints[x].checkpointSet){
+                this.moveMod += x;
+                break;
+            }
+        }
 
         if (isLoading) {
             loadCount++;
@@ -750,7 +763,8 @@ class Level_1 extends Phaser.Scene {
             this.timer++;
 
             if (this.timer % 50 == 0) {
-                this.deadzone.y = this.deadzone.y - 4;
+                this.deadzone.y = this.deadzone.y - (this.moveRate * this.moveMod);
+                console.log(this.moveMod);
                 this.deadzone.anims.play('Deadzone_FX', true);
             }
 
