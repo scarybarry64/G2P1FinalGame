@@ -39,6 +39,7 @@ let isLoading = true;
 let loadCount = 0;
 let canStickRight = false;
 let canStickLeft = false;
+let ease = false;
 
 // settings
 game.settings = {

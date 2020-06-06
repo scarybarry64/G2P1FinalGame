@@ -33,6 +33,8 @@ class Title extends Phaser.Scene {
         // preload sound effects
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
 
+        this.load.audio('music', './assets/audio/CyberPunk.wav');
+
     }
 
     createPlayer() {
@@ -75,70 +77,32 @@ class Title extends Phaser.Scene {
             setScale(0.5, 0.5).
             on('pointerdown', () => this.goToLevel1());
         this.playButton.setInteractive(); 
-        this.playButton.on('pointerover', () => { console.log('pointerover'); }); //on hover
+        this.playButton.on('pointerover', () => { }); //on hover
 
         this.levelsButton = this.add.image(centerX, centerY / 2 + 170, 'button_tutorial').
             setScale(0.5, 0.5).
             on('pointerdown', () => this.goToTutorial());
         this.levelsButton.setInteractive(); 
 
-        /*
-        // Level Select Button
-        this.levelsButton = this.add.image(centerX, centerY / 2 + 250, 'button_levels').
-            setScale(0.75, 0.75).
-            on('pointerdown', () => this.revealLevels());
-        this.levelsButton.setInteractive(); 
-        this.levelsButton.on('pointerover', () => { console.log('pointerover_levels'); }); //on hover
-
-        // back button
-        this.backButton = this.add.image(centerX, centerY / 2 + 325, 'button_back').
-            setScale(0.75, 0.75).
-            on('pointerdown', () => this.back());
-        this.backButton.setInteractive();
-        this.backButton.visible = false;
-        
-        // Test Level Select Button
-        this.testLevelButton = this.add.image(centerX, centerY / 2 + 275, 'button_test').
-            setScale(0.75, 0.75).
-            on('pointerdown', () => this.goToTestLevel());
-        this.testLevelButton.setInteractive();
-        this.testLevelButton.visible = false;
-        
-        // Level 1 button (goes to tutorial first)
-        this.oneLevelButton = this.add.image(centerX - 200, centerY / 2 + 200, 'button_one').
-            setScale(0.75, 0.75).
-            on('pointerdown', () => this.goToLevel1());
-        this.oneLevelButton.setInteractive();
-        this.oneLevelButton.visible = false;
-
-        // Level 2 button
-        this.twoLevelButton = this.add.image(centerX - 100, centerY / 2 + 200, 'button_two_disabled').
-            setScale(0.75, 0.75);
-        this.twoLevelButton.setInteractive();
-        this.twoLevelButton.visible = false;
-
-        // Level 3 button
-        this.threeLevelButton = this.add.image(centerX, centerY / 2 + 200, 'button_three_disabled').
-            setScale(0.75, 0.75);
-        this.threeLevelButton.setInteractive();
-        this.threeLevelButton.visible = false;
-
-        // Level 4 button
-        this.fourLevelButton = this.add.image(centerX + 100, centerY / 2 + 200, 'button_four_disabled').
-            setScale(0.75, 0.75);
-        this.fourLevelButton.setInteractive();
-        this.fourLevelButton.visible = false;
-
-        // Level 5 button
-        this.fiveLevelButton = this.add.image(centerX + 200, centerY / 2 + 200, 'button_five_disabled').
-            setScale(0.75, 0.75);
-        this.fiveLevelButton.setInteractive();
-        this.fiveLevelButton.visible = false;
-        */
         
     }
 
     create() {
+        
+        var musicConfig = {
+            mute: false,
+            volume: 0.05,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        };
+
+        game.music = this.sound.add('music');
+        game.music.play(musicConfig);
+        
+
         // spawn frozen player
         this.createPlayer();
 

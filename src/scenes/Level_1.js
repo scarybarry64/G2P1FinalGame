@@ -14,7 +14,19 @@ class Level_1 extends Phaser.Scene {
         // load tile stuff
         this.load.image('tileset', './assets/tiles/tileset.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tiles/tilemap.json');
-        this.load.image('background', './assets/tiles/background.png');
+
+        // load backgrounds
+        // this.load.image('background', './assets/tiles/background.png');
+        // this.load.image('background_1', './assets/tiles/background_1.png');
+        // this.load.image('background_2', './assets/tiles/background_2.png');
+        // this.load.image('background_3', './assets/tiles/background_3.png');
+        // this.load.image('background_4', './assets/tiles/background_4.png');
+
+        this.load.image('background_1', './assets/tiles/background_1_2.png');
+        this.load.image('background_2', './assets/tiles/background_2_2.png');
+        this.load.image('background_3', './assets/tiles/background_3_2.png');
+        this.load.image('background_4', './assets/tiles/background_4_2.png');
+        this.load.image('background_5', './assets/tiles/background_5_2.png');
 
         /*
         // load player sprite
@@ -70,34 +82,37 @@ class Level_1 extends Phaser.Scene {
     // Creates level using tilemap and layers, hide skyway and starfall layers
     createLevel() {
 
-        // // OLD CODE
-        // this.tilemap = this.add.tilemap('tilemap');
-        // this.tileset = this.tilemap.addTilesetImage('test_tileset', 'tileset2');
-        // this.baseLayer = this.tilemap.createStaticLayer('Base', this.tileset, 0, 0);
-        // this.sunsetLayer = this.tilemap.createStaticLayer('Sunset', this.tileset, 0, 0);
-        // this.skywayLayer = this.tilemap.createStaticLayer('Skyway', this.tileset, 0, 0);
-        // this.starfallLayer = this.tilemap.createStaticLayer('Starfall', this.tileset, 0, 0);
-        // this.sunsetLayer.alpha = 0;
-        // this.starfallLayer.alpha = 0;
-
-        // NEW CODE
+        // Create tile stuff
         this.tilemap = this.add.tilemap('tilemap');
         this.tileset = this.tilemap.addTilesetImage('tileset', 'tileset');
 
+        // Create background layers
+        // this.backgroundLayer_1 = this.add.image(0, 0, 'background_1').setOrigin(0, 0);
+        // this.backgroundLayer_2 = this.add.image(0, 2294, 'background_2').setOrigin(0, 1);
+        // this.backgroundLayer_3 = this.add.image(0, 3176, 'background_3').setOrigin(0, 1);
+        // this.backgroundLayer_4 = this.add.image(0, this.tilemap.heightInPixels, 'background_4').setOrigin(0, 1);
 
+        this.backgroundLayer_1 = this.add.image(0, 0, 'background_1').setOrigin(0, 0);
+        this.backgroundLayer_2 = this.add.image(0, 0, 'background_2').setOrigin(0, 0);
+        this.backgroundLayer_3 = this.add.image(0, 0, 'background_3').setOrigin(0, 0);
+        this.backgroundLayer_4 = this.add.image(0, 0, 'background_4').setOrigin(0, 0);
+        this.backgroundLayer_5 = this.add.image(0, 0, 'background_5').setOrigin(0, 0);
 
+        // Parallax scrolling
+        this.backgroundLayer_1.setScrollFactor(1, 0.40);
+        this.backgroundLayer_2.setScrollFactor(1, 0.60);
+        this.backgroundLayer_3.setScrollFactor(1, 0.85);
+        this.backgroundLayer_4.setScrollFactor(1, 0.80);
+        this.backgroundLayer_5.setScrollFactor(1, 0.95);
 
-        this.backgroundLayer = this.add.sprite(this.tilemap.widthInPixels / 2, this.tilemap.heightInPixels / 2, 'background').depth = 0;
-        //this.backgroundLayer.setScrollFactor(0.25);
-
-
-
+        // Rest o' the level
         this.buildingLayer = this.tilemap.createStaticLayer('Buildings', this.tileset, 0, 0);
         this.offLayer = this.tilemap.createStaticLayer('Off', this.tileset, 0, 0);
         this.starfallLayer = this.tilemap.createStaticLayer('Starfall', this.tileset, 0, 0);
         this.sunsetLayer = this.tilemap.createStaticLayer('Sunset', this.tileset, 0, 0);
         this.skywayLayer = this.tilemap.createStaticLayer('Skyway', this.tileset, 0, 0);
 
+        // Set only skyway to visible by default
         this.sunsetLayer.alpha = 0;
         this.starfallLayer.alpha = 0;
     }
@@ -569,6 +584,7 @@ class Level_1 extends Phaser.Scene {
     horizontalMovement() {
         if (keyD.isDown) {
             this.player.setVelocityX(game.settings.playerSpeed);
+            game.settings.playerSpeed = 100;
             this.player.flipX = false;
             if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Run', true);
@@ -579,6 +595,7 @@ class Level_1 extends Phaser.Scene {
             }
         } else if (keyA.isDown) {
             this.player.setVelocityX(-game.settings.playerSpeed);
+            game.settings.playerSpeed = 100;
             this.player.flipX = true;
             if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Run', true);
@@ -597,6 +614,15 @@ class Level_1 extends Phaser.Scene {
             }
 
             this.player.setVelocityX(0);
+        } else {
+            if (!this.player.flipX && game.settings.playerSpeed > 2) {
+                this.player.setVelocityX((game.settings.playerSpeed = game.settings.playerSpeed - 3));
+            } else if (this.player.flipX && game.settings.playerSpeed > 0) {
+                this.player.setVelocityX(-(game.settings.playerSpeed = game.settings.playerSpeed - 3));
+            } else {
+                game.settings.playerSpeed = 0;
+            }
+
         }
     }
 
@@ -756,6 +782,9 @@ class Level_1 extends Phaser.Scene {
             }
         } else {
 
+            // Sight
+            this.handleSight();
+
             this.rectStyle.destroy();
             this.loadingText.destroy();
             this.loading.destroy();
@@ -791,7 +820,6 @@ class Level_1 extends Phaser.Scene {
             }
 
             if (Phaser.Input.Keyboard.JustDown(keyS) && isStuck) {
-                console.log("letgo");
                 isStuck = false;
                 this.player.setGravityY(600);
             }
@@ -816,9 +844,6 @@ class Level_1 extends Phaser.Scene {
                 canStickRight = false;
                 canStickLeft = true;
             }
-
-            // Sight
-            this.handleSight();
 
             //Check if player and deadzone overlap
             this.physics.overlap(this.player, this.deadzone)
