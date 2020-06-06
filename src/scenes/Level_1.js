@@ -67,6 +67,9 @@ class Level_1 extends Phaser.Scene {
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
         this.load.audio('sfx_slam', './assets/audio/Hit_Hurt39.wav');
         this.load.audio('checkpoint_achieved', './assets/audio/checkpoint_achieved.mp3');
+        this.load.audio('electricity_1', './assets/audio/electricity_1.mp3');
+        this.load.audio('electricity_2', './assets/audio/electricity_2.mp3');
+        this.load.audio('electricity_3', './assets/audio/electricity_3.mp3');
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
@@ -76,16 +79,6 @@ class Level_1 extends Phaser.Scene {
 
         // loading animation
         this.load.spritesheet('loadAnim', 'assets/sprites/loadingAnim.png', { frameWidth: 8, frameHeight: 8 });
-
-        // load tutorial signs
-        this.load.image('tutorial_blank', './assets/tutorial_text/blank_tutorial.png');
-        this.load.image('tutorial_1', './assets/tutorial_text/tutorial_1.png');
-        this.load.image('tutorial_2', './assets/tutorial_text/tutorial_2.png');
-        this.load.image('tutorial_3', './assets/tutorial_text/tutorial_3.png');
-        this.load.image('tutorial_4', './assets/tutorial_text/tutorial_4.png');
-        this.load.image('tutorial_5', './assets/tutorial_text/tutorial_5.png');
-        this.load.image('tutorial_6', './assets/tutorial_text/tutorial_6.png');
-        this.load.image('tutorial_7', './assets/tutorial_text/tutorial_7.png');
 
     }
 
@@ -635,6 +628,8 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to sunset
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
+            
+            this.sound.play('electricity_1');
 
             // unstick to wall if on an obstacle
             if (this.player.x == 24 || this.player.x == 456) {
@@ -663,6 +658,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
+            this.sound.play('electricity_2');
             // unstick to wall if on an obstacle
             if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Sunset_Wall', true);
@@ -690,6 +686,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
 
+            this.sound.play('electricity_3');
             // unstick to wall if on an obstacle
             if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Starfall_Wall', true);
