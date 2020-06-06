@@ -6,29 +6,12 @@ class Title extends Phaser.Scene {
     preload() {
         // preload images
         this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
-        this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png'); //placeholder terminal
 
         // preload buttons
         this.load.image('button_play', './assets/buttons/button_play.png');
         this.load.image('button_tutorial', './assets/buttons/button_tutorial.png');
-        this.load.image('button_levels', './assets/buttons/button_levels.png');
-        this.load.image('button_back', './assets/buttons/button_back.png');
-        this.load.image('button_test', './assets/buttons/button_test.png');
-        this.load.image('button_one', './assets/buttons/button_1.png');
-        this.load.image('button_two', './assets/buttons/button_2.png');
-        this.load.image('button_three', './assets/buttons/button_3.png');
-        this.load.image('button_four', './assets/buttons/button_4.png');
-        this.load.image('button_five', './assets/buttons/button_5.png');
-        this.load.image('button_five_disabled', './assets/buttons/button_5_disabled.png');
-        this.load.image('button_four_disabled', './assets/buttons/button_4_disabled.png');
-        this.load.image('button_three_disabled', './assets/buttons/button_3_disabled.png');
-        this.load.image('button_two_disabled', './assets/buttons/button_2_disabled.png');
 
         // preload text images
-        this.load.image('title_purple', './assets/text/title_purple.png');
-        this.load.image('title_blue', './assets/text/title_blue.png');
-        this.load.image('title_red', './assets/text/title_red.png');
-        this.load.image('title_yellow', './assets/text/title_yellow.png');
         this.load.image('skyway_1', './assets/text/logo_skyway_1.png');
         this.load.image('sunset_1', './assets/text/logo_sunset_1.png');
         this.load.image('starfall_1', './assets/text/logo_starfall_1.png');

@@ -466,13 +466,6 @@ class Level_1 extends Phaser.Scene {
     startJump() {
         this.player.setVelocityY(-150);
         isJumping = true;
-        if (kSight) {
-            this.player.anims.play('Sunset_Jumping', true);
-        } else if (lSight) {
-            this.player.anims.play('Starfall_Jumping', true);
-        } else {
-            this.player.anims.play('Skyway_Jumping', true);
-        }
     }
 
     // This makes it possible to hold your jump to increase height
@@ -785,6 +778,17 @@ class Level_1 extends Phaser.Scene {
             // Sight
             this.handleSight();
 
+            if(isJumping && jSight) {
+                this.player.anims.play('Skyway_Jumping', true);
+
+            } else if(isJumping && kSight) {
+                this.player.anims.play('Sunset_Jumping', true);
+
+            } else if(isJumping && lSight) {
+                this.player.anims.play('Starfall_Jumping', true);
+
+            }
+
             this.rectStyle.destroy();
             this.loadingText.destroy();
             this.loading.destroy();
@@ -793,7 +797,7 @@ class Level_1 extends Phaser.Scene {
 
             if (this.timer % 50 == 0) {
                 this.deadzone.y = this.deadzone.y - (this.moveRate * this.moveMod);
-                console.log(this.moveMod);
+                // console.log(this.moveMod);
                 this.deadzone.anims.play('Deadzone_FX', true);
             }
 
