@@ -14,7 +14,13 @@ class Level_1 extends Phaser.Scene {
         // load tile stuff
         this.load.image('tileset', './assets/tiles/tileset.png');
         this.load.tilemapTiledJSON('tilemap', './assets/tiles/tilemap.json');
+
+        // load backgrounds
         this.load.image('background', './assets/tiles/background.png');
+        this.load.image('background_1', './assets/tiles/background_1.png');
+        this.load.image('background_2', './assets/tiles/background_2.png');
+        this.load.image('background_3', './assets/tiles/background_3.png');
+        this.load.image('background_4', './assets/tiles/background_4.png');
 
         /*
         // load player sprite
@@ -87,8 +93,30 @@ class Level_1 extends Phaser.Scene {
 
 
 
-        this.backgroundLayer = this.add.sprite(this.tilemap.widthInPixels / 2, this.tilemap.heightInPixels / 2, 'background').depth = 0;
+        // this.backgroundLayer = this.add.sprite(this.tilemap.widthInPixels / 2, this.tilemap.heightInPixels / 2, 'background').depth = 0;
+        // //this.backgroundLayer.setScrollFactor(0.25);
+
+        //this.backgroundLayer = this.add.sprite(this.tilemap.widthInPixels / 2, this.tilemap.heightInPixels / 2, 'background').depth = 0;
         //this.backgroundLayer.setScrollFactor(0.25);
+
+        this.backgroundLayer_1 = this.add.image(0, 0, 'background_1');
+        this.backgroundLayer_1.setOrigin(0, 0);
+        //this.backgroundLayer_1.setScrollFactor(1, 0.25);
+
+
+        this.backgroundLayer_2 = this.add.image(0, 2294, 'background_2');
+        this.backgroundLayer_2.setOrigin(0, 1);
+        //this.backgroundLayer_2.setScrollFactor(1, 0.50);
+
+
+        this.backgroundLayer_3 = this.add.image(0, 3176, 'background_3');
+        this.backgroundLayer_3.setOrigin(0, 1);
+        //this.backgroundLayer_3.setScrollFactor(1, 0.75);
+
+
+        this.backgroundLayer_4 = this.add.image(0, this.tilemap.heightInPixels, 'background_4');
+        this.backgroundLayer_4.setOrigin(0, 1);
+        //this.backgroundLayer_4.setScrollFactor(1, 1);
 
 
 
@@ -595,14 +623,14 @@ class Level_1 extends Phaser.Scene {
 
             this.player.setVelocityX(0);
         } else {
-            if(!this.player.flipX && game.settings.playerSpeed > 2){
+            if (!this.player.flipX && game.settings.playerSpeed > 2) {
                 this.player.setVelocityX((game.settings.playerSpeed = game.settings.playerSpeed - 3));
-            } else if (this.player.flipX && game.settings.playerSpeed > 0){
+            } else if (this.player.flipX && game.settings.playerSpeed > 0) {
                 this.player.setVelocityX(-(game.settings.playerSpeed = game.settings.playerSpeed - 3));
             } else {
                 game.settings.playerSpeed = 0;
             }
-            
+
         }
     }
 
