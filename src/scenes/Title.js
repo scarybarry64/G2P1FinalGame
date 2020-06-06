@@ -29,6 +29,13 @@ class Title extends Phaser.Scene {
         this.load.image('title_blue', './assets/text/title_blue.png');
         this.load.image('title_red', './assets/text/title_red.png');
         this.load.image('title_yellow', './assets/text/title_yellow.png');
+        this.load.image('skyway_1', './assets/text/logo_skyway_1.png');
+        this.load.image('sunset_1', './assets/text/logo_sunset_1.png');
+        this.load.image('starfall_1', './assets/text/logo_starfall_1.png');
+        this.load.image('skyway_2', './assets/text/logo_skyway_2.png');
+        this.load.image('sunset_2', './assets/text/logo_sunset_2.png');
+        this.load.image('starfall_2', './assets/text/logo_starfall_2.png');
+
 
         // preload sound effects
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
@@ -122,7 +129,7 @@ class Title extends Phaser.Scene {
             fontFamily: 'Consolas', fontSize: '10px', align: 'center'
         }).setOrigin(0.5);
 
-        this.title = this.add.image(centerX, centerY - 80, 'title_blue');
+        this.title = this.add.image(centerX, centerY - 80, 'skyway_1');
 
         this.color = 0; // 0 = blue, 1 = red, 2 = yellow
 
@@ -219,13 +226,22 @@ class Title extends Phaser.Scene {
 
         if((this.timer % 200) == 0) {
             if(this.color == 0) {
-                this.title.setTexture('title_red');
+                this.title.setTexture('sunset_1');
                 this.color = 1;
             } else if(this.color == 1) {
-                this.title.setTexture('title_yellow');
+                this.title.setTexture('starfall_1');
                 this.color = 2;
-            } else {
-                this.title.setTexture('title_blue');
+            } else if(this.color == 2) {
+                this.title.setTexture('skyway_2');
+                this.color = 3;
+            } else if(this.color == 3) {
+                this.title.setTexture('sunset_2');
+                this.color = 4;
+            } else if(this.color == 4) {
+                this.title.setTexture('starfall_2');
+                this.color = 5;
+            } else if(this.color == 5) {
+                this.title.setTexture('skyway_1');
                 this.color = 0;
             }
         }
