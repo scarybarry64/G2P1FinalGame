@@ -6,32 +6,22 @@ class Title extends Phaser.Scene {
     preload() {
         // preload images
         this.load.atlas('Glitch', './assets/sprites/Glitch.png', './assets/sprites/Glitch.json');
-        this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png'); //placeholder terminal
 
         // preload buttons
         this.load.image('button_play', './assets/buttons/button_play.png');
         this.load.image('button_tutorial', './assets/buttons/button_tutorial.png');
-        this.load.image('button_levels', './assets/buttons/button_levels.png');
-        this.load.image('button_back', './assets/buttons/button_back.png');
-        this.load.image('button_test', './assets/buttons/button_test.png');
-        this.load.image('button_one', './assets/buttons/button_1.png');
-        this.load.image('button_two', './assets/buttons/button_2.png');
-        this.load.image('button_three', './assets/buttons/button_3.png');
-        this.load.image('button_four', './assets/buttons/button_4.png');
-        this.load.image('button_five', './assets/buttons/button_5.png');
-        this.load.image('button_five_disabled', './assets/buttons/button_5_disabled.png');
-        this.load.image('button_four_disabled', './assets/buttons/button_4_disabled.png');
-        this.load.image('button_three_disabled', './assets/buttons/button_3_disabled.png');
-        this.load.image('button_two_disabled', './assets/buttons/button_2_disabled.png');
 
         // preload text images
-        this.load.image('title_purple', './assets/text/title_purple.png');
-        this.load.image('title_blue', './assets/text/title_blue.png');
-        this.load.image('title_red', './assets/text/title_red.png');
-        this.load.image('title_yellow', './assets/text/title_yellow.png');
+        this.load.image('skyway_1', './assets/text/logo_skyway_1.png');
+        this.load.image('sunset_1', './assets/text/logo_sunset_1.png');
+        this.load.image('starfall_1', './assets/text/logo_starfall_1.png');
+        this.load.image('skyway_2', './assets/text/logo_skyway_2.png');
+        this.load.image('sunset_2', './assets/text/logo_sunset_2.png');
+        this.load.image('starfall_2', './assets/text/logo_starfall_2.png');
+
 
         // preload sound effects
-        this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
+        this.load.audio('sfx_select', './assets/audio/select.mp3');
 
         this.load.audio('music', './assets/audio/CyberPunk.wav');
 
@@ -122,7 +112,7 @@ class Title extends Phaser.Scene {
             fontFamily: 'Consolas', fontSize: '10px', align: 'center'
         }).setOrigin(0.5);
 
-        this.title = this.add.image(centerX, centerY - 80, 'title_blue');
+        this.title = this.add.image(centerX, centerY - 80, 'skyway_1');
 
         this.color = 0; // 0 = blue, 1 = red, 2 = yellow
 
@@ -219,13 +209,22 @@ class Title extends Phaser.Scene {
 
         if((this.timer % 200) == 0) {
             if(this.color == 0) {
-                this.title.setTexture('title_red');
+                this.title.setTexture('sunset_1');
                 this.color = 1;
             } else if(this.color == 1) {
-                this.title.setTexture('title_yellow');
+                this.title.setTexture('starfall_1');
                 this.color = 2;
-            } else {
-                this.title.setTexture('title_blue');
+            } else if(this.color == 2) {
+                this.title.setTexture('skyway_2');
+                this.color = 3;
+            } else if(this.color == 3) {
+                this.title.setTexture('sunset_2');
+                this.color = 4;
+            } else if(this.color == 4) {
+                this.title.setTexture('starfall_2');
+                this.color = 5;
+            } else if(this.color == 5) {
+                this.title.setTexture('skyway_1');
                 this.color = 0;
             }
         }

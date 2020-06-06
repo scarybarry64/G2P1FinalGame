@@ -15,7 +15,8 @@ let config = {
             debug: false,
         }
     },
-    pixelArt: true,
+    //pixelArt: true,
+    antialias: false,
     scene: [Title, Test, Tutorial, Level_1, Pause, GameOver],
 };
 

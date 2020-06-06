@@ -66,6 +66,10 @@ class Level_1 extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_jump', './assets/audio/Jump19.wav');
         this.load.audio('sfx_slam', './assets/audio/Hit_Hurt39.wav');
+        this.load.audio('checkpoint_achieved', './assets/audio/checkpoint_achieved.mp3');
+        this.load.audio('electricity_1', './assets/audio/electricity_1.mp3');
+        this.load.audio('electricity_2', './assets/audio/electricity_2.mp3');
+        this.load.audio('electricity_3', './assets/audio/electricity_3.mp3');
 
         // load various sprites
         this.load.image('bounds_terminal', './assets/sprites/bounds_terminal.png');
@@ -75,6 +79,7 @@ class Level_1 extends Phaser.Scene {
 
         // loading animation
         this.load.spritesheet('loadAnim', 'assets/sprites/loadingAnim.png', { frameWidth: 8, frameHeight: 8 });
+
     }
 
     // *** CREATE FUNCTIONS ***
@@ -353,7 +358,7 @@ class Level_1 extends Phaser.Scene {
 
         //Create checkpoint objects at every flagged location
         for (const checkpoint of this.checkpointPos) {
-            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player, this.checkpoints));
+            this.checkpoints.push(new Checkpoint(this, checkpoint.x, checkpoint.y, 'checkpoint_off', 'checkpoint_on', this.player, this.checkpoints, 'checkpoint_achieved'));
             // this.add.image(this.checkpoint.x, this.checkpoint.y)
         }
     }
@@ -464,13 +469,6 @@ class Level_1 extends Phaser.Scene {
     startJump() {
         this.player.setVelocityY(-150);
         isJumping = true;
-        if (kSight) {
-            this.player.anims.play('Sunset_Jumping', true);
-        } else if (lSight) {
-            this.player.anims.play('Starfall_Jumping', true);
-        } else {
-            this.player.anims.play('Skyway_Jumping', true);
-        }
     }
 
     // This makes it possible to hold your jump to increase height
@@ -478,7 +476,7 @@ class Level_1 extends Phaser.Scene {
         if (!isStuck) {
             // only allow the player to jump 100 units above the 
             // height at which the jump was made
-            if ((this.player.y > this.jumpStartHeight - 20) &&
+            if ((this.player.y > this.jumpStartHeight - 23) &&
                 !this.player.body.blocked.right) {
                 if (kSight) {
                     this.player.anims.play('Sunset_Jumping', true);
@@ -613,12 +611,12 @@ class Level_1 extends Phaser.Scene {
 
             this.player.setVelocityX(0);
         } else {
-            if (!this.player.flipX && game.settings.playerSpeed > 2) {
+            if (!this.player.flipX && game.settings.playerSpeed > 2 && canStick) {
                 this.player.setVelocityX((game.settings.playerSpeed = game.settings.playerSpeed - 3));
-            } else if (this.player.flipX && game.settings.playerSpeed > 0) {
+            } else if (this.player.flipX && game.settings.playerSpeed > 0 && canStick) {
                 this.player.setVelocityX(-(game.settings.playerSpeed = game.settings.playerSpeed - 3));
             } else {
-                game.settings.playerSpeed = 0;
+                game.settings.playerSpeed = 100;
             }
 
         }
@@ -628,6 +626,8 @@ class Level_1 extends Phaser.Scene {
         // J key sight, distorts platforms to sunset
         if (Phaser.Input.Keyboard.JustDown(keyJ) &&
             !jSight) {
+            
+            this.sound.play('electricity_1');
 
             // unstick to wall if on an obstacle
             if (this.player.x == 24 || this.player.x == 456) {
@@ -656,6 +656,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyK) &&
             !kSight) {
 
+            this.sound.play('electricity_2');
             // unstick to wall if on an obstacle
             if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Sunset_Wall', true);
@@ -683,6 +684,7 @@ class Level_1 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyL) &&
             !lSight) {
 
+            this.sound.play('electricity_3');
             // unstick to wall if on an obstacle
             if (this.player.x == 24 || this.player.x == 456) {
                 this.player.anims.play('Starfall_Wall', true);
@@ -783,6 +785,17 @@ class Level_1 extends Phaser.Scene {
             // Sight
             this.handleSight();
 
+            if(isJumping && jSight) {
+                this.player.anims.play('Skyway_Jumping', true);
+
+            } else if(isJumping && kSight) {
+                this.player.anims.play('Sunset_Jumping', true);
+
+            } else if(isJumping && lSight) {
+                this.player.anims.play('Starfall_Jumping', true);
+
+            }
+
             this.rectStyle.destroy();
             this.loadingText.destroy();
             this.loading.destroy();
@@ -790,8 +803,13 @@ class Level_1 extends Phaser.Scene {
             this.timer++;
 
             if (this.timer % 50 == 0) {
+<<<<<<< HEAD
                 this.deadzone.y = this.deadzone.y - (this.moveRate + (4 * this.moveMod));
                 console.log(this.moveMod);
+=======
+                this.deadzone.y = this.deadzone.y - (this.moveRate * this.moveMod);
+                // console.log(this.moveMod);
+>>>>>>> 3160516d1b95b7d6fbd8d475a416e651e4eda02b
                 this.deadzone.anims.play('Deadzone_FX', true);
             }
 
