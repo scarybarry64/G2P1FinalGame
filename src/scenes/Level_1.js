@@ -747,8 +747,6 @@ class Level_1 extends Phaser.Scene {
 
     update() {
 
-        console.log(game.settings.playerSpeed);
-
         if (isLoading) {
             loadCount++;
             if (loadCount > 200) {
