@@ -33,6 +33,8 @@ class Title extends Phaser.Scene {
         // preload sound effects
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
 
+        this.load.audio('music', './assets/audio/CyberPunk.wav');
+
     }
 
     createPlayer() {
@@ -86,6 +88,21 @@ class Title extends Phaser.Scene {
     }
 
     create() {
+        
+        var musicConfig = {
+            mute: false,
+            volume: 0.05,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        };
+
+        game.music = this.sound.add('music');
+        game.music.play(musicConfig);
+        
+
         // spawn frozen player
         this.createPlayer();
 
