@@ -803,13 +803,8 @@ class Level_1 extends Phaser.Scene {
             this.timer++;
 
             if (this.timer % 50 == 0) {
-<<<<<<< HEAD
-                this.deadzone.y = this.deadzone.y - (this.moveRate + (4 * this.moveMod));
-                console.log(this.moveMod);
-=======
                 this.deadzone.y = this.deadzone.y - (this.moveRate * this.moveMod);
                 // console.log(this.moveMod);
->>>>>>> 3160516d1b95b7d6fbd8d475a416e651e4eda02b
                 this.deadzone.anims.play('Deadzone_FX', true);
             }
 
