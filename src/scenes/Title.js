@@ -207,7 +207,7 @@ class Title extends Phaser.Scene {
     update() {
         this.timer++;
 
-        if((this.timer % 200) == 0) {
+        if((this.timer % 145) == 0) {
             if(this.color == 0) {
                 this.title.setTexture('sunset_1');
                 this.color = 1;
