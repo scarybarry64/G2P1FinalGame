@@ -23157,7 +23157,7 @@
   <object id="2" name="Checkpoint" x="64" y="2880">
    <point/>
   </object>
-  <object id="3" name="Goal" x="376" y="120">
+  <object id="3" name="Goal" x="384" y="128">
    <point/>
   </object>
   <object id="4" name="Checkpoint" x="84.3333" y="2721.33">
