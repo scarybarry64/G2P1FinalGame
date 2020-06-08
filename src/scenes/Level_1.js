@@ -784,8 +784,16 @@ class Level_1 extends Phaser.Scene {
             }
         } else {
 
+           
+
             // Sight
             this.handleSight();
+
+            if(this.player.x > 342 && this.player.x < 470) {
+                if(this.player.y > 125) {
+                    this.scene.start('GameWin');
+                }
+            }
 
             if(isJumping && jSight) {
                 this.player.anims.play('Skyway_Jumping', true);
