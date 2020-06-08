@@ -17,7 +17,7 @@ let config = {
     },
     //pixelArt: true,
     antialias: false,
-    scene: [Title, Test, Tutorial, Level_1, Pause, GameOver],
+    scene: [Title, Test, Tutorial, Level_1, Pause, GameOver, Credits],
 };
 
 // define game

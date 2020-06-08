@@ -69,7 +69,6 @@ class Title extends Phaser.Scene {
             setScale(0.5, 0.5).
             on('pointerdown', () => this.goToLevel1());
         this.playButton.setInteractive(); 
-        this.playButton.on('pointerover', () => { }); //on hover
 
         this.levelsButton = this.add.image(centerX, centerY / 2 + 170, 'button_tutorial').
             setScale(0.5, 0.5).
@@ -77,8 +76,8 @@ class Title extends Phaser.Scene {
         this.levelsButton.setInteractive(); 
 
         this.creditsButton = this.add.image(centerX, centerY / 2 + 210, 'button_credits').
-        setScale(0.5, 0.5).
-        on('pointerdown', () => this.goToCredits());
+            setScale(0.5, 0.5).
+            on('pointerdown', () => this.goToCredits());
         this.creditsButton.setInteractive(); 
 
         
