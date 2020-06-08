@@ -790,7 +790,7 @@ class Level_1 extends Phaser.Scene {
             this.handleSight();
 
             if(this.player.x > 342 && this.player.x < 470) {
-                if(this.player.y > 125) {
+                if(this.player.y < 125) {
                     this.scene.start('GameWin');
                 }
             }

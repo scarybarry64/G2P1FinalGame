@@ -79,7 +79,7 @@ class Title extends Phaser.Scene {
         this.creditsButton = this.add.image(centerX, centerY / 2 + 210, 'button_credits').
         setScale(0.5, 0.5).
         on('pointerdown', () => this.goToCredits());
-    this.levelsButton.setInteractive(); 
+        this.creditsButton.setInteractive(); 
 
         
     }
@@ -141,7 +141,8 @@ class Title extends Phaser.Scene {
     }
 
     goToCredits() {
-        // stuff
+        this.sound.play('sfx_select');
+        this.scene.start('creditScene'); 
     }
 
     goToLevel1() {
