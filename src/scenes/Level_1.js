@@ -332,7 +332,7 @@ class Level_1 extends Phaser.Scene {
             this.deadzone.y = Number(tempy) + 480;
         }
 
-        this.moveRate = 16;
+        this.moveRate = 9;
         
 
         //Overlap check, runs GameOver scene if player overlaps with deadzone
@@ -410,14 +410,10 @@ class Level_1 extends Phaser.Scene {
         // Create and initialize variables
         this.createVariables();
 
+        // add the deadzon layer
         this.createDeadzone();
 
-        // this.visionHud = this.add.text(14, 0, 'J',
-        // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
-
-        // this.visionHud2 = this.add.text(910, 0, 'J',
-        // { fontFamily: 'Consolas', fontSize: '60px', align: 'center' }).setScrollFactor(0);
-
+        // identify and create all the checkpoints
         this.createCheckpoint();
 
         // this.checkpoint1 = this.add.image(centerX - 150, centerY + 168, 'checkpoint_off');
@@ -784,7 +780,7 @@ class Level_1 extends Phaser.Scene {
             }
         } else {
 
-           
+            console.log(this.player.x);
 
             // Sight
             this.handleSight();
@@ -812,7 +808,7 @@ class Level_1 extends Phaser.Scene {
 
             this.timer++;
 
-            if (this.timer % 50 == 0) {
+            if (this.timer % 40 == 0 && !graderDifficulty) {
                 this.deadzone.y = this.deadzone.y - (this.moveRate * this.moveMod);
                 // console.log(this.moveMod);
                 this.deadzone.anims.play('Deadzone_FX', true);

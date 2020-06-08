@@ -17,7 +17,7 @@ let config = {
     },
     //pixelArt: true,
     antialias: false,
-    scene: [Title, Test, Tutorial, Level_1, Pause, GameOver, Credits],
+    scene: [Title, Test, Tutorial, Level_1, Pause, GameOver, GameWin, Credits],
 };
 
 // define game
@@ -43,6 +43,7 @@ let canStickLeft = false;
 let ease = false;
 let currSpeed = 0;
 let isMoving = false;
+let graderDifficulty = false;
 
 // settings
 game.settings = {

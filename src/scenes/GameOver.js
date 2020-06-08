@@ -12,6 +12,8 @@ class GameOver extends Phaser.Scene {
         this.load.image('button_x', './assets/buttons/button_x.png');
         this.load.image('button_yes', './assets/buttons/button_yes.png');
         this.load.image('button_no', './assets/buttons/button_no.png');
+        this.load.image('button_graderOff', './assets/buttons/button_grader-difficulty-off.png');
+        this.load.image('button_graderOn', './assets/buttons/button_grader-difficulty-on.png');
 
         // preload sfx
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
@@ -27,18 +29,41 @@ class GameOver extends Phaser.Scene {
         this.restartCheckpointButton.visible = true;
 
         // Restart Level button
-        this.restartLevelButton = this.add.image(centerX, centerY + 20, 'button_restartlevel').
+        this.restartLevelButton = this.add.image(centerX, centerY + 10, 'button_restartlevel').
             setScale(0.5, 0.5).
             on('pointerdown', () => this.restartLevel());
         this.restartLevelButton.setInteractive();
         this.restartLevelButton.visible = true;
 
         // main menu button
-        this.mainMenuButton = this.add.image(centerX, centerY + 70, 'button_mainmenu').
+        this.mainMenuButton = this.add.image(centerX, centerY + 50, 'button_mainmenu').
             setScale(0.5, 0.5).
             on('pointerdown', () => this.goToMainMenu());
         this.mainMenuButton.setInteractive();
         this.mainMenuButton.visible = true;
+
+        // grader difficulty off button
+        this.graderOffButton = this.add.image(centerX, centerY + 90, 'button_graderOff').
+            setScale(0.5, 0.5).
+            on('pointerdown', () => this.changeDifficulty());
+        this.graderOffButton.setInteractive();
+        if(graderDifficulty) {
+            this.graderOffButton.visible = false;
+        } else {
+            this.graderOffButton.visible = true;
+        }
+        
+
+        // grader difficulty on button
+        this.graderOnButton = this.add.image(centerX, centerY + 90, 'button_graderOn').
+            setScale(0.5, 0.5).
+            on('pointerdown', () => this.changeDifficulty());
+        this.graderOnButton.setInteractive();
+        if(graderDifficulty) {
+            this.graderOnButton.visible = true;
+        } else {
+            this.graderOnButton.visible = false;
+        }
 
         // Yes Button
         this.yesButton = this.add.image(centerX - 40, centerY + 60, 'button_yes').
@@ -112,6 +137,8 @@ class GameOver extends Phaser.Scene {
         this.restartCheckpointButton.visible = false;
         this.restartLevelButton.visible = false;
         this.mainMenuButton.visible = false;
+        this.graderOffButton.visible = false;
+        this.graderOnButton.visible = false;
         this.text1.setText('Restart\nentire level?');
     }
 
@@ -121,6 +148,20 @@ class GameOver extends Phaser.Scene {
         this.scene.launch('level1Scene');
         this.scene.setVisible(0);
 
+    }
+
+    changeDifficulty() {
+        if(graderDifficulty) {
+            this.sound.play('sfx_select');
+            graderDifficulty = false;
+            this.graderOffButton.visible = true;
+            this.graderOnButton.visible = false;
+        } else {
+            this.sound.play('sfx_select');
+            graderDifficulty = true;
+            this.graderOffButton.visible = false; 
+            this.graderOnButton.visible = true;
+        }
     }
 
     goToYesButton() {
@@ -137,6 +178,17 @@ class GameOver extends Phaser.Scene {
         this.restartCheckpointButton.visible = true;
         this.restartLevelButton.visible = true;
         this.mainMenuButton.visible = true;
+
+        if(!graderDifficulty) {
+            this.sound.play('sfx_select');
+            this.graderOffButton.visible = true;
+            this.graderOnButton.visible = false;
+        } else {
+            this.sound.play('sfx_select');
+            this.graderOffButton.visible = false; 
+            this.graderOnButton.visible = true;
+        }
+        
         this.text1.setText('Game Over!');
     }
 

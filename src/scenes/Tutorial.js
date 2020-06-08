@@ -33,13 +33,14 @@ class Tutorial extends Phaser.Scene {
 
             if (this.progress == 0) {
                 this.progress = 1;
-                this.message.text = 'Use the JKL buttons to distort colors. This changes most platforms.\n' +
-                'J distorts to red, K distorts to blue, and L distorts to yellow.\n\n\n\n\n' +
+                this.message.text = 'Use the JKL buttons to activate and deactivate neon signs.\n This changes most platforms.\n' +
+                '"J" turns on the Skyway signs,\n "K" illuminates the Sunset signs,\n "L" activates the Starfall signs.\n\n\n\n\n' +
                 '(Press C to continue . . .)';
                 console.log(this.progress);
             }
             else if (this.progress == 1) {
-                this.message.text = 'Try to reach the top of the level. That\'s it!\n\n\n\n\n' +
+                this.message.text = 'Only one type of sign can be active at a time.\n Move quickly and try to escape the corruption' +
+                ' of CyberCity 010!\n\n\n\n' +
                 '(Press C to continue . . .)';
                 this.progress = 2;
                 console.log(this.progress);
