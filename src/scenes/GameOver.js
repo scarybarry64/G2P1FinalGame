@@ -10,6 +10,8 @@ class GameOver extends Phaser.Scene {
         this.load.image('button_lastcheckpoint', './assets/buttons/button_lastcheckpoint.png');
         this.load.image('button_restartlevel', './assets/buttons/button_restartlevel.png');
         this.load.image('button_x', './assets/buttons/button_x.png');
+        this.load.image('button_yes', './assets/buttons/button_yes.png');
+        this.load.image('button_no', './assets/buttons/button_no.png');
 
         // preload sfx
         this.load.audio('sfx_select', './assets/audio/Blip_Select5.wav');
@@ -38,6 +40,20 @@ class GameOver extends Phaser.Scene {
         this.mainMenuButton.setInteractive();
         this.mainMenuButton.visible = true;
 
+        // Yes Button
+        this.yesButton = this.add.image(centerX - 40, centerY + 60, 'button_yes').
+            setScale(0.5, 0.5).
+            on('pointerdown', () => this.goToYesButton());
+        this.yesButton.setInteractive();
+        this.yesButton.visible = false;
+
+        // no button
+        this.noButton = this.add.image(centerX + 40, centerY + 60, 'button_no').
+            setScale(0.5, 0.5).
+            on('pointerdown', () => this.goToNoButton());
+        this.noButton.setInteractive();
+        this.noButton.visible = false;
+
     }
 
     createBorder() {
@@ -57,9 +73,10 @@ class GameOver extends Phaser.Scene {
         rectStyle.fillRectShape(Border);
         rectStyle.setScale(0.5);
 
-        this.add.text(centerX, centerY - 85, 'Game Over!', {
-            fontFamily: 'Consolas', fontSize: '25px', align: 'center'
+        this.text1 = this.add.text(centerX, centerY - 85, 'Game Over!', {
+            fontFamily: 'Consolas', fontSize: '20px', align: 'center'
         }).setOrigin(0.5);
+        
     }
 
     create(){
@@ -90,11 +107,12 @@ class GameOver extends Phaser.Scene {
     }
 
     restartLevel() {
-        this.sound.play('sfx_select');
-        isPaused = false;
-        this.scene.launch('level1Scene');
-        this.scene.setVisible(0);
-        localStorage.clear();
+        this.yesButton.visible = true;
+        this.noButton.visible = true;
+        this.restartCheckpointButton.visible = false;
+        this.restartLevelButton.visible = false;
+        this.mainMenuButton.visible = false;
+        this.text1.setText('Restart\nentire level?');
     }
 
     restartFromLastCheckpoint() {
@@ -103,6 +121,23 @@ class GameOver extends Phaser.Scene {
         this.scene.launch('level1Scene');
         this.scene.setVisible(0);
 
+    }
+
+    goToYesButton() {
+        this.sound.play('sfx_select');
+        isPaused = false;
+        this.scene.launch('level1Scene');
+        this.scene.setVisible(0);
+        localStorage.clear();
+    }
+
+    goToNoButton() {
+        this.yesButton.visible = false;
+        this.noButton.visible = false;
+        this.restartCheckpointButton.visible = true;
+        this.restartLevelButton.visible = true;
+        this.mainMenuButton.visible = true;
+        this.text1.setText('Game Over!');
     }
 
     update(){
