@@ -10,6 +10,8 @@ class Title extends Phaser.Scene {
         // preload buttons
         this.load.image('button_play', './assets/buttons/button_play.png');
         this.load.image('button_tutorial', './assets/buttons/button_tutorial.png');
+        this.load.image('button_credits', './assets/buttons/button_credits.png');
+        
 
         // preload text images
         this.load.image('skyway_1', './assets/text/logo_skyway_1.png');
@@ -74,6 +76,11 @@ class Title extends Phaser.Scene {
             on('pointerdown', () => this.goToTutorial());
         this.levelsButton.setInteractive(); 
 
+        this.creditsButton = this.add.image(centerX, centerY / 2 + 210, 'button_credits').
+        setScale(0.5, 0.5).
+        on('pointerdown', () => this.goToCredits());
+    this.levelsButton.setInteractive(); 
+
         
     }
 
@@ -131,6 +138,10 @@ class Title extends Phaser.Scene {
         // initialTime = this.time.now;
         this.sound.play('sfx_select');
         this.scene.start('testScene'); //change to default scene, rn is test level
+    }
+
+    goToCredits() {
+        // stuff
     }
 
     goToLevel1() {
