@@ -89,7 +89,8 @@ class Pause extends Phaser.Scene {
     resume() {
         this.sound.play('sfx_select');
         isPaused = false;
-        this.scene.start('level1Scene');
+        this.scene.resume('level1Scene');
+        this.scene.stop();
         this.scene.setVisible(0);
     }
 

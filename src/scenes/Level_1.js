@@ -579,6 +579,7 @@ class Level_1 extends Phaser.Scene {
 
     horizontalMovement() {
         if (keyD.isDown) {
+            isMoving = true;
             this.player.setVelocityX(game.settings.playerSpeed);
             game.settings.playerSpeed = 100;
             this.player.flipX = false;
@@ -590,6 +591,7 @@ class Level_1 extends Phaser.Scene {
                 this.player.anims.play('Skyway_Run', true);
             }
         } else if (keyA.isDown) {
+            isMoving = true;
             this.player.setVelocityX(-game.settings.playerSpeed);
             game.settings.playerSpeed = 100;
             this.player.flipX = true;
@@ -601,6 +603,7 @@ class Level_1 extends Phaser.Scene {
                 this.player.anims.play('Skyway_Run', true);
             }
         } else if (!keyD.isDown && !keyA.isDown && !isJumping) {
+            isMoving = false;
             if (kSight && !isJumping) {
                 this.player.anims.play('Sunset_Idle', true);
             } else if (lSight && !isJumping) {
@@ -611,9 +614,9 @@ class Level_1 extends Phaser.Scene {
 
             this.player.setVelocityX(0);
         } else {
-            if (!this.player.flipX && game.settings.playerSpeed > 2 && canStick) {
+            if (!this.player.flipX && game.settings.playerSpeed > 2 && canStick && isMoving) {
                 this.player.setVelocityX((game.settings.playerSpeed = game.settings.playerSpeed - 3));
-            } else if (this.player.flipX && game.settings.playerSpeed > 0 && canStick) {
+            } else if (this.player.flipX && game.settings.playerSpeed > 0 && canStick && isMoving) {
                 this.player.setVelocityX(-(game.settings.playerSpeed = game.settings.playerSpeed - 3));
             } else {
                 game.settings.playerSpeed = 100;
@@ -757,8 +760,7 @@ class Level_1 extends Phaser.Scene {
             // console.log("PAUSE");
             isPaused = true;
             this.scene.start('pauseScene');
-            // this.scene.launch('pauseScened');
-            // this.scene.pause();
+            this.scene.pause();
         }
     }
 

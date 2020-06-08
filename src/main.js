@@ -41,6 +41,8 @@ let loadCount = 0;
 let canStickRight = false;
 let canStickLeft = false;
 let ease = false;
+let currSpeed = 0;
+let isMoving = false;
 
 // settings
 game.settings = {
